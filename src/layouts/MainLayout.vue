@@ -38,13 +38,24 @@
             flat
             round
           />
-          <q-btn
-            icon="eva-settings-2-outline"
+
+
+          <q-fab
+            v-model="fab"
+            square
+            vertical-actions-align="right"
+            color="grey-10"
+            flat
             class="settings-mobile"
             size="18px"
-            flat
-            round
-          />
+            icon="eva-settings-2-outline"
+            direction="down"
+          >
+            <q-fab-action square color="secondary" to="/profile" icon="eva-person" label="Profile" label-position="left" />
+            <q-fab-action square color="primary" to="/" icon="eva-settings-outline" label="Settings" label-position="left" />
+            <q-fab-action square color="deep-orange-3" icon="eva-log-out" label="Logout" label-position="left" />
+          </q-fab>
+
           <q-avatar class="large-screen-only q-ml-sm">
             <img src="https://cdn.quasar.dev/img/avatar.png">
           </q-avatar>
@@ -66,7 +77,7 @@
           icon="eva-book-open-outline"
         />
         <q-route-tab
-          to="/"
+          to="/home"
           icon="eva-home-outline"
         />
         <q-route-tab
@@ -87,7 +98,7 @@ export default {
   name: 'MainLayout',
   data () {
     return {
-
+      fab: false
     }
   }
 }
