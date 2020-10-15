@@ -7,7 +7,7 @@
       <q-toolbar class="constrain">
 
         <q-avatar class="small-screen-only">
-          <img src="https://cdn.quasar.dev/img/avatar.png">
+          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
         </q-avatar>
 
         <q-toolbar-title
@@ -15,7 +15,7 @@
           Book ButterFly
         </q-toolbar-title>
           <q-btn
-            to="/"
+            to="/home"
             class="large-screen-only"
             icon="eva-home-outline"
             size="18px"
@@ -52,12 +52,12 @@
             direction="down"
           >
             <q-fab-action square color="secondary" to="/profile" icon="eva-person" label="Profile" label-position="left" />
-            <q-fab-action square color="primary" to="/" icon="eva-settings-outline" label="Settings" label-position="left" />
+            <q-fab-action square color="primary" to="/settings" icon="eva-settings-outline" label="Settings" label-position="left" />
             <q-fab-action square color="deep-orange-3" icon="eva-log-out" label="Logout" label-position="left" />
           </q-fab>
 
           <q-avatar class="large-screen-only q-ml-sm">
-            <img src="https://cdn.quasar.dev/img/avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
       </q-toolbar>
     </q-header>

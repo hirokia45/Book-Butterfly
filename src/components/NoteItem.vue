@@ -8,33 +8,73 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label class="text-bold">{{ userName }}</q-item-label>
+        <q-item-label class="text-bold">{{ note.userName }}</q-item-label>
         <q-item-label caption>
-          {{ date }}
+          {{ note.date | actualDate}}
         </q-item-label>
+      </q-item-section>
+
+      <q-item-section side>
+          <div class="col-auto">
+            <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left">
+              <q-fab-action
+                @click.stop="promptToDelete(id)"
+                class="danger-gradient-background"
+                icon="eva-trash-2-outline"
+                text-color="grey-10"
+              />
+              <q-fab-action
+
+                class="primary-gradient-background"
+                icon="eva-edit-outline"
+                text-color="grey-10"
+              />
+            </q-fab>
+          </div>
       </q-item-section>
     </q-item>
 
     <q-separator />
 
     <q-card-section>
-      <div class="text-bold">{{ title }}</div>
-      <div class="text-caption">Author: {{ author }}</div>
-      <p class="q-mb-none text-caption">Page: <span>{{ pageFrom }}</span>-<span>{{ pageTo }}</span></p>
-      <div class="text-caption">Category: {{ category }}</div>
+      <div class="text-bold">{{ note.title }}</div>
+      <div class="text-caption">Author: {{ note.author }}</div>
+      <p class="q-mb-none text-caption">Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span></p>
+      <div class="text-caption">Category: {{ note.category }}</div>
     </q-card-section>
 
     <q-separator />
 
     <q-card-section>
-      {{ comment }}
+      {{ note.comment }}
     </q-card-section>
 
   </q-card>
 </template>
 
 <script>
+import { date } from 'quasar'
+import { mapActions } from 'vuex'
+
 export default {
-  props: ['id', 'userName', 'date', 'title', 'author', 'pageFrom', 'pageTo', 'category', 'comment']
+  props: ['note', 'id'],
+  methods: {
+    ...mapActions('notes', ['deleteTask']),
+    promptToDelete(id) {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Are you sure? You cannot see the note anymore!',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deleteTask(id)
+      })
+    }
+  },
+  filters: {
+    actualDate(value) {
+      return date.formatDate(value, 'ddd MM/DD/YYYY hh:mm:ss A')
+    }
+  }
 }
 </script>
