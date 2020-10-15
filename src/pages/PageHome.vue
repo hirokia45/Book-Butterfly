@@ -36,14 +36,23 @@
           </div>
         </div>
 
-        <q-page-sticky class="add-button bottom-right" :offset="[18, 18]">
-          <q-btn fab icon="add" class="primary-gradient-background" />
+        <q-page-sticky
+          :offset="[18, 18]"
+          class="add-button bottom-right"
+        >
+          <q-btn
+            @click="showAddNote = true"
+            class="primary-gradient-background"
+            fab
+            icon="add"
+          />
         </q-page-sticky>
       </div>
-
-
     </div>
 
+    <q-dialog v-model="showAddNote">
+      <add-note @close="showAddNote = false" />
+    </q-dialog>
 
 
   </q-page>
@@ -52,13 +61,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import NoteItem from '../components/NoteItem'
+import AddNote from '../components/Modals/AddNote'
+
 export default {
   name: 'PageHome',
   components: {
-    NoteItem
+    NoteItem,
+    AddNote
   },
   data () {
     return {
+      showAddNote: true,
       thumbStyle: {
         right: '-5px',
         borderRadius: '5px',
@@ -82,7 +95,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .scroll-area-notes
   height: 85vh
 

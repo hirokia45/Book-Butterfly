@@ -29,6 +29,11 @@
                 icon="eva-edit-outline"
                 text-color="grey-10"
               />
+              <q-fab-action
+                class="primary-gradient-background"
+                icon="eva-camera-outline"
+                text-color="grey-10"
+              />
             </q-fab>
           </div>
       </q-item-section>
@@ -59,7 +64,7 @@ import { mapActions } from 'vuex'
 export default {
   props: ['note', 'id'],
   methods: {
-    ...mapActions('notes', ['deleteTask']),
+    ...mapActions('notes', ['deleteNote']),
     promptToDelete(id) {
       this.$q.dialog({
         title: 'Confirm',
@@ -67,7 +72,7 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.deleteTask(id)
+        this.deleteNote(id)
       })
     }
   },
