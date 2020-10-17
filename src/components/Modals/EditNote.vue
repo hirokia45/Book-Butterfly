@@ -1,6 +1,6 @@
 <template>
   <q-card class="full-width">
-    <modal-header>Add Note</modal-header>
+    <modal-header>Edit Note</modal-header>
 
     <form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
@@ -81,23 +81,16 @@ export default {
     ModalHeader,
     ModalButton
   },
+  props: ['note', 'id'],
   data() {
     return {
       noteToSubmit: {
-        id: uid(),
-        userName: 'Taro',
-        title: '',
-        author: '',
-        pageFrom: null,
-        pageTo: null,
-        category: '',
-        comment: '',
-        date: Date.now()
+
       },
     }
   },
   methods: {
-    ...mapActions('notes', ['addNote']),
+    ...mapActions('notes', ['updateNote']),
     submitForm() {
       this.$refs.title.validate()
       if (!this.$refs.title.hasError) {
@@ -105,9 +98,15 @@ export default {
       }
     },
     submitNote() {
-      this.addNote(this.noteToSubmit)
+      this.updateNote({
+        id: this.id,
+        updates: this.noteToSubmit
+      }, this.noteToSubmit)
       this.$emit('close')
-    }
+    },
+  },
+  mounted() {
+    this.noteToSubmit = Object.assign({}, this.note)
   }
 }
 </script>

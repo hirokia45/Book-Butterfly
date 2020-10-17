@@ -11,12 +11,18 @@
               :bar-style="barStyle"
               class="scroll-area-notes"
             >
+              <no-note-yet
+                v-if="!Object.keys(notes).length"
+                @show-add-note-modal="showAddNote = true"
+              />
             	<note-item
+                v-else
             	  v-for="note in notes"
             	  :key="note.id"
                 :id="note.id"
             	  :note="note"
             	></note-item>
+
             </q-scroll-area>
           </div>
 
@@ -39,10 +45,11 @@
         <q-page-sticky
           :offset="[18, 18]"
           class="add-button bottom-right"
+          style="z-index: 2"
         >
           <q-btn
             @click="showAddNote = true"
-            class="primary-gradient-background"
+            class="primary-gradient-background shadow-5"
             fab
             icon="add"
           />
@@ -60,18 +67,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import NoteItem from '../components/NoteItem'
+import NoteItem from '../components/NoteComponents/NoteItem'
+import NoNoteYet from '../components/NoteComponents/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
 
 export default {
   name: 'PageHome',
   components: {
     NoteItem,
+    NoNoteYet,
     AddNote
   },
   data () {
     return {
-      showAddNote: true,
+      showAddNote: false,
       thumbStyle: {
         right: '-5px',
         borderRadius: '5px',

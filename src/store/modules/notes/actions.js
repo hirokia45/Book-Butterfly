@@ -6,7 +6,9 @@ export default {
     let payload = {
       note: note,
     }
-
     commit('addNote', payload)
+  },
+  updateNote({ commit }, payload) {
+    commit('updateNote', payload)
   }
 }

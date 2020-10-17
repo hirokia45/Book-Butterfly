@@ -16,15 +16,16 @@
 
       <q-item-section side>
           <div class="col-auto">
-            <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left">
+            <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left"
+            style="z-index:1">
               <q-fab-action
-                @click.stop="promptToDelete(id)"
+                @click="promptToDelete(id)"
                 class="danger-gradient-background"
                 icon="eva-trash-2-outline"
                 text-color="grey-10"
               />
               <q-fab-action
-
+                @click="showEditNote = true"
                 class="primary-gradient-background"
                 icon="eva-edit-outline"
                 text-color="grey-10"
@@ -43,16 +44,37 @@
 
     <q-card-section>
       <div class="text-bold">{{ note.title }}</div>
-      <div class="text-caption">Author: {{ note.author }}</div>
-      <p class="q-mb-none text-caption">Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span></p>
-      <div class="text-caption">Category: {{ note.category }}</div>
+      <div
+        v-if="note.author"
+        class="text-caption"
+      >Author: {{ note.author }}</div>
+      <p
+        v-if="note.pageFrom || note.pageTo "
+        class="q-mb-none text-caption"
+      >
+        Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
+      </p>
+      <div
+        v-if="note.category"
+        class="text-caption"
+      >
+        Category: {{ note.category }}
+      </div>
     </q-card-section>
 
-    <q-separator />
+    <q-separator v-if="note.comment" />
 
-    <q-card-section>
+    <q-card-section v-if="note.comment" >
       {{ note.comment }}
     </q-card-section>
+
+    <q-dialog v-model="showEditNote">
+      <edit-note
+        @close="showEditNote = false"
+        :note="note"
+        :id="id"
+      />
+    </q-dialog>
 
   </q-card>
 </template>
@@ -60,9 +82,18 @@
 <script>
 import { date } from 'quasar'
 import { mapActions } from 'vuex'
+import EditNote from '../Modals/EditNote'
 
 export default {
+  components: {
+    EditNote
+  },
   props: ['note', 'id'],
+  data() {
+    return {
+      showEditNote: false,
+    }
+  },
   methods: {
     ...mapActions('notes', ['deleteNote']),
     promptToDelete(id) {
