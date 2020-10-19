@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { uid } from 'quasar'
 import { mapActions } from 'vuex'
 import ModalHeader from './ModalComponents/ModalHeader'
 import ModalButton from './ModalComponents/ModalButton'
@@ -84,15 +83,12 @@ export default {
   data() {
     return {
       noteToSubmit: {
-        id: uid(),
-        userName: 'Taro',
         title: '',
         author: '',
         pageFrom: null,
         pageTo: null,
         category: '',
         comment: '',
-        date: Date.now()
       },
     }
   },

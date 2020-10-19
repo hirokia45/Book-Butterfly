@@ -19,7 +19,7 @@
             <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left"
             style="z-index:1">
               <q-fab-action
-                @click="promptToDelete(id)"
+                @click="promptToDelete(_id)"
                 class="danger-gradient-background"
                 icon="eva-trash-2-outline"
                 text-color="grey-10"
@@ -72,7 +72,7 @@
       <edit-note
         @close="showEditNote = false"
         :note="note"
-        :id="id"
+        :_id="_id"
       />
     </q-dialog>
 
@@ -88,7 +88,7 @@ export default {
   components: {
     EditNote
   },
-  props: ['note', 'id'],
+  props: ['note', '_id'],
   data() {
     return {
       showEditNote: false,
@@ -96,14 +96,14 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['deleteNote']),
-    promptToDelete(id) {
+    promptToDelete(_id) {
       this.$q.dialog({
         title: 'Confirm',
         message: 'Are you sure? You cannot see the note anymore!',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.deleteNote(id)
+        this.deleteNote(_id)
       })
     }
   },

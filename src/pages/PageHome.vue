@@ -18,8 +18,8 @@
             	<note-item
                 v-else
             	  v-for="note in notes"
-            	  :key="note.id"
-                :id="note.id"
+            	  :key="note._id"
+                :_id="note._id"
             	  :note="note"
             	></note-item>
 
