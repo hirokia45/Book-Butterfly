@@ -8,9 +8,9 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label class="text-bold">{{ note.userName }}</q-item-label>
+        <q-item-label class="text-bold">{{ note.owner }}</q-item-label>
         <q-item-label caption>
-          {{ note.date | actualDate}}
+          {{ note.createdAt | actualDate}}
         </q-item-label>
       </q-item-section>
 

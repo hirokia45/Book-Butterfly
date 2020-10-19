@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import NoteItem from '../components/NoteComponents/NoteItem'
 import NoNoteYet from '../components/NoteComponents/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
@@ -100,6 +100,19 @@ export default {
   },
   computed: {
     ...mapGetters('notes', ['notes'])
+  },
+  created() {
+    this.loadNotes()
+  },
+  methods: {
+    ...mapActions('notes', ['getNotes']),
+    async loadNotes() {
+      try {
+        await this.getNotes()
+      } catch (err) {
+        this.err = err.message || 'Something went wrong....'
+      }
+    }
   }
 }
 </script>
