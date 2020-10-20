@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { uid } from 'quasar'
 import { mapActions } from 'vuex'
 import ModalHeader from './ModalComponents/ModalHeader'
 import ModalButton from './ModalComponents/ModalButton'
@@ -81,7 +80,7 @@ export default {
     ModalHeader,
     ModalButton
   },
-  props: ['note', 'id'],
+  props: ['note', '_id'],
   data() {
     return {
       noteToSubmit: {
@@ -99,7 +98,7 @@ export default {
     },
     submitNote() {
       this.updateNote({
-        id: this.id,
+        _id: this._id,
         updates: this.noteToSubmit
       }, this.noteToSubmit)
       this.$emit('close')
