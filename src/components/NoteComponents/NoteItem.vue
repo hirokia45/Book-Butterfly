@@ -35,6 +35,12 @@
                 icon="eva-camera-outline"
                 text-color="grey-10"
               />
+              <q-fab-action
+                :to="noteDetailsLink"
+                class="primary-gradient-background"
+                icon="eva-file-outline"
+                text-color="grey-10"
+              />
             </q-fab>
           </div>
       </q-item-section>
@@ -92,6 +98,12 @@ export default {
   data() {
     return {
       showEditNote: false,
+    }
+  },
+  computed: {
+    noteDetailsLink() {
+      console.log(this.$route.path)
+      return this.$route.path + '/' + this._id
     }
   },
   methods: {

@@ -103,6 +103,7 @@ export default {
   },
   created() {
     this.loadNotes()
+    console.log(this.notes);
   },
   methods: {
     ...mapActions('notes', ['getNotes']),

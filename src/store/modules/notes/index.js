@@ -43,7 +43,8 @@ export default {
       //     comment:
       // "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quos at voluptas eos nemo fugit,"
       //   }
-      }
+      },
+      singleNote: {},
     };
   },
   mutations,

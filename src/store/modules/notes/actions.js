@@ -10,7 +10,7 @@ export default {
       throw error;
     }
 
-    commit("getNotes", notes);
+    commit("setNotes", notes);
   },
 
   async addNote({ commit }, note) {

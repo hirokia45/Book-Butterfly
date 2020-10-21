@@ -11,6 +11,9 @@ const routes = [
         path: "/home", component: () => import("pages/PageHome.vue")
       },
       {
+        path: "/home/:_id", props: true, component: () => import("pages/PageSingleNote.vue")
+      },
+      {
         path: "/library", component: () => import("pages/PageLibrary.vue")
       },
       {

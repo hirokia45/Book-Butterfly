@@ -7,9 +7,15 @@ export default {
     // Vue.set(state.notes, payload.note.id, payload.note)
   },
 
-  getNotes(state, notes) {
+  setNotes(state, notes) {
     state.notes = notes;
   },
+
+  // setSingleNote(state, resSingleNote) {
+  //   console.log('mutation single note: ', resSingleNote);
+  //   state.singleNote = resSingleNote
+  //   console.log('state.singleNote in mutations: ', state.singleNote);
+  // },
 
   updateNote(state, payload) {
     const updatingNote = state.notes
