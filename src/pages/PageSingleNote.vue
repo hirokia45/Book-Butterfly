@@ -3,6 +3,7 @@
     <div class="q-pa-md absolute full-width full-height">
 
       <div class="constrain">
+
         <q-card class="note-card q-mb-md" flat bordered>
           <q-item>
             <q-item-section avatar>
@@ -12,80 +13,47 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label class="text-bold">{{ singleNote.owner }}</q-item-label>
+              <q-item-label class="text-bold">{{ note.owner }}</q-item-label>
               <q-item-label caption>
-                {{ singleNote.createdAt | actualDate}}
+                {{ note.createdAt }}
               </q-item-label>
             </q-item-section>
 
             <q-item-section side>
-                <div class="col-auto">
-                  <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left"
-                  style="z-index:2">
-                    <q-fab-action
-                      @click="promptToDelete(_id)"
-                      class="danger-gradient-background"
-                      icon="eva-trash-2-outline"
-                      text-color="grey-10"
-                    />
-                    <q-fab-action
-                      @click="showEditNote = true"
-                      class="primary-gradient-background"
-                      icon="eva-edit-outline"
-                      text-color="grey-10"
-                    />
-                    <q-fab-action
-                      class="primary-gradient-background"
-                      icon="eva-camera-outline"
-                      text-color="grey-10"
-                    />
-                    <q-fab-action
-                      link
-                      :to="noteDetailsLink"
-                      class="primary-gradient-background"
-                      icon="eva-file-outline"
-                      text-color="grey-10"
-                    />
-                  </q-fab>
-                </div>
+              <note-header-fab
+                :note="note"
+                :_id="_id"
+              />
             </q-item-section>
           </q-item>
 
           <q-separator />
 
           <q-card-section>
-            <div class="text-bold">{{ singleNote.title }}</div>
+            <div class="text-bold">{{ note.title }}</div>
             <div
-              v-if="singleNote.author"
+              v-if="note.author"
               class="text-caption"
-            >Author: {{ singleNote.author }}</div>
+            >Author: {{ note.author }}</div>
             <p
-              v-if="singleNote.pageFrom || singleNote.pageTo "
+              v-if="note.pageFrom || note.pageTo "
               class="q-mb-none text-caption"
             >
-              Page: <span>{{ singleNote.pageFrom }}</span>-<span>{{ singleNote.pageTo }}</span>
+              Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
             </p>
             <div
-              v-if="singleNote.category"
+              v-if="note.category"
               class="text-caption"
             >
-              Category: {{ singleNote.category }}
+              Category: {{ note.category }}
             </div>
           </q-card-section>
 
-          <q-separator v-if="singleNote.comment" />
+          <q-separator v-if="note.comment" />
 
-          <q-card-section v-if="singleNote.comment" >
-            {{ singleNote.comment }}
+          <q-card-section v-if="note.comment" >
+            {{ note.comment }}
           </q-card-section>
-
-          <q-dialog v-model="showEditNote">
-            <edit-note
-              @close="showEditNote = false"
-              :note="note"
-              :_id="_id"
-            />
-          </q-dialog>
 
         </q-card>
       </div>
@@ -94,11 +62,16 @@
 </template>
 
 <script>
+import NoteHeaderFab from '../components/Notes/NotesComponents/NoteHeaderFab'
+
 export default {
+  components: {
+    NoteHeaderFab
+  },
   props: ['_id'],
   data() {
     return {
-      singleNote: {
+      note: {
         owner: '',
         created: '',
         title: '',
@@ -117,7 +90,7 @@ export default {
     async loadSingleNote(_id) {
       try {
         const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
-        console.log(response);
+
         const resData = {
           owner: response.data.note.owner,
           createdAt: response.data.note.createdAt,
@@ -128,8 +101,8 @@ export default {
           pageTo: response.data.note.pageTo,
           comment: response.data.note.comment
         }
-        console.log('resSingleNote: ', resData);
-        this.singleNote = resData
+
+        this.note = resData
 
         if (!response.status === 200) {
           const error = new Error(response.message || "Failed to fetch...");
