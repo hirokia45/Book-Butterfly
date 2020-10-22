@@ -1,34 +1,38 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
-
       <div class="constrain relative-position">
         <div class="row q-col-gutter-lg">
-
           <div class="col-12 col-sm-8">
             <q-scroll-area
               :thumb-style="thumbStyle"
               :bar-style="barStyle"
               class="scroll-area-notes"
             >
-              <no-note-yet
-                v-if="!Object.keys(notes).length"
-                @show-add-note-modal="showAddNote = true"
-              />
-            	<note-item
-                v-else
-            	  v-for="note in notes"
-            	  :key="note._id"
-                :_id="note._id"
-            	  :note="note"
-            	></note-item>
+                <div v-if="!Object.keys(notes).length">
+                  <no-note-yet
+                    @show-add-note-modal="showAddNote = true"
+                  />
+                </div>
+                <div v-else>
+                  <transition-group
+                    appear
+                    leave-active-class="animated zoomOut">
+                    <note-item
+                      v-for="note in notes"
+                      :key="note._id"
+                      :_id="note._id"
+                      :note="note"
+                    ></note-item>
+                  </transition-group>
+                </div>
 
             </q-scroll-area>
           </div>
 
           <div class="col-sm-4 large-screen-only">
             <q-card class="side-card">
-              <img src="https://cdn.quasar.dev/img/mountains.jpg">
+              <img src="https://cdn.quasar.dev/img/mountains.jpg" />
 
               <q-card-section>
                 <div class="text-h6">Our Changing Planet</div>
@@ -36,7 +40,8 @@
               </q-card-section>
 
               <q-card-section class="q-pt-none">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita sunt sequi nobis itaque dignissimos
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Expedita sunt sequi nobis itaque dignissimos
               </q-card-section>
             </q-card>
           </div>
@@ -45,7 +50,7 @@
         <q-page-sticky
           :offset="[18, 18]"
           class="add-button bottom-right"
-          style="z-index: 2"
+          style="z-index: 3"
         >
           <q-btn
             @click="showAddNote = true"
@@ -60,15 +65,13 @@
     <q-dialog v-model="showAddNote">
       <add-note @close="showAddNote = false" />
     </q-dialog>
-
-
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NoteItem from '../components/NoteComponents/NoteItem'
-import NoNoteYet from '../components/NoteComponents/NoNoteYet'
+import NoteItem from '../components/Notes/NoteItem'
+import NoNoteYet from '../components/Notes/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
 
 export default {
@@ -78,7 +81,7 @@ export default {
     NoNoteYet,
     AddNote
   },
-  data () {
+  data() {
     return {
       showAddNote: false,
       thumbStyle: {
@@ -99,11 +102,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('notes', ['notes'])
+    ...mapGetters('notes', ['notes']),
+    singleNoteLink() {
+      console.log(this.note._id);
+      return '/notes/' + this.note._id
+    }
   },
   created() {
     this.loadNotes()
-    console.log(this.notes);
   },
   methods: {
     ...mapActions('notes', ['getNotes']),
@@ -113,6 +119,9 @@ export default {
       } catch (err) {
         this.err = err.message || 'Something went wrong....'
       }
+    },
+    linkData(val) {
+      console.log('datta', val)
     }
   }
 }
@@ -125,5 +134,4 @@ export default {
 .add-button
   @media (min-width: $breakpoint-sm-min)
     position: absolute
-
 </style>

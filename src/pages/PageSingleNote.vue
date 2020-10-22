@@ -21,7 +21,7 @@
             <q-item-section side>
                 <div class="col-auto">
                   <q-fab color="grey-7" round flat icon="eva-more-horizontal" direction="left"
-                  style="z-index:1">
+                  style="z-index:2">
                     <q-fab-action
                       @click="promptToDelete(_id)"
                       class="danger-gradient-background"
@@ -94,8 +94,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   props: ['_id'],
   data() {

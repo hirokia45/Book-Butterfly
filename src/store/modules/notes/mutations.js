@@ -24,7 +24,6 @@ export default {
   },
 
   deleteTask(state, _id) {
-    console.log("_id: ", _id);
     state.notes = state.notes.filter(note => {
       return note._id !== _id;
     });
