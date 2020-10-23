@@ -23,6 +23,7 @@
         text-color="grey-10"
       />
       <q-fab-action
+        :to="toPageCameraLink"
         class="primary-gradient-background"
         icon="eva-camera-outline"
         text-color="grey-10"
@@ -52,6 +53,11 @@ export default {
     return {
       isVisible: false,
       showEditNote: false
+    }
+  },
+  computed: {
+    toPageCameraLink() {
+      return `/notes/${this._id}/camera`
     }
   },
   methods: {

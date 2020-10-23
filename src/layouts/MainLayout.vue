@@ -104,7 +104,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .q-toolbar
   position: relative
   @media (min-width: $breakpoint-sm-min)

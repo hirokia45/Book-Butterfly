@@ -14,6 +14,9 @@ const routes = [
         path: "/notes/:_id", props: true, component: () => import("pages/PageSingleNote.vue")
       },
       {
+        path: "/notes/:_id/camera", props: true, component: () => import("pages/PageCamera.vue")
+      },
+      {
         path: "/library", component: () => import("pages/PageLibrary.vue")
       },
       {

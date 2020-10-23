@@ -120,9 +120,6 @@ export default {
         this.err = err.message || 'Something went wrong....'
       }
     },
-    linkData(val) {
-      console.log('datta', val)
-    }
   }
 }
 </script>
