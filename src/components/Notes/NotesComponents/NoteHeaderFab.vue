@@ -24,6 +24,7 @@
       />
       <q-fab-action
         :to="toPageCameraLink"
+        :_id="_id"
         class="primary-gradient-background"
         icon="eva-camera-outline"
         text-color="grey-10"

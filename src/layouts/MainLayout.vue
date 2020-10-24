@@ -95,7 +95,6 @@
 
 <script>
 export default {
-  name: 'MainLayout',
   data () {
     return {
       fab: false

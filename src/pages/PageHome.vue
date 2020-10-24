@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
-      <div class="constrain relative-position">
+      <div class="constrain">
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-sm-8">
             <q-scroll-area

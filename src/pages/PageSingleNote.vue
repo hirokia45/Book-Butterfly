@@ -1,11 +1,8 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
-
       <div class="constrain">
-
         <div class="row q-col-gutter-lg">
-
           <div class="col-12 col-sm-8">
             <q-card class="note-card q-mb-md" flat bordered>
               <q-item>
@@ -101,14 +98,16 @@ export default {
   data() {
     return {
       note: {
+        _id: '',
         owner: '',
-        created: '',
+        createdAt: '',
         title: '',
         author: '',
         category: '',
         pageFrom: null,
         pageTo: null,
-        comment: ''
+        comment: '',
+        photo: null
       },
     }
   },
@@ -141,6 +140,7 @@ export default {
         const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
 
         const resData = {
+          _id: response.data.note._id,
           owner: response.data.note.owner,
           createdAt: response.data.note.createdAt,
           title: response.data.note.title,
@@ -148,7 +148,8 @@ export default {
           category: response.data.note.category,
           pageFrom: response.data.note.pageFrom,
           pageTo: response.data.note.pageTo,
-          comment: response.data.note.comment
+          comment: response.data.note.comment,
+          photo: response.data.note.photo
         }
 
         this.note = resData
