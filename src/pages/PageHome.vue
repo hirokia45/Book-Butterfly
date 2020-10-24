@@ -56,7 +56,7 @@
             @click="showAddNote = true"
             class="primary-gradient-background shadow-5"
             fab
-            icon="add"
+            icon="eva-plus-outline"
           />
         </q-page-sticky>
       </div>

@@ -58,6 +58,19 @@
             @input="cameraToggledFalse"
           />
         </div>
+
+        <div v-show="hasCameraSupport && cameraToggle"
+             class="text-center"
+        >
+          <q-toggle
+            v-model="cameraRear"
+            checked-icon="eva-flip-2"
+            color="green"
+            size="xl"
+            unchecked-icon="eva-flip-2"
+            @input="toggleCameraFrontRear"
+          />
+        </div>
       </div>
       </the-scroll-area>
     </div>
@@ -92,7 +105,8 @@ export default {
       imageUpload: [],
       imageCaptured: false,
       hasCameraSupport: true,
-      cameraToggle: true
+      cameraToggle: true,
+      cameraRear: true
     }
   },
   created() {
@@ -129,7 +143,9 @@ export default {
 
     initCamera() {
       navigator.mediaDevices.getUserMedia({
-        video: true
+        video: {
+            facingMode: { exact: 'environment'}
+        }
       }).then(stream => {
         this.$refs.video.srcObject = stream
       }).catch(error => {
@@ -191,7 +207,28 @@ export default {
       if (!cameraToggle) {
         this.disableCamera()
       } else {
+        this.cameraRear = true
         this.initCamera()
+      }
+    },
+
+    toggleCameraFrontRear(cameraRear) {
+      if (cameraRear) {
+        navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { exact: 'environment'}
+          }
+        }).then(stream => {
+        this.$refs.video.srcObject = stream
+      })
+      } else {
+        navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { exact: 'user'}
+          }
+        }).then(stream => {
+        this.$refs.video.srcObject = stream
+      })
       }
     }
   },

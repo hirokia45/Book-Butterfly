@@ -79,6 +79,19 @@
           </div>
 
         </div>
+
+        <q-page-sticky
+          :offset="[18, 18]"
+          class="add-button bottom-right"
+          style="z-index: 3"
+        >
+          <q-btn
+            @click="$router.go(-1)"
+            class="grey-gradient-background shadow-5 text-grey-8"
+            fab
+            icon="eva-arrow-back"
+          />
+        </q-page-sticky>
       </div>
     </div>
   </q-page>
