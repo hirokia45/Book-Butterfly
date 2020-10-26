@@ -25,5 +25,6 @@ export default {
     state.notes = state.notes.filter(note => {
       return note._id !== _id;
     });
-  }
+  },
+
 };

@@ -22,11 +22,17 @@
         icon="eva-edit-outline"
         text-color="grey-10"
       />
-      <q-fab-action
+      <q-fab-action v-if="!note.photo"
         :to="toPageCameraLink"
         :_id="_id"
         class="primary-gradient-background"
         icon="eva-camera-outline"
+        text-color="grey-10"
+      />
+      <q-fab-action v-else
+        @click="promptToDeleteImage(_id)"
+        class="danger-gradient-background"
+        icon="eva-close-square-outline"
         text-color="grey-10"
       />
     </q-fab>
@@ -62,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['deleteNote']),
+    ...mapActions('notes', ['deleteNote', 'deleteImage']),
     promptToDelete(_id) {
       this.$q.dialog({
         title: 'Confirm',
@@ -71,12 +77,20 @@ export default {
         persistent: true
       }).onOk(() => {
         this.deleteNote(_id)
-        console.log(this.$route.path)
         if (this.$route.path !== '/home') {
           this.$router.push('/home')
         }
       })
-
+    },
+    promptToDeleteImage(_id) {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Are you sure? You cannot see the photo anymore!',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deleteImage(_id)
+      })
     },
     toggleActionList() {
       this.isVisible = !this.isVisible

@@ -13,6 +13,30 @@ export default {
     commit("setNotes", notes);
   },
 
+    async getSingleNote({ commit }, _id) {
+
+    const response = await axios.get(`${process.env.API}/notes/${_id}`)
+
+    const resData = {
+      _id: response.data.note._id,
+      owner: response.data.note.owner,
+      createdAt: response.data.note.createdAt,
+      title: response.data.note.title,
+      author: response.data.note.author,
+      category: response.data.note.category,
+      pageFrom: response.data.note.pageFrom,
+      pageTo: response.data.note.pageTo,
+      comment: response.data.note.comment,
+      photo: response.data.note.photo
+    }
+
+    if (!response.status === 200) {
+      const error = new Error(response.message || "Failed to fetch...");
+      throw error;
+    }
+    commit('setSingleNote', resData)
+  },
+
   async addNote({ commit }, note) {
     const userId = "Taro";
     const newNoteData = {
@@ -49,15 +73,7 @@ export default {
     }
 
     const updatedNote = {
-      _id: response.data.note._id,
-      owner: response.data.note.owner,
-      title: response.data.note.title,
-      author: response.data.note.author,
-      category: response.data.note.category,
-      pageFrom: response.data.note.pageFrom,
-      pageTo: response.data.note.pageTo,
-      comment: response.data.note.comment,
-      createdAt: response.data.note.createdAt
+      ...response.data.note
     };
 
     commit("updateNote", updatedNote);
@@ -95,27 +111,19 @@ export default {
     commit("deleteTask", _id);
   },
 
-  async getSingleNote({ commit }, _id) {
-
-    const response = await axios.get(`${process.env.API}/notes/${_id}`)
-
-    const resData = {
-      _id: response.data.note._id,
-      owner: response.data.note.owner,
-      createdAt: response.data.note.createdAt,
-      title: response.data.note.title,
-      author: response.data.note.author,
-      category: response.data.note.category,
-      pageFrom: response.data.note.pageFrom,
-      pageTo: response.data.note.pageTo,
-      comment: response.data.note.comment,
-      photo: response.data.note.photo
-    }
+  async deleteImage({ commit }, _id) {
+    const noteId = _id
+    const response = await axios.delete(`${process.env.API}/notes/photo/${noteId}`)
 
     if (!response.status === 200) {
-      const error = new Error(response.message || "Failed to fetch...");
-      throw error;
+      const error = new Error(response.message || "Failed to send request.")
+      throw error
     }
-    commit('setSingleNote', resData)
+
+    const updatedNote = {
+      ...response.data.note
+    }
+
+    commit('updateNote', updatedNote)
   }
 };
