@@ -42,6 +42,7 @@
         </div>
         <div class="text-center q-ma-md">
           <q-btn
+            @click="submitImage"
             class="primary-gradient-background"
             label="Submit Image"
             rounded
@@ -71,6 +72,19 @@
             @input="toggleCameraFrontRear"
           />
         </div>
+
+                <q-page-sticky
+          :offset="[18, 18]"
+          class="add-button bottom-right"
+          style="z-index: 3"
+        >
+          <q-btn
+            @click="$router.go(-1)"
+            class="grey-gradient-background shadow-5 text-grey-8"
+            fab
+            icon="eva-arrow-back"
+          />
+        </q-page-sticky>
       </div>
       </the-scroll-area>
     </div>
@@ -78,6 +92,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 require('md-gum-polyfill')
 import TheScrollArea from '../components/Layouts/TheScrollArea'
 
@@ -91,15 +106,15 @@ export default {
   data() {
     return {
       note: {
-        _id: '',
-        owner: '',
-        createdAt: '',
-        title: '',
-        author: '',
-        category: '',
-        pageFrom: null,
-        pageTo: null,
-        comment: '',
+        _id: this._id,
+        // owner: '',
+        // createdAt: '',
+        // title: '',
+        // author: '',
+        // category: '',
+        // pageFrom: null,
+        // pageTo: null,
+        // comment: '',
         photo: null
       },
       imageUpload: [],
@@ -109,37 +124,38 @@ export default {
       cameraRear: true
     }
   },
-  created() {
-    this.loadSingleNote(this._id)
-  },
+  // created() {
+  //   this.loadSingleNote(this._id)
+  // },
   methods: {
-    async loadSingleNote(_id) {
-      try {
-        const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
+    ...mapActions('notes', ['updateImage']),
+    // async loadSingleNote(_id) {
+    //   try {
+    //     const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
 
-        const resData = {
-          _id: response.data.note._id,
-          owner: response.data.note.owner,
-          createdAt: response.data.note.createdAt,
-          title: response.data.note.title,
-          author: response.data.note.author,
-          category: response.data.note.category,
-          pageFrom: response.data.note.pageFrom,
-          pageTo: response.data.note.pageTo,
-          comment: response.data.note.comment,
-          photo: response.data.note.photo
-        }
+    //     const resData = {
+    //       _id: response.data.note._id,
+    //       owner: response.data.note.owner,
+    //       createdAt: response.data.note.createdAt,
+    //       title: response.data.note.title,
+    //       author: response.data.note.author,
+    //       category: response.data.note.category,
+    //       pageFrom: response.data.note.pageFrom,
+    //       pageTo: response.data.note.pageTo,
+    //       comment: response.data.note.comment,
+    //       photo: response.data.note.photo
+    //     }
 
-        this.note = resData
+    //     this.note = resData
 
-        if (!response.status === 200) {
-          const error = new Error(response.message || "Failed to fetch...");
-          throw error;
-        }
-      } catch (err) {
-        this.err = err.message || 'Something went wrong....'
-      }
-    },
+    //     if (!response.status === 200) {
+    //       const error = new Error(response.message || "Failed to fetch...");
+    //       throw error;
+    //     }
+    //   } catch (err) {
+    //     this.err = err.message || 'Something went wrong....'
+    //   }
+    // },
 
     initCamera() {
       navigator.mediaDevices.getUserMedia({
@@ -230,6 +246,13 @@ export default {
         this.$refs.video.srcObject = stream
       })
       }
+    },
+
+    submitImage() {
+      this.updateImage({
+        _id: this._id,
+        updates: this.note
+      })
     }
   },
   mounted() {

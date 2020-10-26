@@ -11,11 +11,9 @@ export default {
     state.notes = notes;
   },
 
-  // setSingleNote(state, resSingleNote) {
-  //   console.log('mutation single note: ', resSingleNote);
-  //   state.singleNote = resSingleNote
-  //   console.log('state.singleNote in mutations: ', state.singleNote);
-  // },
+  setSingleNote(state, resData) {
+    state.singleNote = resData
+  },
 
   updateNote(state, payload) {
     const updatingNote = state.notes
@@ -27,6 +25,5 @@ export default {
     state.notes = state.notes.filter(note => {
       return note._id !== _id;
     });
-    // Vue.delete(state.notes, _id);
   }
 };

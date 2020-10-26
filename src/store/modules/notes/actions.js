@@ -39,8 +39,8 @@ export default {
 
   async updateNote({ commit }, note) {
     const noteId = note._id;
-    console.log(note._id);
-    const formData = new FormData();
+
+    let formData = new FormData();
     formData.append('_id', note.updates._id);
     formData.append('title', note.updates.title);
     formData.append('author', note.updates.author);
@@ -59,14 +59,14 @@ export default {
     const resData = await response;
 
     const updatedNote = {
-      //_id: resData.data.note._id,
+      _id: resData.data.note._id,
+      owner: resData.data.note.owner,
       title: resData.data.note.title,
       author: resData.data.note.author,
       category: resData.data.note.category,
       pageFrom: resData.data.note.pageFrom,
       pageTo: resData.data.note.pageTo,
       comment: resData.data.note.comment,
-      //owner: resData.data.note.owner,
       createdAt: resData.data.note.createdAt
     };
 
@@ -76,6 +76,26 @@ export default {
     }
 
     commit("updateNote", payload);
+  },
+
+  async updateImage({ commit }, note) {
+    const noteId = note._id
+
+    let formData = new FormData()
+    formData.append('_id', note.updates._id)
+    formData.append('file', note.updates.photo, note.updates._id + '.png')
+    console.log(...formData.entries());
+
+    const response = await axios.post(`${process.env.API}/notes/${noteId}`, formData)
+
+    console.log('updateImageresposne: ', response)
+
+    if (response.status !== 200) {
+      const error = new Error(
+        response.message || "Editing a note failed..."
+      );
+      throw error;
+    }
   },
 
   async deleteNote({ commit }, _id) {
@@ -88,5 +108,29 @@ export default {
     }
 
     commit("deleteTask", _id);
+  },
+
+  async getSingleNote({ commit }, _id) {
+
+    const response = await axios.get(`${process.env.API}/notes/${_id}`)
+    console.log(response);
+    const resData = {
+      _id: response.data.note._id,
+      owner: response.data.note.owner,
+      createdAt: response.data.note.createdAt,
+      title: response.data.note.title,
+      author: response.data.note.author,
+      category: response.data.note.category,
+      pageFrom: response.data.note.pageFrom,
+      pageTo: response.data.note.pageTo,
+      comment: response.data.note.comment,
+      photo: response.data.note.photo
+    }
+
+    if (!response.status === 200) {
+      const error = new Error(response.message || "Failed to fetch...");
+      throw error;
+    }
+    commit('setSingleNote', resData)
   }
 };

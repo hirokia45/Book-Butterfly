@@ -13,15 +13,15 @@
                 </q-item-section>
 
                 <q-item-section>
-                  <q-item-label class="text-bold">{{ note.owner }}</q-item-label>
+                  <q-item-label class="text-bold">{{ owner }}</q-item-label>
                   <q-item-label caption>
-                    {{ note.createdAt }}
+                    {{ createdAt }}
                   </q-item-label>
                 </q-item-section>
 
                 <q-item-section side>
                   <note-header-fab
-                    :note="note"
+                    :note="singleNote"
                     :_id="_id"
                   />
                 </q-item-section>
@@ -30,29 +30,33 @@
               <q-separator />
 
               <q-card-section>
-                <div class="text-bold">{{ note.title }}</div>
+                <div class="text-bold">{{ title }}</div>
                 <div
-                  v-if="note.author"
+                  v-if="author"
                   class="text-caption"
-                >Author: {{ note.author }}</div>
+                >Author: {{ author }}</div>
                 <p
-                  v-if="note.pageFrom || note.pageTo "
+                  v-if="pageFrom || pageTo"
                   class="q-mb-none text-caption"
                 >
-                  Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
+                  Page: <span>{{ pageFrom }}</span>-<span>{{ pageTo }}</span>
                 </p>
                 <div
-                  v-if="note.category"
+                  v-if="category"
                   class="text-caption"
                 >
-                  Category: {{ note.category }}
+                  Category: {{ category }}
                 </div>
               </q-card-section>
 
-              <q-separator v-if="note.comment" />
+              <q-separator v-if="comment" />
 
-              <q-card-section v-if="note.comment" >
-                {{ note.comment }}
+              <q-card-section v-if="comment" >
+                {{ comment }}
+              </q-card-section>
+
+              <q-card-section>
+                <img :src="photo" class="full-width" />
               </q-card-section>
 
             </q-card>
@@ -110,29 +114,46 @@ export default {
   props: ['_id'],
   data() {
     return {
-      note: {
-        _id: '',
-        owner: '',
-        createdAt: '',
-        title: '',
-        author: '',
-        category: '',
-        pageFrom: null,
-        pageTo: null,
-        comment: '',
-        photo: null
-      },
+
     }
   },
   computed: {
-    ...mapGetters('notes', ['notes']),
+    ...mapGetters('notes', ['notes', 'singleNote']),
+    owner() {
+      return this.singleNote.owner
+    },
+    createdAt() {
+      return this.singleNote.createdAt
+    },
+    title() {
+      return this.singleNote.title
+    },
+    author() {
+      return this.singleNote.author
+    },
+    category() {
+      return this.singleNote.category
+    },
+    pageFrom() {
+      return this.singleNote.pageFrom
+    },
+    pageTo() {
+      return this.singleNote.pageTo
+    },
+    comment() {
+      return this.singleNote.comment
+    },
+    photo() {
+      return this.singleNote.photo
+    },
+
     noteListLimited() {
       return this.notes.slice(0, 5)
     }
   },
   created() {
     this.loadNotes(),
-    this.loadSingleNote(this._id)
+    this.loadSingleNote()
   },
   watch: {
     $route(to, from) {
@@ -140,7 +161,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotes']),
+    ...mapActions('notes', ['getNotes', 'getSingleNote']),
     async loadNotes() {
       try {
         await this.getNotes()
@@ -148,37 +169,40 @@ export default {
         this.err = err.message || 'Something went wrong....'
       }
     },
-    async loadSingleNote(_id) {
-      try {
-        const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
+    loadSingleNote(this_id) {
+      this.getSingleNote(this._id)
 
-        const resData = {
-          _id: response.data.note._id,
-          owner: response.data.note.owner,
-          createdAt: response.data.note.createdAt,
-          title: response.data.note.title,
-          author: response.data.note.author,
-          category: response.data.note.category,
-          pageFrom: response.data.note.pageFrom,
-          pageTo: response.data.note.pageTo,
-          comment: response.data.note.comment,
-          photo: response.data.note.photo
-        }
+      // try {
+      //   const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
 
-        this.note = resData
+      //   const resData = {
+      //     _id: response.data.note._id,
+      //     owner: response.data.note.owner,
+      //     createdAt: response.data.note.createdAt,
+      //     title: response.data.note.title,
+      //     author: response.data.note.author,
+      //     category: response.data.note.category,
+      //     pageFrom: response.data.note.pageFrom,
+      //     pageTo: response.data.note.pageTo,
+      //     comment: response.data.note.comment,
+      //     photo: response.data.note.photo
+      //   }
 
-        if (!response.status === 200) {
-          const error = new Error(response.message || "Failed to fetch...");
-          throw error;
-        }
-      } catch (err) {
-        this.err = err.message || 'Something went wrong....'
-      }
+      //   this.note = resData
+
+      //   if (!response.status === 200) {
+      //     const error = new Error(response.message || "Failed to fetch...");
+      //     throw error;
+      //   }
+      // } catch (err) {
+      //   this.err = err.message || 'Something went wrong....'
+      // }
     },
     changeRoutes(_id) {
       this.$router.push(`/notes/${_id}`).catch(err => {})
       this.loadSingleNote(_id)
-    }
+    },
+
   }
 
 }

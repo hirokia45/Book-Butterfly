@@ -89,7 +89,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['updateNote']),
+    ...mapActions('notes', ['updateNote','getSingleNote']),
     submitForm() {
       this.$refs.title.validate()
       if (!this.$refs.title.hasError) {
@@ -102,6 +102,9 @@ export default {
         updates: this.noteToSubmit
       }, this.noteToSubmit)
       this.$emit('close')
+      if (this.$route.path !== '/home') {
+        this.getSingleNote(this._id)
+      }
     },
   },
   mounted() {

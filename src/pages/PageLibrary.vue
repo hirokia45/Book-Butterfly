@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'PageBook'
+  name: 'PageLibrary'
 }
 </script>
