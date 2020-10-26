@@ -83,9 +83,7 @@ export default {
   props: ['note', '_id'],
   data() {
     return {
-      noteToSubmit: {
-
-      },
+      noteToSubmit: {},
     }
   },
   methods: {

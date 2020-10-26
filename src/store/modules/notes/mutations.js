@@ -15,10 +15,10 @@ export default {
     state.singleNote = resData
   },
 
-  updateNote(state, payload) {
+  updateNote(state, updatedNote) {
     const updatingNote = state.notes
-      .find(note => note._id === payload._id)
-    Object.assign(updatingNote, payload.updatedNote);
+      .find(note => note._id === updatedNote._id)
+    Object.assign(updatingNote, updatedNote);
   },
 
   deleteTask(state, _id) {

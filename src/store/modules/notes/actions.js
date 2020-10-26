@@ -37,45 +37,30 @@ export default {
     commit("addNote", newNoteData);
   },
 
-  async updateNote({ commit }, note) {
-    const noteId = note._id;
+  async updateNote({ commit }, updates) {
+    const noteId = updates._id
+    const updatingNote = updates.updates
 
-    let formData = new FormData();
-    formData.append('_id', note.updates._id);
-    formData.append('title', note.updates.title);
-    formData.append('author', note.updates.author);
-    formData.append('category', note.updates.category);
-    formData.append('pageFrom', note.updates.pageFrom);
-    formData.append('pageTo', note.updates.pageTo);
-    formData.append('comment', note.updates.comment);
-
-    const response = await axios.patch(`${process.env.API}/notes/${noteId}`, formData)
+    const response = await axios.patch(`${process.env.API}/notes/${noteId}`, updatingNote)
 
     if (response.status !== 200) {
       const error = new Error(response.message || 'Editing a note failed...');
       throw error
     }
 
-    const resData = await response;
-
     const updatedNote = {
-      _id: resData.data.note._id,
-      owner: resData.data.note.owner,
-      title: resData.data.note.title,
-      author: resData.data.note.author,
-      category: resData.data.note.category,
-      pageFrom: resData.data.note.pageFrom,
-      pageTo: resData.data.note.pageTo,
-      comment: resData.data.note.comment,
-      createdAt: resData.data.note.createdAt
+      _id: response.data.note._id,
+      owner: response.data.note.owner,
+      title: response.data.note.title,
+      author: response.data.note.author,
+      category: response.data.note.category,
+      pageFrom: response.data.note.pageFrom,
+      pageTo: response.data.note.pageTo,
+      comment: response.data.note.comment,
+      createdAt: response.data.note.createdAt
     };
 
-    const payload = {
-      updatedNote,
-      _id: noteId
-    }
-
-    commit("updateNote", payload);
+    commit("updateNote", updatedNote);
   },
 
   async updateImage({ commit }, note) {
@@ -113,7 +98,7 @@ export default {
   async getSingleNote({ commit }, _id) {
 
     const response = await axios.get(`${process.env.API}/notes/${_id}`)
-    console.log(response);
+
     const resData = {
       _id: response.data.note._id,
       owner: response.data.note.owner,

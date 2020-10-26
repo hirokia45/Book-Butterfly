@@ -59,6 +59,10 @@
       <q-card-section v-if="note.comment" >
         {{ note.comment }}
       </q-card-section>
+
+      <q-card-section v-if="note.photo">
+        <img :src="note.photo" class="full-width" />
+      </q-card-section>
     </div>
 
   </q-card>
