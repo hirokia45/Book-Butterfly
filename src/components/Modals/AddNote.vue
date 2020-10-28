@@ -103,6 +103,13 @@ export default {
     submitNote() {
       this.addNote(this.noteToSubmit)
       this.$emit('close')
+      this.$q.notify({
+        message: 'Note Added!',
+        timeout: 2000,
+        actions: [
+          { label: 'Close', color: 'white'}
+        ]
+      })
     }
   }
 }

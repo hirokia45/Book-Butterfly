@@ -79,6 +79,13 @@ export default {
         this.deleteNote(_id)
         if (this.$route.path !== '/home') {
           this.$router.push('/home')
+          this.$q.notify({
+            message: 'Note Deleted!!',
+            timeout: 2000,
+            actions: [
+              { label: 'Close', color: 'white'}
+            ]
+          })
         }
       })
     },
@@ -90,6 +97,13 @@ export default {
         persistent: true
       }).onOk(() => {
         this.deleteImage(_id)
+        this.$q.notify({
+          message: 'Image Deleted!!',
+          timeout: 2000,
+          actions: [
+            { label: 'Close', color: 'white'}
+          ]
+        })
       })
     },
     toggleActionList() {

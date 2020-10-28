@@ -4,6 +4,7 @@
       <div class="constrain">
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-sm-8">
+            <the-scroll-area>
             <q-card class="note-card q-mb-md" flat bordered>
               <q-item>
                 <q-item-section avatar>
@@ -55,17 +56,18 @@
                 {{ comment }}
               </q-card-section>
 
-              <q-card-section>
+              <q-card-section v-if="photo">
                 <img :src="photo" class="full-width" />
               </q-card-section>
 
             </q-card>
+            </the-scroll-area>
 
           </div>
 
           <div class="col-sm-4 large-screen-only">
-            <q-list bordered separator class="bg-white">
-              <q-toolbar class="bg-deep-orange-4 text-gochi-hand text-grey-10">
+            <q-list bordered separator class="bg-white rounded-borders shadow-2">
+              <q-toolbar class="bg-deep-orange-4 text-gochi-hand text-grey-10 list-header">
                 <q-toolbar-title>Your Recent Notes</q-toolbar-title>
               </q-toolbar>
 
@@ -105,11 +107,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import SideNoteItem from '../components/Notes/NotesComponents/SideNoteItem'
 import NoteHeaderFab from '../components/Notes/NotesComponents/NoteHeaderFab'
+import TheScrollArea from '../components/Layouts/TheScrollArea'
 
 export default {
   components: {
     SideNoteItem,
-    NoteHeaderFab
+    NoteHeaderFab,
+    TheScrollArea
   },
   props: ['_id'],
   data() {
@@ -171,39 +175,18 @@ export default {
     },
     loadSingleNote(this_id) {
       this.getSingleNote(this._id)
-
-      // try {
-      //   const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
-
-      //   const resData = {
-      //     _id: response.data.note._id,
-      //     owner: response.data.note.owner,
-      //     createdAt: response.data.note.createdAt,
-      //     title: response.data.note.title,
-      //     author: response.data.note.author,
-      //     category: response.data.note.category,
-      //     pageFrom: response.data.note.pageFrom,
-      //     pageTo: response.data.note.pageTo,
-      //     comment: response.data.note.comment,
-      //     photo: response.data.note.photo
-      //   }
-
-      //   this.note = resData
-
-      //   if (!response.status === 200) {
-      //     const error = new Error(response.message || "Failed to fetch...");
-      //     throw error;
-      //   }
-      // } catch (err) {
-      //   this.err = err.message || 'Something went wrong....'
-      // }
     },
     changeRoutes(_id) {
       this.$router.push(`/notes/${_id}`).catch(err => {})
       this.loadSingleNote(_id)
     },
-
   }
-
 }
 </script>
+
+<style lang="sass" scoped>
+  .list-header
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+</style>

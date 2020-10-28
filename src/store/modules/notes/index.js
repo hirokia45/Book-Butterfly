@@ -7,9 +7,8 @@ export default {
   state() {
     return {
       notes: [],
-      singleNote: {
-
-      }
+      singleNote: {},
+      loadingNotes: false
     };
   },
   mutations,

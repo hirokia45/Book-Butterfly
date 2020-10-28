@@ -4,20 +4,12 @@
       <div class="constrain">
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-sm-8">
-            <q-scroll-area
-              :thumb-style="thumbStyle"
-              :bar-style="barStyle"
-              class="scroll-area-notes"
-            >
-                <div v-if="!Object.keys(notes).length">
-                  <no-note-yet
-                    @show-add-note-modal="showAddNote = true"
-                  />
-                </div>
-                <div v-else>
+            <the-scroll-area>
+              <template v-if="!loadingNotes && notes.length">
+                <div>
                   <transition-group
                     appear
-                    leave-active-class="animated zoomOut">
+                    leave-active-class="animated rotateOut">
                     <note-item
                       v-for="note in notes"
                       :key="note._id"
@@ -26,8 +18,45 @@
                     ></note-item>
                   </transition-group>
                 </div>
+              </template>
 
-            </q-scroll-area>
+              <template v-else-if="!loadingNotes && !notes.length">
+                <no-note-yet
+                  @show-add-note-modal="showAddNote = true"
+                />
+              </template>
+
+              <template v-else>
+                <q-card flat bordered>
+                  <q-item class="q-pt-md">
+                    <q-item-section avatar>
+                      <q-skeleton type="QAvatar" animation="fade"
+                      size="40px" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      <q-item-label>
+                        <q-skeleton type="text" animation="fade" />
+                      </q-item-label>
+                      <q-item-label caption>
+                        <q-skeleton type="text" animation="fade" />
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-card-section>
+                    <q-skeleton type="text" class="text-subtitle2" animation="fade" />
+                    <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
+                  </q-card-section>
+
+                  <q-card-section>
+                    <q-skeleton height="200px" square animation="fade" />
+                  </q-card-section>
+
+
+                </q-card>
+              </template>
+            </the-scroll-area>
           </div>
 
           <div class="col-sm-4 large-screen-only">
@@ -69,42 +98,29 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import NoteItem from '../components/Notes/NoteItem'
 import NoNoteYet from '../components/Notes/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
+import TheScrollArea from '../components/Layouts/TheScrollArea'
 
 export default {
   name: 'PageHome',
   components: {
     NoteItem,
     NoNoteYet,
-    AddNote
+    AddNote,
+    TheScrollArea
   },
   data() {
     return {
       showAddNote: false,
-      thumbStyle: {
-        right: '-5px',
-        borderRadius: '5px',
-        backgroundColor: '#ff9800',
-        width: '5px',
-        opacity: 0.55
-      },
-
-      barStyle: {
-        right: '-6px',
-        borderRadius: '9px',
-        backgroundColor: '#ff9800',
-        width: '6px',
-        opacity: 0.2
-      }
     }
   },
   computed: {
+    ...mapState('notes', ['loadingNotes']),
     ...mapGetters('notes', ['notes']),
     singleNoteLink() {
-      console.log(this.note._id);
       return '/notes/' + this.note._id
     }
   },
@@ -113,21 +129,14 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['getNotes']),
-    async loadNotes() {
-      try {
-        await this.getNotes()
-      } catch (err) {
-        this.err = err.message || 'Something went wrong....'
-      }
+    loadNotes() {
+      this.getNotes()
     },
   }
 }
 </script>
 
 <style lang="sass" scoped>
-.scroll-area-notes
-  height: 85vh
-
 .add-button
   @media (min-width: $breakpoint-sm-min)
     position: absolute

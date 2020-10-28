@@ -1,19 +1,26 @@
 import axios from 'axios'
+import { Dialog } from "quasar"
 
 export default {
   async getNotes({ commit }) {
-    const response = await axios.get(`${process.env.API}/notes`);
-    const notes = response.data.notes;
+    commit("setLoadingNotes", true);
+    try {
+      const response = await axios.get(`${process.env.API}/notes`);
+      const notes = response.data.notes;
 
-    if (!response.status === 200) {
-      const error = new Error(response.message || "Failed to fetch...");
-      throw error;
+      commit("setLoadingNotes", false);
+      commit("setNotes", notes);
+    } catch (err) {
+      console.error(err);
+      commit("setLoadingNotes", false);
+      Dialog.create({
+        title: "Error",
+        message: "Could not download your notes..."
+      })
     }
-
-    commit("setNotes", notes);
   },
 
-    async getSingleNote({ commit }, _id) {
+  async getSingleNote({ commit }, _id) {
 
     const response = await axios.get(`${process.env.API}/notes/${_id}`)
 
@@ -85,11 +92,8 @@ export default {
     let formData = new FormData()
     formData.append('_id', note.updates._id)
     formData.append('file', note.updates.photo, note.updates._id + '.png')
-    console.log(...formData.entries());
 
     const response = await axios.post(`${process.env.API}/notes/${noteId}`, formData)
-
-    console.log('updateImageresposne: ', response)
 
     if (response.status !== 200) {
       const error = new Error(
@@ -97,6 +101,12 @@ export default {
       );
       throw error;
     }
+
+    const updatedNote = {
+      ...response.data.note
+    }
+
+    commit("updateNote", updatedNote)
   },
 
   async deleteNote({ commit }, _id) {

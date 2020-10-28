@@ -2,90 +2,92 @@
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
       <the-scroll-area>
-      <div class="constrain-more">
-        <div class="camera-frame q-pa-md bg-white">
-          <video
-            v-show="!imageCaptured"
-            ref="video"
-            class="full-width"
-            autoplay
-          />
-          <canvas
-            v-show="imageCaptured"
-            ref="canvas"
-            class="full-width"
-            height="240"
-          />
-        </div>
-        <div class="text-center q-pa-md">
-          <q-btn
-            v-if="hasCameraSupport && cameraToggle"
-            @click="captureImage"
-            round
-            size="lg"
-            class="primary-gradient-background"
-            icon="eva-camera"
-           />
-          <q-file
-            v-else
-            v-model="imageUpload"
-            @input="captureImageFromFileUpload"
-            class="bg-white file-picker-field"
-            accept="image/*"
-            label="Choose an image"
-            outlined
+        <div class="constrain-more">
+          <div class="camera-frame q-pa-md bg-white">
+            <video
+              v-show="!imageCaptured"
+              ref="video"
+              class="full-width"
+              autoplay
+            />
+            <canvas
+              v-show="imageCaptured"
+              ref="canvas"
+              class="full-width"
+              height="240"
+            />
+          </div>
+          <div class="text-center q-pa-md">
+            <q-btn
+              v-if="hasCameraSupport && cameraToggle"
+              @click="captureImage"
+              :disable="imageCaptured"
+              round
+              size="lg"
+              class="primary-gradient-background"
+              icon="eva-camera"
+            />
+            <q-file
+              v-else
+              v-model="imageUpload"
+              @input="captureImageFromFileUpload"
+              class="bg-white file-picker-field"
+              accept="image/*"
+              label="Choose an image"
+              outlined
+            >
+              <template v-slot:prepend>
+                <q-icon name="eva-attach-outline" />
+              </template>
+            </q-file>
+          </div>
+          <div class="text-center q-ma-md">
+            <q-btn
+              @click="submitImage"
+              :disable="!note.photo"
+              class="primary-gradient-background"
+              label="Submit Image"
+              rounded
+            />
+          </div>
+
+          <div class="text-center" v-show="!note.photo">
+            <q-toggle
+              v-model="cameraToggle"
+              checked-icon="eva-camera"
+              color="green"
+              size="xl"
+              unchecked-icon="eva-attach"
+              @input="cameraToggledFalse"
+            />
+          </div>
+
+          <div v-show="hasCameraSupport && cameraToggle && !note.photo"
+              class="text-center"
           >
-            <template v-slot:prepend>
-              <q-icon name="eva-attach-outline" />
-            </template>
-          </q-file>
-        </div>
-        <div class="text-center q-ma-md">
-          <q-btn
-            @click="submitImage"
-            class="primary-gradient-background"
-            label="Submit Image"
-            rounded
-           />
-        </div>
+            <q-toggle
+              v-model="cameraRear"
+              checked-icon="eva-flip-2"
+              color="green"
+              size="xl"
+              unchecked-icon="eva-flip-2"
+              @input="toggleCameraFrontRear"
+            />
+          </div>
 
-        <div class="text-center">
-          <q-toggle
-            v-model="cameraToggle"
-            checked-icon="eva-camera"
-            color="green"
-            size="xl"
-            unchecked-icon="eva-attach"
-            @input="cameraToggledFalse"
-          />
+                  <q-page-sticky
+            :offset="[18, 18]"
+            class="add-button bottom-right"
+            style="z-index: 3"
+          >
+            <q-btn
+              @click="$router.go(-1)"
+              class="grey-gradient-background shadow-5 text-grey-8"
+              fab
+              icon="eva-arrow-back"
+            />
+          </q-page-sticky>
         </div>
-
-        <div v-show="hasCameraSupport && cameraToggle"
-             class="text-center"
-        >
-          <q-toggle
-            v-model="cameraRear"
-            checked-icon="eva-flip-2"
-            color="green"
-            size="xl"
-            unchecked-icon="eva-flip-2"
-            @input="toggleCameraFrontRear"
-          />
-        </div>
-
-                <q-page-sticky
-          :offset="[18, 18]"
-          class="add-button bottom-right"
-          style="z-index: 3"
-        >
-          <q-btn
-            @click="$router.go(-1)"
-            class="grey-gradient-background shadow-5 text-grey-8"
-            fab
-            icon="eva-arrow-back"
-          />
-        </q-page-sticky>
-      </div>
       </the-scroll-area>
     </div>
   </q-page>
@@ -129,33 +131,6 @@ export default {
   // },
   methods: {
     ...mapActions('notes', ['updateImage']),
-    // async loadSingleNote(_id) {
-    //   try {
-    //     const response = await this.$axios.get(`${process.env.API}/notes/${_id}`)
-
-    //     const resData = {
-    //       _id: response.data.note._id,
-    //       owner: response.data.note.owner,
-    //       createdAt: response.data.note.createdAt,
-    //       title: response.data.note.title,
-    //       author: response.data.note.author,
-    //       category: response.data.note.category,
-    //       pageFrom: response.data.note.pageFrom,
-    //       pageTo: response.data.note.pageTo,
-    //       comment: response.data.note.comment,
-    //       photo: response.data.note.photo
-    //     }
-
-    //     this.note = resData
-
-    //     if (!response.status === 200) {
-    //       const error = new Error(response.message || "Failed to fetch...");
-    //       throw error;
-    //     }
-    //   } catch (err) {
-    //     this.err = err.message || 'Something went wrong....'
-    //   }
-    // },
 
     initCamera() {
       navigator.mediaDevices.getUserMedia({
@@ -249,10 +224,21 @@ export default {
     },
 
     submitImage() {
+      this.$q.loading.show()
+
       this.updateImage({
         _id: this._id,
         updates: this.note
       })
+      this.$router.push(`/notes/${this._id}`)
+      this.$q.notify({
+        message: 'Image Added!',
+        timeout: 2000,
+        actions: [
+          { label: 'Close', color: 'white'}
+        ]
+      })
+      this.$q.loading.hide()
     }
   },
   mounted() {

@@ -5,5 +5,9 @@ export default {
 
   singleNote(state) {
     return state.singleNote
+  },
+
+  loadingNotes(state) {
+    return state.loadingNotes
   }
 }
