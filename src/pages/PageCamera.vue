@@ -130,7 +130,7 @@ export default {
   //   this.loadSingleNote(this._id)
   // },
   methods: {
-    ...mapActions('notes', ['updateImage']),
+    ...mapActions('notes', ['addImage']),
 
     initCamera() {
       navigator.mediaDevices.getUserMedia({
@@ -226,18 +226,12 @@ export default {
     submitImage() {
       this.$q.loading.show()
 
-      this.updateImage({
+      this.addImage({
         _id: this._id,
         updates: this.note
       })
       this.$router.push(`/notes/${this._id}`)
-      this.$q.notify({
-        message: 'Image Added!',
-        timeout: 2000,
-        actions: [
-          { label: 'Close', color: 'white'}
-        ]
-      })
+
       this.$q.loading.hide()
     }
   },

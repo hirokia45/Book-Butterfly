@@ -27,34 +27,7 @@
               </template>
 
               <template v-else>
-                <q-card flat bordered>
-                  <q-item class="q-pt-md">
-                    <q-item-section avatar>
-                      <q-skeleton type="QAvatar" animation="fade"
-                      size="40px" />
-                    </q-item-section>
-
-                    <q-item-section>
-                      <q-item-label>
-                        <q-skeleton type="text" animation="fade" />
-                      </q-item-label>
-                      <q-item-label caption>
-                        <q-skeleton type="text" animation="fade" />
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-card-section>
-                    <q-skeleton type="text" class="text-subtitle2" animation="fade" />
-                    <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
-                  </q-card-section>
-
-                  <q-card-section>
-                    <q-skeleton height="200px" square animation="fade" />
-                  </q-card-section>
-
-
-                </q-card>
+                <page-loader-note></page-loader-note>
               </template>
             </the-scroll-area>
           </div>
@@ -102,6 +75,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import NoteItem from '../components/Notes/NoteItem'
 import NoNoteYet from '../components/Notes/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
+import PageLoaderNote from '../components/Layouts/PageLoaderNote'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
 
 export default {
@@ -110,6 +84,7 @@ export default {
     NoteItem,
     NoNoteYet,
     AddNote,
+    PageLoaderNote,
     TheScrollArea
   },
   data() {
@@ -119,17 +94,20 @@ export default {
   },
   computed: {
     ...mapState('notes', ['loadingNotes']),
+    ...mapGetters('auth', ['isLoggedIn']),
     ...mapGetters('notes', ['notes']),
     singleNoteLink() {
       return '/notes/' + this.note._id
-    }
+    },
   },
   created() {
-    this.loadNotes()
+    if(this.isLoggedIn) {
+     this.loadNotes()
+    }
   },
   methods: {
     ...mapActions('notes', ['getNotes']),
-    loadNotes() {
+    async loadNotes() {
       this.getNotes()
     },
   }

@@ -7,8 +7,8 @@ export default {
     state.notes = notes;
   },
 
-  setSingleNote(state, resData) {
-    state.singleNote = resData;
+  setSingleNote(state, note) {
+    state.singleNote = note;
   },
 
   updateNote(state, updatedNote) {
@@ -28,7 +28,4 @@ export default {
     state.loadingNotes = isLoading
   }
 
-  // setNotesDownloaded(state, value) {
-  //   state.NotesDownloaded = value;
-  // }
 };

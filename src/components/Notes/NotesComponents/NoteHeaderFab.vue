@@ -97,13 +97,6 @@ export default {
         persistent: true
       }).onOk(() => {
         this.deleteImage(_id)
-        this.$q.notify({
-          message: 'Image Deleted!!',
-          timeout: 2000,
-          actions: [
-            { label: 'Close', color: 'white'}
-          ]
-        })
       })
     },
     toggleActionList() {

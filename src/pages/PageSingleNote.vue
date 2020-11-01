@@ -5,62 +5,65 @@
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-sm-8">
             <the-scroll-area>
-            <q-card class="note-card q-mb-md" flat bordered>
-              <q-item>
-                <q-item-section avatar>
-                  <q-avatar>
-                    <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-                  </q-avatar>
-                </q-item-section>
 
-                <q-item-section>
-                  <q-item-label class="text-bold">{{ owner }}</q-item-label>
-                  <q-item-label caption>
-                    {{ createdAt }}
-                  </q-item-label>
-                </q-item-section>
 
-                <q-item-section side>
-                  <note-header-fab
-                    :note="singleNote"
-                    :_id="_id"
-                  />
-                </q-item-section>
-              </q-item>
+                <q-card class="note-card q-mb-md" flat bordered>
+                  <q-item>
+                    <q-item-section avatar>
+                      <q-avatar>
+                        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                      </q-avatar>
+                    </q-item-section>
 
-              <q-separator />
+                    <q-item-section>
+                      <q-item-label class="text-bold">{{ owner }}</q-item-label>
+                      <q-item-label caption>
+                        {{ createdAt }}
+                      </q-item-label>
+                    </q-item-section>
 
-              <q-card-section>
-                <div class="text-bold">{{ title }}</div>
-                <div
-                  v-if="author"
-                  class="text-caption"
-                >Author: {{ author }}</div>
-                <p
-                  v-if="pageFrom || pageTo"
-                  class="q-mb-none text-caption"
-                >
-                  Page: <span>{{ pageFrom }}</span>-<span>{{ pageTo }}</span>
-                </p>
-                <div
-                  v-if="category"
-                  class="text-caption"
-                >
-                  Category: {{ category }}
-                </div>
-              </q-card-section>
+                    <q-item-section side>
+                      <note-header-fab
+                        :note="singleNote"
+                        :_id="_id"
+                      />
+                    </q-item-section>
+                  </q-item>
 
-              <q-separator v-if="comment" />
+                  <q-separator />
 
-              <q-card-section v-if="comment" >
-                {{ comment }}
-              </q-card-section>
+                  <q-card-section>
+                    <div class="text-bold">{{ title }}</div>
+                    <div
+                      v-if="author"
+                      class="text-caption"
+                    >Author: {{ author }}</div>
+                    <p
+                      v-if="pageFrom || pageTo"
+                      class="q-mb-none text-caption"
+                    >
+                      Page: <span>{{ pageFrom }}</span>-<span>{{ pageTo }}</span>
+                    </p>
+                    <div
+                      v-if="category"
+                      class="text-caption"
+                    >
+                      Category: {{ category }}
+                    </div>
+                  </q-card-section>
 
-              <q-card-section v-if="photo">
-                <img :src="photo" class="full-width" />
-              </q-card-section>
+                  <q-separator v-if="comment" />
 
-            </q-card>
+                  <q-card-section v-if="comment" >
+                    {{ comment }}
+                  </q-card-section>
+
+                  <q-card-section v-if="photo">
+                    <img :src="photo" class="full-width" />
+                  </q-card-section>
+
+                </q-card>
+
             </the-scroll-area>
 
           </div>
@@ -173,8 +176,8 @@ export default {
         this.err = err.message || 'Something went wrong....'
       }
     },
-    loadSingleNote(this_id) {
-      this.getSingleNote(this._id)
+    async loadSingleNote(this_id) {
+      await this.getSingleNote(this._id)
     },
     changeRoutes(_id) {
       this.$router.push(`/notes/${_id}`).catch(err => {})

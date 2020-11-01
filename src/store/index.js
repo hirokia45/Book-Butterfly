@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import notes from './modules/notes/index'
-// import example from './module-example'
+import auth from './modules/auth/index'
 
 Vue.use(Vuex)
 
@@ -18,7 +18,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      notes
+      notes,
+      auth
     },
 
     // enable strict mode (adds overhead!)

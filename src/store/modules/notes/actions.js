@@ -1,17 +1,17 @@
 import axios from 'axios'
-import { Dialog } from "quasar"
+import { Dialog, Notify } from "quasar"
+import authHeader from '../../../services/auth-header'
 
 export default {
   async getNotes({ commit }) {
     commit("setLoadingNotes", true);
     try {
-      const response = await axios.get(`${process.env.API}/notes`);
+      const response = await axios.get(`${process.env.API}/notes`, { headers: authHeader() });
       const notes = response.data.notes;
 
       commit("setLoadingNotes", false);
       commit("setNotes", notes);
     } catch (err) {
-      console.error(err);
       commit("setLoadingNotes", false);
       Dialog.create({
         title: "Error",
@@ -21,31 +21,22 @@ export default {
   },
 
   async getSingleNote({ commit }, _id) {
+    try {
+      const response = await axios.get(`${process.env.API}/notes/${_id}`, {
+        headers: authHeader()
+      });
 
-    const response = await axios.get(`${process.env.API}/notes/${_id}`)
-
-    const resData = {
-      _id: response.data.note._id,
-      owner: response.data.note.owner,
-      createdAt: response.data.note.createdAt,
-      title: response.data.note.title,
-      author: response.data.note.author,
-      category: response.data.note.category,
-      pageFrom: response.data.note.pageFrom,
-      pageTo: response.data.note.pageTo,
-      comment: response.data.note.comment,
-      photo: response.data.note.photo
+      const note = response.data.note
+      commit("setSingleNote", note)
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not download your note..."
+      })
     }
-
-    if (!response.status === 200) {
-      const error = new Error(response.message || "Failed to fetch...");
-      throw error;
-    }
-    commit('setSingleNote', resData)
   },
 
   async addNote({ commit }, note) {
-    const userId = "Taro";
     const newNoteData = {
       title: note.title,
       author: note.author,
@@ -55,85 +46,139 @@ export default {
       comment: note.comment
     };
 
-    const response = await axios.post(`${process.env.API}/notes`, newNoteData);
+    try {
+      const response = await axios.post(
+        `${process.env.API}/notes`,
+        newNoteData,
+        { headers: authHeader() }
+      );
 
-    if (!response.status === 201) {
-      const error = new Error(response.message || "Failed to send request.");
-      throw error;
+      newNoteData._id = response.data.note._id;
+      newNoteData.owner = response.data.note.owner;
+      newNoteData.createdAt = response.data.note.createdAt;
+      commit("addNote", newNoteData);
+
+      await Notify.create({
+        message: "Note Added!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      })
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not add a new note..."
+      })
     }
-
-    newNoteData._id = response.data.note._id;
-    newNoteData.owner = response.data.note.owner;
-    newNoteData.createdAt = response.data.note.createdAt;
-    commit("addNote", newNoteData);
   },
 
   async updateNote({ commit }, updates) {
     const noteId = updates._id
     const updatingNote = updates.updates
 
-    const response = await axios.patch(`${process.env.API}/notes/${noteId}`, updatingNote)
+    try {
+      const response = await axios.patch(
+        `${process.env.API}/notes/${noteId}`,
+        updatingNote,
+        { headers: authHeader() }
+      );
 
-    if (response.status !== 200) {
-      const error = new Error(response.message || 'Editing a note failed...');
-      throw error
+      const updatedNote = {
+        ...response.data.note
+      };
+
+      await Notify.create({
+        message: "Note Updated!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      });
+
+      commit("updateNote", updatedNote);
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not update the note..."
+      });
     }
 
-    const updatedNote = {
-      ...response.data.note
-    };
-
-    commit("updateNote", updatedNote);
   },
 
-  async updateImage({ commit }, note) {
+  async addImage({ commit }, note) {
     const noteId = note._id
 
     let formData = new FormData()
     formData.append('_id', note.updates._id)
     formData.append('file', note.updates.photo, note.updates._id + '.png')
 
-    const response = await axios.post(`${process.env.API}/notes/${noteId}`, formData)
-
-    if (response.status !== 200) {
-      const error = new Error(
-        response.message || "Editing a note failed..."
+    try {
+      const response = await axios.post(
+        `${process.env.API}/notes/${noteId}`,
+        formData,
+        { headers: authHeader() }
       );
-      throw error;
-    }
 
-    const updatedNote = {
-      ...response.data.note
-    }
+      const updatedNote = response.data.note
 
-    commit("updateNote", updatedNote)
+
+      await Notify.create({
+        message: "Image added!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      });
+
+      commit("updateNote", updatedNote);
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not add an image..."
+      });
+    }
   },
 
   async deleteNote({ commit }, _id) {
     const noteId = _id;
-    const response = await axios.delete(`${process.env.API}/notes/${noteId}`);
 
-    if (!response.status === 200) {
-      const error = new Error(response.message || "Failed to send request.");
-      throw error;
+    try {
+      await axios.delete(
+        `${process.env.API}/notes/${noteId}`,
+        { headers: authHeader() }
+      );
+
+      commit("deleteTask", _id);
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not delete the note..."
+      });
     }
 
-    commit("deleteTask", _id);
   },
 
   async deleteImage({ commit }, _id) {
     const noteId = _id
-    const response = await axios.delete(`${process.env.API}/notes/photo/${noteId}`)
 
-    if (!response.status === 200) {
-      const error = new Error(response.message || "Failed to send request.")
-      throw error
+    try {
+      const response = await axios.delete(
+        `${process.env.API}/notes/photo/${noteId}`,
+        { headers: authHeader() }
+      );
+
+      const updatedNote = {
+        ...response.data.note
+      };
+
+      await Notify.create({
+        message: "Image Deleted!!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      });
+
+      commit("updateNote", updatedNote);
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not delete the image..."
+      });
     }
 
-    const updatedNote = {
-      ...response.data.note
-    }
-
-    commit('updateNote', updatedNote)
   }
 };

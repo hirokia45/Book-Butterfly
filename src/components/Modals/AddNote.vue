@@ -100,16 +100,17 @@ export default {
         this.submitNote()
       }
     },
-    submitNote() {
-      this.addNote(this.noteToSubmit)
-      this.$emit('close')
-      this.$q.notify({
-        message: 'Note Added!',
-        timeout: 2000,
-        actions: [
-          { label: 'Close', color: 'white'}
-        ]
-      })
+    async submitNote() {
+      try {
+        await this.addNote(this.noteToSubmit)
+        await this.$emit('close')
+      } catch (err) {
+          this.$q.dialog({
+          title: 'Error',
+          message: 'Could not add new note'
+        })
+      }
+
     }
   }
 }
