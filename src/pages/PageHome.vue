@@ -9,7 +9,7 @@
                 <div>
                   <transition-group
                     appear
-                    leave-active-class="animated rotateOut">
+                    leave-active-class="animated zoomOut">
                     <note-item
                       v-for="note in notes"
                       :key="note._id"

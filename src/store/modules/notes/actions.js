@@ -3,6 +3,11 @@ import { Dialog, Notify } from "quasar"
 import authHeader from '../../../services/auth-header'
 
 export default {
+  resetNoteState({ commit }) {
+    console.log('resetNoteState triggered in actions');
+    commit('resetNoteState')
+  },
+
   async getNotes({ commit }) {
     commit("setLoadingNotes", true);
     try {

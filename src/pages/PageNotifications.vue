@@ -1,5 +1,10 @@
 <template>
-    <q-page class="flex flex-center">
+  <q-page>
+    <div class="q-pa-md absolute full-width full-height">
+      <the-scroll-area>
+      <div class="constrain">
+
+
     <h5>Notifications</h5>
         <q-card
       class="my-card text-white"
@@ -92,14 +97,20 @@
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus magni praesentium nihil tenetur laudantium reiciendis excepturi! Minima nulla eveniet deleniti corporis optio, ex, veniam, pariatur natus amet magni eos alias.
       </q-card-section>
     </q-card>
-       <q-page-scroller position="bottom-right" :scroll-offset="100" :offset="[18, 18]">
-            <q-btn fab icon="keyboard_arrow_up" color="accent" />
-          </q-page-scroller>
+
+      </div>
+          </the-scroll-area>
+    </div>
   </q-page>
 </template>
 
 <script>
+import TheScrollArea from '../components/Layouts/TheScrollArea'
+
 export default {
-  name: 'PageNotifications'
+  name: 'PageNotifications',
+  components: {
+    TheScrollArea
+  }
 }
 </script>

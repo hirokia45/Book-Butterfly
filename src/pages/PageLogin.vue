@@ -1,40 +1,29 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
+<div class="constrain">
+
       <the-scroll-area>
-        <div class="constrain-more">
-          <q-card class="auth-tabs">
+
+          <q-card>
             <q-card-section class="row">
               <div class="text-h6 absolute-center q-pt-md">Login</div>
             </q-card-section>
 
             <form
               @submit.prevent="handleLogin"
-              class="q-gutter-md"
             >
               <q-card-section>
 
-                <div class="row q-mb-sm">
-                  <q-input
-                    outlined
-                    clearable
-                    v-model="user.email"
-                    label="Your Email *"
-                    lazy-rules
-                    class="col"
-                  />
-                </div>
+                <email-input
+                  :email.sync="user.email"
+                  ref="inputEmail"
+                />
 
-                <div class="row q-mb-sm">
-                  <q-input
-                    outlined
-                    clearable
-                    v-model="user.password"
-                    label="Your Password *"
-                    lazy-rules
-                    class="col"
-                  />
-                </div>
+                <password-input
+                  :password.sync="user.password"
+                  ref="inputPassword"
+                />
 
                 <q-card-actions align="center">
                   <q-btn label="Submit" type="submit" color="primary" />
@@ -44,8 +33,10 @@
 
             </form>
           </q-card>
-        </div>
+
       </the-scroll-area>
+
+</div>
     </div>
   </q-page>
 </template>
@@ -53,10 +44,15 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
+import EmailInput from '../components/Auth/EmailInput'
+import PasswordInput from '../components/Auth/PasswordInput'
+
 export default {
   name: 'PageLogin',
   components: {
-    TheScrollArea
+    TheScrollArea,
+    EmailInput,
+    PasswordInput
   },
   data() {
     return {
@@ -77,22 +73,32 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['login']),
+
     async handleLogin() {
-      //validation
-      this.loading = true
+      this.$refs.inputEmail.$refs.email.validate()
+      this.$refs.inputPassword.$refs.password.validate()
 
-      try {
-        if (this.user.email && this.user.password) {
+      if (!this.$refs.inputEmail.$refs.email.hasError &&
+          !this.$refs.inputPassword.$refs.password.hasError) {
+        this.loading = true
+
+        try {
           await this.login(this.user)
+          const redirectUrl = '/' + (this.$route.query.redirect || 'home')
+          await this.$router.replace(redirectUrl)
+
+        } catch(err) {
+          console.log(err)
         }
-        const redirectUrl = '/' + (this.$route.query.redirect || 'home')
-        await this.$router.replace(redirectUrl)
 
-      } catch(err) {
-        console.log(err)
+        this.loading = false
+      } else {
+          this.$q.notify({
+          message: 'You have unvalidated fields',
+          color: 'red',
+          position: 'top'
+        })
       }
-
-      this.loading = false
     }
   }
 }

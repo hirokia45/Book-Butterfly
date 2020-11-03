@@ -10,21 +10,31 @@ export default {
     }
   },
 
-  async logout({ commit }) {
+  async logout({ commit, dispatch }) {
     try {
       await AuthService.logout()
-      commit('logoutSuccess')
+
+      await commit('logoutSuccess')
+      console.log("logout success");
+      await dispatch('notes/resetNoteState', null, { root: true })
+
     } catch (err) {
-      commit('logoutFailure')
+      console.error('logout err', err);
+      console.log('logout fail');
+      await commit('logoutFailure')
     }
   },
 
   async signup({ commit }, user) {
     try {
       const response = await AuthService.signup(user)
-      commit('signupSuccess', response)
+      commit('signupSuccess')
+      const responseUser = response.user
+      commit('loginSuccess', responseUser)
     } catch (err) {
+      console.log(err);
       commit('signupFailure')
+      throw new Error('Signup error')
     }
   }
 }

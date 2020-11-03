@@ -2,15 +2,16 @@ import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
 
+const getDefaultNoteState = () => {
+  return {
+    notes: [],
+    singleNote: {},
+    loadingNotes: false
+  };
+}
 export default {
   namespaced: true,
-  state() {
-    return {
-      notes: [],
-      singleNote: {},
-      loadingNotes: false
-    };
-  },
+  state: getDefaultNoteState(),
   mutations,
   actions,
   getters

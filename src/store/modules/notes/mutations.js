@@ -1,4 +1,17 @@
+const getDefaultNoteState = () => {
+  return {
+    notes: [],
+    singleNote: {},
+    loadingNotes: false
+  }
+}
+
 export default {
+  resetNoteState(state) {
+    console.log('resetNoteState in mutations');
+    Object.assign(state, getDefaultNoteState())
+  },
+
   addNote(state, payload) {
     state.notes.push(payload);
   },

@@ -16,8 +16,7 @@ export default {
     state.status.loggedIn = true
   },
   signupSuccess(state) {
-    state.status.loggedIn = true
-    state.user = user
+    state.status.loggedIn = false
   },
   signupFailure(state) {
     state.status.loggedIn = false

@@ -135,6 +135,7 @@
     </q-header>
 
     <q-footer
+    v-if="isLoggedIn"
       class="bg-white small-screen-only"
       bordered
     >
@@ -177,14 +178,14 @@ export default {
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
   },
-  // watch: {
-  //   watchLoggedInStat(curValue, oldValue) {
-  //     console.log('watcher');
-  //     if (!this.isLoggedIn) {
-  //       this.$router.replace('/auth/login')
-  //     }
-  //   }
-  // },
+  watch: {
+    watchLoggedInStat(curValue, oldValue) {
+      console.log('watcher');
+      if (!this.isLoggedIn) {
+        this.$router.replace('/auth/login')
+      }
+    }
+  },
   methods: {
     ...mapActions('auth', ['logout']),
     async logOut() {
@@ -195,8 +196,8 @@ export default {
         if (this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup' && this.$route.path !== '/welcome') {
 
         console.log('logout in page')
+        // this.$router.go()
         this.$router.push('/welcome')
-        console.log(this.$route)
         // const redirectUrl = '/' + (this.$route.query.redirect || 'welcome')
         // this.$router.replace(redirectUrl)
         }
@@ -206,7 +207,7 @@ export default {
       }
 
     }
-  }
+  },
 }
 </script>
 

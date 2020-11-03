@@ -1,9 +1,11 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
+<div class="constrain">
+
       <the-scroll-area>
-        <div class="constrain-more">
-          <q-card class="auth-tabs">
+
+          <q-card>
             <q-card-section class="row">
               <div class="text-h6 absolute-center q-pt-md">Signup</div>
             </q-card-section>
@@ -13,38 +15,20 @@
             >
               <q-card-section>
 
-                <div class="row q-mb-sm">
-                	<q-input
-                	  outlined
-                	  clearable
-                    class="col"
-                	  v-model="user.name"
-                	  label="Your Name *"
-                	  lazy-rules
-                	/>
-                </div>
+                <name-input
+                  :name.sync="user.name"
+                  ref="inputName"
+                />
 
-                <div class="row q-mb-sm">
-                  <q-input
-                    outlined
-                    clearable
-                    v-model="user.email"
-                    label="Your Email *"
-                    lazy-rules
-                    class="col"
-                  />
-                </div>
+                <email-input
+                  :email.sync="user.email"
+                  ref="inputEmail"
+                />
 
-                <div class="row q-mb-sm">
-                  <q-input
-                    outlined
-                    clearable
-                    v-model="user.password"
-                    label="Your Password *"
-                    lazy-rules
-                    class="col"
-                  />
-                </div>
+                <password-input
+                  :password.sync="user.password"
+                  ref="inputPassword"
+                />
 
                 <q-card-actions align="center">
                   <q-btn label="Submit" type="submit" color="primary" />
@@ -54,8 +38,10 @@
 
             </form>
           </q-card>
-        </div>
+
       </the-scroll-area>
+
+</div>
     </div>
   </q-page>
 </template>
@@ -63,10 +49,17 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
+import NameInput from '../components/Auth/NameInput'
+import EmailInput from '../components/Auth/EmailInput'
+import PasswordInput from '../components/Auth/PasswordInput'
+
 export default {
   name: 'PageSignup',
   components: {
-    TheScrollArea
+    TheScrollArea,
+    NameInput,
+    EmailInput,
+    PasswordInput
   },
   data() {
     return {
@@ -81,7 +74,7 @@ export default {
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
   },
-  created() {
+  mounted() {
     if (this.isLoggedIn) {
       this.$router.push('/home')
     }
@@ -89,20 +82,32 @@ export default {
   methods: {
     ...mapActions('auth', ['signup']),
     async handleSingup() {
-      //validation
-      this.loading = true
+      this.$refs.inputName.$refs.name.validate()
+      this.$refs.inputEmail.$refs.email.validate()
+      this.$refs.inputPassword.$refs.password.validate()
 
-      try {
-        console.log('before signup')
-        await this.signup(this.user)
+      if (!this.$refs.inputName.$refs.name.hasError &&
+          !this.$refs.inputEmail.$refs.email.hasError &&
+          !this.$refs.inputPassword.$refs.password.hasError) {
+        this.loading = true
 
-        const redirectUrl = '/' + (this.$route.query.redirect || 'home')
-        await this.$router.replace(redirectUrl)
-      } catch (err) {
-        console.log(err)
+        try {
+          await this.signup(this.user)
+
+          const redirectUrl = '/' + (this.$route.query.redirect || 'home')
+          await this.$router.replace(redirectUrl)
+        } catch (err) {
+          console.log(err)
+        }
+
+        this.loading = false
+      } else {
+          this.$q.notify({
+          message: 'You have unvalidated fields',
+          color: 'red',
+          position: 'top'
+        })
       }
-
-      this.loading = false
     }
   }
 }
