@@ -14,11 +14,12 @@ export default {
     try {
       const response = await axios.get(`${process.env.API}/notes`, { headers: authHeader() });
 
+      // const formateDate() => {
+
+      // }
       response.data.notes.forEach(note => {
         let timeInData = note.createdAt;
-        let convertedTime = new Date(timeInData);
-        //note.createdAt = convertedTime
-        note.createdAt = date.formatDate(convertedTime, 'YYYY/M/D h:mmA')
+        note.createdAt = new Date(timeInData);
       })
       const notes = response.data.notes;
 
@@ -76,12 +77,10 @@ export default {
         { headers: authHeader() }
       );
 
-      newNoteData._id = response.data.note._id;
-      newNoteData.owner = response.data.note.owner;
-      const newDate = new Date()
-      newNoteData.createdAt = date.formatDate(newDate, "YYYY/M/D h:mmA");
+      const createdNote = response.data.note
+      createdNote.createdAt = new Date(createdNote.createdAt)
 
-      commit("addNote", newNoteData);
+      commit("addNote", createdNote)
 
       await Notify.create({
         message: "Note Added!",
@@ -107,9 +106,8 @@ export default {
         { headers: authHeader() }
       );
 
-      const updatedNote = {
-        ...response.data.note
-      };
+      const updatedNote = response.data.note
+      updatedNote.createdAt = new Date(updatedNote.createdAt)
 
       await Notify.create({
         message: "Note Updated!",

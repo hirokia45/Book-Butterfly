@@ -4,7 +4,8 @@
       <div class="constrain">
         <div class="row q-col-gutter-lg">
           <div class="col-12 col-sm-8">
-            <the-scroll-area>
+            <the-scroll-area
+              @show-add-note-modal="showAddNote = true">
               <template v-if="!loadingNotes && notes.length">
                 <div>
                   <transition-group
@@ -33,21 +34,22 @@
           </div>
 
           <div class="col-sm-4 large-screen-only">
-            <q-card class="side-card">
-              <note-calendar></note-calendar>
+            <q-card>
+              <note-calendar  class="side-card"></note-calendar>
             </q-card>
           </div>
         </div>
 
         <q-page-sticky
           :offset="[18, 18]"
-          class="add-button bottom-right"
+          class="add-button bottom-right large-screen-only"
           style="z-index: 3"
         >
           <q-btn
             @click="showAddNote = true"
             class="primary-gradient-background shadow-5"
             fab
+            padding="12px"
             icon="eva-plus-outline"
           />
         </q-page-sticky>
@@ -110,4 +112,8 @@ export default {
 .add-button
   @media (min-width: $breakpoint-sm-min)
     position: absolute
+
+.side-card
+  @media (max-width: 900px) and (min-width: 600px)
+    width: 200px
 </style>

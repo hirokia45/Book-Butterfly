@@ -18,7 +18,7 @@
         <q-item-section>
           <q-item-label class="text-bold">{{ note.owner }}</q-item-label>
           <q-item-label caption>
-            {{ note.createdAt }}
+            {{ note.createdAt | displayDate }}
           </q-item-label>
         </q-item-section>
 
@@ -87,5 +87,11 @@ export default {
       this.$router.push(`/notes/${this._id}`)
     },
   },
+  filters: {
+    displayDate(value) {
+      const { formatDate } = date
+      return date.formatDate (value, 'YYYY M/D h:mmA')
+    }
+  }
 }
 </script>

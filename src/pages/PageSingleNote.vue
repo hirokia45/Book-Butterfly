@@ -18,7 +18,7 @@
                     <q-item-section>
                       <q-item-label class="text-bold">{{ owner }}</q-item-label>
                       <q-item-label caption>
-                        {{ createdAt }}
+                        {{ createdAt | displayDate }}
                       </q-item-label>
                     </q-item-section>
 
@@ -108,6 +108,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { date } from 'quasar'
 import SideNoteItem from '../components/Notes/NotesComponents/SideNoteItem'
 import NoteHeaderFab from '../components/Notes/NotesComponents/NoteHeaderFab'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
@@ -184,6 +185,12 @@ export default {
       this.$router.push(`/notes/${_id}`).catch(err => {})
       this.loadSingleNote(_id)
     },
+  },
+  filters: {
+    displayDate(value) {
+      const { formatDate } = date
+      return date.formatDate (value, 'YYYY M/D h:mmA')
+    }
   }
 }
 </script>

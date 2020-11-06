@@ -31,7 +31,6 @@
 
         <modal-button></modal-button>
       </q-card-section>
-      {{profileToSubmit}}
     </form>
   </q-card>
 </template>
@@ -99,6 +98,7 @@ export default {
 .image-frame
   border: 2px solid $grey-10
   border-radius: 10px
+  margin: 0 auto
 
 .file-picker-field
   border: 2px solid $grey-10
