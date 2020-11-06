@@ -75,7 +75,7 @@
             />
           </div>
 
-                  <q-page-sticky
+          <q-page-sticky
             :offset="[18, 18]"
             class="add-button bottom-right"
             style="z-index: 3"

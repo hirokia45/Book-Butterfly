@@ -1,56 +1,53 @@
 <template>
-  <q-page>
-    <div class="q-pa-md absolute full-width full-height">
-<div class="constrain">
+  <q-page class="bg">
+    <div class="full-width full-height">
+      <q-card class="q-pa-lg login-card absolute-center">
+        <q-card-section class="q-pa-md text-center">
+          <div class="text-h5 text-weight-bold">BOOK BUTTERFLY LOGIN</div>
+        </q-card-section>
 
-      <the-scroll-area>
+        <form
+          @submit.prevent="handleLogin"
+        >
+          <q-card-section>
 
-          <q-card>
-            <q-card-section class="row">
-              <div class="text-h6 absolute-center q-pt-md">Login</div>
-            </q-card-section>
+            <email-input
+              :email.sync="user.email"
+              ref="inputEmail"
+            />
 
-            <form
-              @submit.prevent="handleLogin"
-            >
-              <q-card-section>
+            <password-input
+              :password.sync="user.password"
+              ref="inputPassword"
+            />
 
-                <email-input
-                  :email.sync="user.email"
-                  ref="inputEmail"
-                />
+            <q-card-actions align="center">
+              <q-btn label="Submit" type="submit" color="primary" />
+            </q-card-actions>
 
-                <password-input
-                  :password.sync="user.password"
-                  ref="inputPassword"
-                />
+          </q-card-section>
+        </form>
 
-                <q-card-actions align="center">
-                  <q-btn label="Submit" type="submit" color="primary" />
-                </q-card-actions>
-
-              </q-card-section>
-
-            </form>
-          </q-card>
-
-      </the-scroll-area>
-
-</div>
+        <q-card-section
+          @click="toSignupPage"
+          class="q-pa-md text-center"
+          style="cursor: pointer;"
+        >
+          <div class="text-body2 text-weight-bold">No account? Sign up!</div>
+        </q-card-section>
+      </q-card>
     </div>
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import TheScrollArea from '../components/Layouts/TheScrollArea'
 import EmailInput from '../components/Auth/EmailInput'
 import PasswordInput from '../components/Auth/PasswordInput'
 
 export default {
   name: 'PageLogin',
   components: {
-    TheScrollArea,
     EmailInput,
     PasswordInput
   },
@@ -73,6 +70,12 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['login']),
+
+    toSignupPage() {
+      this.$router.push(
+        { path: '/auth/signup'}
+      )
+    },
 
     async handleLogin() {
       this.$refs.inputEmail.$refs.email.validate()
@@ -103,3 +106,22 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+body, html
+  height: 100%
+
+.bg
+  background-image: url('../assets/temp-login-background-image.jpg')
+  height: 100%
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+.login-card
+  width: 340px
+  margin: 0 auto
+  border-radius: 15px
+</style>

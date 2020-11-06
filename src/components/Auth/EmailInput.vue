@@ -1,5 +1,5 @@
 <template>
-    <div class="row q-mb-sm">
+  <div class="row q-mb-sm">
     <q-input
       outlined
       :value="email"

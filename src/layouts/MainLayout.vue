@@ -3,6 +3,7 @@
     <q-header
       elevated
       class="text-grey-10"
+      v-if="isNotLoginPage"
     >
       <q-toolbar class="constrain">
 
@@ -10,7 +11,7 @@
           v-if="isLoggedIn"
           class="small-screen-only"
         >
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <img :src="loggedInUser.avatar">
         </q-avatar>
 
         <q-toolbar-title
@@ -81,7 +82,7 @@
             </q-fab>
 
             <q-avatar class="large-screen-only q-ml-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img :src="loggedInUser.avatar">
             </q-avatar>
           </template>
 
@@ -176,11 +177,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isLoggedIn']),
+    ...mapGetters('auth', ['isLoggedIn', 'loggedInUser']),
+    isNotLoginPage() {
+      return this.$route.path !== '/auth/login'
+    }
   },
   watch: {
     watchLoggedInStat(curValue, oldValue) {
-      console.log('watcher');
       if (!this.isLoggedIn) {
         this.$router.replace('/auth/login')
       }
@@ -197,7 +200,7 @@ export default {
 
         console.log('logout in page')
         // this.$router.go()
-        this.$router.push('/welcome')
+        await this.$router.push('/welcome')
         // const redirectUrl = '/' + (this.$route.query.redirect || 'welcome')
         // this.$router.replace(redirectUrl)
         }

@@ -11,7 +11,7 @@
                   <q-item>
                     <q-item-section avatar>
                       <q-avatar>
-                        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                        <img :src="loggedInUser.avatar">
                       </q-avatar>
                     </q-item-section>
 
@@ -126,6 +126,7 @@ export default {
   },
   computed: {
     ...mapGetters('notes', ['notes', 'singleNote']),
+    ...mapGetters('auth', ['loggedInUser']),
     owner() {
       return this.singleNote.owner
     },

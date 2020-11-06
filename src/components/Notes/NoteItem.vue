@@ -11,7 +11,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img :src="loggedInUser.avatar">
           </q-avatar>
         </q-item-section>
 
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { date } from 'quasar'
 import NoteHeaderFab from './NotesComponents/NoteHeaderFab'
 
 export default {
@@ -77,6 +79,9 @@ export default {
     NoteHeaderFab
   },
   props: ['note', '_id'],
+  computed: {
+    ...mapGetters('auth', ['loggedInUser'])
+  },
   methods: {
     toSingleNotePage(event) {
       this.$router.push(`/notes/${this._id}`)

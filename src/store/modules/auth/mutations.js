@@ -20,5 +20,10 @@ export default {
   },
   signupFailure(state) {
     state.status.loggedIn = false
+  },
+  updateProfileSuccess(state, updatedUser) {
+    console.log('update mutation before: ', state.user)
+    state.user = updatedUser
+    console.log('update mutation after: ', state.user)
   }
 }

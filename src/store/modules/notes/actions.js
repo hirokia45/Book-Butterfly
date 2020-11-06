@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { Dialog, Notify } from "quasar"
+import { date, Dialog, Notify } from "quasar"
+// import router from 'src/router/routes';
 import authHeader from '../../../services/auth-header'
 
 export default {
@@ -8,20 +9,37 @@ export default {
     commit('resetNoteState')
   },
 
-  async getNotes({ commit }) {
+  async getNotes({ commit, dispatch }) {
     commit("setLoadingNotes", true);
     try {
       const response = await axios.get(`${process.env.API}/notes`, { headers: authHeader() });
+
+      response.data.notes.forEach(note => {
+        let timeInData = note.createdAt;
+        let convertedTime = new Date(timeInData);
+        //note.createdAt = convertedTime
+        note.createdAt = date.formatDate(convertedTime, 'YYYY/M/D h:mmA')
+      })
       const notes = response.data.notes;
 
       commit("setLoadingNotes", false);
       commit("setNotes", notes);
     } catch (err) {
-      commit("setLoadingNotes", false);
-      Dialog.create({
-        title: "Error",
-        message: "Could not download your notes..."
-      })
+      console.log(err.response.status);
+      if (err.response.status === 401) {
+        await dispatch("auth/forcedLogout", null, { root: true });
+        this.$router.replace({ path: "/auth/login" })
+        Dialog.create({
+          title: "Error",
+          message: "You are either unauthenticated or no longer authenticated for some reasons. Please login again."
+        });
+      } else {
+        commit("setLoadingNotes", false);
+        Dialog.create({
+          title: "Error",
+          message: "Could not download your notes..."
+        });
+      }
     }
   },
 
@@ -60,7 +78,9 @@ export default {
 
       newNoteData._id = response.data.note._id;
       newNoteData.owner = response.data.note.owner;
-      newNoteData.createdAt = response.data.note.createdAt;
+      const newDate = new Date()
+      newNoteData.createdAt = date.formatDate(newDate, "YYYY/M/D h:mmA");
+
       commit("addNote", newNoteData);
 
       await Notify.create({
@@ -114,6 +134,7 @@ export default {
     formData.append('_id', note.updates._id)
     formData.append('file', note.updates.photo, note.updates._id + '.png')
 
+    console.log(...formData.entries());
     try {
       const response = await axios.post(
         `${process.env.API}/notes/${noteId}`,

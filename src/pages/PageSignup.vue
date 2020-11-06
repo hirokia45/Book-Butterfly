@@ -1,47 +1,66 @@
 <template>
-  <q-page>
+  <q-page class="bg">
+
     <div class="q-pa-md absolute full-width full-height">
-<div class="constrain">
-
       <the-scroll-area>
+      <div class="constrain">
 
-          <q-card>
-            <q-card-section class="row">
-              <div class="text-h6 absolute-center q-pt-md">Signup</div>
-            </q-card-section>
+        <div class="row q-col-gutter-lg">
+          <div class="col-12 col-sm-8">
+            <div class="text-white">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae aperiam iusto error ipsa eius illo similique, dignissimos deserunt, fuga, quibusdam ut dicta nam repudiandae aut. Accusantium, mollitia consequatur? Saepe, velit?
+            </div>
+          </div>
 
-            <form
-              @submit.prevent="handleSingup"
-            >
-              <q-card-section>
+          <div class="col-12 col-sm-4">
 
-                <name-input
-                  :name.sync="user.name"
-                  ref="inputName"
-                />
+              <q-card class="q-pa-md">
+                <q-card-section class="q-pa-md">
+                  <div class="text-h5 text-weight-bold">Create an account!</div>
+                  <div class="text-subtitle1 text-weight-light">Please fill in the information</div>
+                </q-card-section>
 
-                <email-input
-                  :email.sync="user.email"
-                  ref="inputEmail"
-                />
+                <form
+                  @submit.prevent="handleSingup"
+                >
+                  <q-card-section>
 
-                <password-input
-                  :password.sync="user.password"
-                  ref="inputPassword"
-                />
+                    <name-input
+                      :name.sync="user.name"
+                      ref="inputName"
+                    />
 
-                <q-card-actions align="center">
-                  <q-btn label="Submit" type="submit" color="primary" />
-                </q-card-actions>
+                    <email-input
+                      :email.sync="user.email"
+                      ref="inputEmail"
+                    />
 
-              </q-card-section>
+                    <password-input
+                      :password.sync="user.password"
+                      ref="inputPassword"
+                    />
 
-            </form>
-          </q-card>
+                    <q-card-actions align="center">
+                      <q-btn
+                        outline
+                        icon="eva-email-outline"
+                        color="primary"
+                        label="Register"
+                        type="submit"
+                        class="q-py-xs q-px-sm"
+                      />
+                    </q-card-actions>
 
+                  </q-card-section>
+
+                </form>
+              </q-card>
+
+
+          </div>
+        </div>
+      </div>
       </the-scroll-area>
-
-</div>
     </div>
   </q-page>
 </template>
@@ -73,6 +92,11 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
+    backgroundImage() {
+      return {
+        backgroundImage: `url${require('../assets/temp-register-background-image.jpg')}`
+      }
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -112,3 +136,17 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+body, html
+  height: 100%
+
+.bg
+  background-image: url('../assets/temp-register-background-image.jpg')
+  height: 100%
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+</style>

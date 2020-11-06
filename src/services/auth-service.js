@@ -78,6 +78,64 @@ class AuthService {
     }
 
   }
+
+  async updateProfile(updates) {
+    const updatingProfile = updates.updates
+
+    try {
+      const response = await axios.patch(`${process.env.API}/users/me`, updatingProfile, { headers: authHeader() })
+      localStorage.removeItem("user");
+      if (response.data.token) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+
+      Notify.create({
+        type: "positive",
+        message: "Profile Updated!",
+        position: "top"
+      })
+
+      return response.data
+    } catch (err) {
+      console.log(err.response.data);
+      Notify.create({
+        color: "red",
+        message: err.response.data.message,
+        position: "top"
+      })
+    }
+  }
+
+  async updateAvatar(updates) {
+
+    let formData = new FormData();
+    formData.append( "file", updates.updates.avatar, updates.updates._id + ".png");
+    console.log(...formData.entries());
+
+    try {
+      const response = await axios.put(`${process.env.API}/users/me/avatar`, formData, { headers: authHeader() })
+      localStorage.removeItem("user");
+      if (response.data.token) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      console.log('userUpdated data in localstorage');
+
+      Notify.create({
+        type: "positive",
+        message: "Avatar Updated!",
+        position: "top"
+      })
+
+      return response.data
+    } catch (err) {
+      console.log(err.response.data);
+      Notify.create({
+        color: "red",
+        message: err.response.data.message,
+        position: "top"
+      })
+    }
+  }
 }
 
 export default new AuthService()

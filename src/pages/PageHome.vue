@@ -34,17 +34,7 @@
 
           <div class="col-sm-4 large-screen-only">
             <q-card class="side-card">
-              <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-
-              <q-card-section>
-                <div class="text-h6">Our Changing Planet</div>
-                <div class="text-subtitle2">by John Doe</div>
-              </q-card-section>
-
-              <q-card-section class="q-pt-none">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Expedita sunt sequi nobis itaque dignissimos
-              </q-card-section>
+              <note-calendar></note-calendar>
             </q-card>
           </div>
         </div>
@@ -76,6 +66,7 @@ import NoteItem from '../components/Notes/NoteItem'
 import NoNoteYet from '../components/Notes/NoNoteYet'
 import AddNote from '../components/Modals/AddNote'
 import PageLoaderNote from '../components/Layouts/PageLoaderNote'
+import NoteCalendar from '../components/Notes/NoteCalendar'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
 
 export default {
@@ -85,6 +76,7 @@ export default {
     NoNoteYet,
     AddNote,
     PageLoaderNote,
+    NoteCalendar,
     TheScrollArea
   },
   data() {
