@@ -56,7 +56,7 @@
 
       <q-separator v-if="note.comment" />
 
-      <q-card-section v-if="note.comment" >
+      <q-card-section v-if="note.comment" class="comment-whitespace">
         {{ note.comment }}
       </q-card-section>
 

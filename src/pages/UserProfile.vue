@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { date } from 'quasar'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
 import NoteCalendar from '../components/Notes/NoteCalendar'
@@ -127,13 +127,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['loggedInUser']),
+    ...mapGetters('auth', ['loggedInUser', 'isLoggedIn']),
     memberSince() {
       const timeInData = this.loggedInUser.createdAt
       const convertedTime = new Date(timeInData)
       return date.formatDate(convertedTime, 'YYYY M/D')
     }
   },
+  created() {
+    if(this.isLoggedIn) {
+     this.loadNotes()
+    }
+  },
+  methods: {
+    ...mapActions('notes', ['getNotes']),
+    async loadNotes() {
+      this.getNotes()
+    },
+  }
 
 }
 </script>

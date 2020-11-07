@@ -54,7 +54,7 @@
 
                   <q-separator v-if="comment" />
 
-                  <q-card-section v-if="comment" >
+                  <q-card-section v-if="comment" class="comment-whitespace">
                     {{ comment }}
                   </q-card-section>
 

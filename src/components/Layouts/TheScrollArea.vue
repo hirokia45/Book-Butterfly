@@ -30,12 +30,12 @@
             <q-page-sticky
               v-show="scrollFabIsVisible"
               style="z-index: 3"
-              position="bottom-right" :offset="[12, 18]">
+              position="bottom-right" :offset="[8, 18]">
               <q-btn
                 @click="scrollToTop"
                 class="cyan-gradient-background text-grey-4 shadow-5"
                 fab
-                padding="sm"
+                padding="12px"
                 icon="eva-arrow-upward-outline"
               />
             </q-page-sticky>
@@ -99,7 +99,7 @@ export default {
 
 .add-height
   position: fixed
-  bottom: 72px
+  bottom: 78px
   right: 8px
 
 
