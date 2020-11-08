@@ -6,6 +6,8 @@ const getDefaultNoteState = () => {
   return {
     notes: [],
     singleNote: {},
+    totalItems: null,
+    page: null,
     loadingNotes: false
   };
 }

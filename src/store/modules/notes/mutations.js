@@ -17,7 +17,19 @@ export default {
   },
 
   setNotes(state, notes) {
-    state.notes = notes;
+    state.notes = [...state.notes, ...notes]
+  },
+
+  setPageNumber(state) {
+    let totalPages = Math.floor(state.totalItems / 10) + 1
+    if (state.page < totalPages) {
+      state.page = state.page + 1
+    }
+    console.log('page after mutation, ', state.page);
+  },
+
+  setTotalItems(state, totalItems) {
+    state.totalItems = totalItems;
   },
 
   setSingleNote(state, note) {

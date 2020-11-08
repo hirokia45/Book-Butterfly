@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { date, Dialog, Notify } from "quasar"
-// import router from 'src/router/routes';
 import authHeader from '../../../services/auth-header'
 
 export default {
@@ -9,21 +8,23 @@ export default {
     commit('resetNoteState')
   },
 
-  async getNotes({ commit, dispatch }) {
-    commit("setLoadingNotes", true);
+  async getNotesInit({ commit, state, dispatch }) {
+    commit("setLoadingNotes", true)
+    commit("setPageNumber");
+
+    let page = state.page
     try {
-      const response = await axios.get(`${process.env.API}/notes`, { headers: authHeader() });
-
-      // const formateDate() => {
-
-      // }
+      const response = await axios.get(`${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`, { headers: authHeader() })
       response.data.notes.forEach(note => {
         let timeInData = note.createdAt;
         note.createdAt = new Date(timeInData);
       })
+      console.log(response);
       const notes = response.data.notes;
+      const totalItems = response.data.totalItems;
 
       commit("setLoadingNotes", false);
+      commit("setTotalItems", totalItems);
       commit("setNotes", notes);
     } catch (err) {
       console.log(err.response.status);
@@ -41,6 +42,35 @@ export default {
           message: "Could not download your notes..."
         });
       }
+    }
+  },
+
+  async loadMoreNotes({ commit, state }) {
+    let totalPages = Math.floor(state.totalItems / 10) + 1;
+    if (state.page < totalPages) {
+      commit("setPageNumber");
+    }
+    let page = state.page;
+    try {
+      const response = await axios.get(
+        `${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`,
+        { headers: authHeader() }
+      );
+      response.data.notes.forEach(note => {
+        let timeInData = note.createdAt;
+        note.createdAt = new Date(timeInData);
+      });
+      const notes = response.data.notes;
+      const totalItems = response.data.totalItems;
+
+      commit("setTotalItems", totalItems);
+      commit("setNotes", notes);
+    } catch (err) {
+      console.log(err.response.status);
+      Dialog.create({
+          title: "Error",
+          message: "Could not download your notes..."
+      })
     }
   },
 

@@ -8,16 +8,25 @@
               @show-add-note-modal="showAddNote = true">
               <template v-if="!loadingNotes && notes.length">
                 <div>
-                  <transition-group
+                  <q-infinite-scroll @load="onLoad" :offset="250">
+                  <!-- <transition-group
                     appear
-                    leave-active-class="animated zoomOut">
-                    <note-item
-                      v-for="note in notes"
-                      :key="note._id"
-                      :_id="note._id"
-                      :note="note"
-                    ></note-item>
-                  </transition-group>
+                    leave-active-class="animated zoomOut"> -->
+
+                    	<note-item
+                    	  v-for="note in notes"
+                    	  :key="note._id"
+                    	  :_id="note._id"
+                    	  :note="note"
+                    	></note-item>
+                      <template v-slot:loading>
+                        <div class="row justify-center q-my-md">
+                          <q-spinner-dots color="primary" size="40px" />
+                        </div>
+                      </template>
+
+                  <!-- </transition-group> -->
+                  </q-infinite-scroll>
                 </div>
               </template>
 
@@ -36,6 +45,9 @@
           <div class="col-sm-4 large-screen-only">
             <q-card>
               <note-calendar  class="side-card"></note-calendar>
+            </q-card>
+            <q-card>
+
             </q-card>
           </div>
         </div>
@@ -89,21 +101,44 @@ export default {
   computed: {
     ...mapState('notes', ['loadingNotes']),
     ...mapGetters('auth', ['isLoggedIn']),
-    ...mapGetters('notes', ['notes']),
+    ...mapGetters('notes', ['notes', 'page', 'totalItems']),
     singleNoteLink() {
       return '/notes/' + this.note._id
     },
   },
   created() {
-    if(this.isLoggedIn) {
+
+    // let totalPages = Math.floor(this.totalItems / 10) + 1
+    let currentPage = this.page
+    //     console.log('total', totalPages);
+    console.log('current', currentPage);
+    if(this.isLoggedIn && currentPage === null) {
      this.loadNotes()
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotes']),
+    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes']),
     async loadNotes() {
-      this.getNotes()
+      this.getNotesInit()
     },
+    onLoad(index, done) {
+      let totalPages = Math.floor(this.totalItems / 10) + 1
+      let currentPage = this.page
+
+      setTimeout(() => {
+        if (currentPage < totalPages) {
+          this.loadMoreNotes()
+          done()
+        } else {
+          this.$q.notify({
+            message: 'No more notes to load!',
+            color: 'deep-orange-6',
+            position: 'center'
+          })
+          done(true)
+        }
+      }, 2000)
+    }
   }
 }
 </script>
@@ -117,3 +152,37 @@ export default {
   @media (max-width: 900px) and (min-width: 600px)
     width: 200px
 </style>
+
+// fetchNextContactChunk (done) {
+  //   // Entries are not yet initially loaded, can not fetch next chunk
+  //   if (!this.entriesLoaded) {
+  //     done()
+  //     return
+  //   // Entries are initially loaded, but there are no entries available, done
+  //   } else if (!this.entriesMeta) {
+  //     done(true)
+  //   }
+
+  //   let currentPage = this.entriesMeta.pagination.current_page
+  //   let totalPages = this.entriesMeta.pagination.total_pages
+
+  //   // Check if there is still a chunk to fetch available.
+  //   if (currentPage < totalPages) {
+  //     new EntriesClient()
+  //       .page(currentPage + 1)
+  //       .list()
+  //       .then(response => {
+  //         let newEntries = this.entries.concat(response.data.data)
+
+  //         this.entries = newEntries
+  //         this.entriesMeta = response.data.meta
+
+  //         // Indicate that data has been loaded successfully.
+  //         done()
+  //       })
+  //   } else {
+  //     // No more data available to fetch.
+  //     // Passing true to the callback function tells the infinite scroll component to stop loading.
+  //     done(true)
+  //   }
+  // }
