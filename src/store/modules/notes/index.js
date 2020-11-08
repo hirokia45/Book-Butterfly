@@ -11,7 +11,7 @@ const getDefaultNoteState = () => {
     totalItems: null,
     page: null,
     loadingNotes: false
-  };
+  }
 }
 export default {
   namespaced: true,
