@@ -10,7 +10,10 @@ export default {
 
   async getNotesInit({ commit, state, dispatch }) {
     commit("setLoadingNotes", true)
+    commit("pageInit");
     commit("setPageNumber");
+    commit("emptyNotes");
+
 
     let page = state.page
     try {
@@ -27,7 +30,7 @@ export default {
       commit("setTotalItems", totalItems);
       commit("setNotes", notes);
     } catch (err) {
-      console.log(err.response.status);
+      //console.log(err.response.status);
       if (err.response.status === 401) {
         await dispatch("auth/forcedLogout", null, { root: true });
         this.$router.replace({ path: "/auth/login" })
@@ -129,7 +132,7 @@ export default {
     }
   },
 
-  async addNote({ commit }, note) {
+  async addNote({ commit, dispatch }, note) {
     const newNoteData = {
       title: note.title,
       author: note.author,
@@ -149,14 +152,15 @@ export default {
       const createdNote = response.data.note
       createdNote.createdAt = new Date(createdNote.createdAt)
 
-      commit("addNote", createdNote)
-
+      //commit("addNote", createdNote)
+      await dispatch("getNotesInit")
       await Notify.create({
         message: "Note Added!",
         timeout: 2000,
         actions: [{ label: "Close", color: "white" }]
       })
     } catch (err) {
+      console.error(err);
       Dialog.create({
         title: "Error",
         message: "Could not add a new note..."
@@ -227,7 +231,7 @@ export default {
     }
   },
 
-  async deleteNote({ commit }, _id) {
+  async deleteNote({ commit, dispatch }, _id) {
     const noteId = _id;
 
     try {
@@ -237,13 +241,33 @@ export default {
       );
 
       commit("deleteTask", _id);
+      await dispatch('updateNotesArray')
     } catch (err) {
       Dialog.create({
         title: "Error",
         message: "Could not delete the note..."
       });
     }
+  },
 
+  async updateNotesArray({ commit, state }) {
+    try {
+      let page = state.page
+      const response = await axios.get(
+        `${process.env.API}/notes/?sortBy=createdAt:desc&per_page=10&page=${page}`,
+        { headers: authHeader() }
+      );
+      const notes = response.data.notes.forEach(note => {
+        let timeInData = note.createdAt;
+        note.createdAt = new Date(timeInData);
+      })
+      commit("setNotes", notes)
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not reload the notes..."
+      })
+    }
   },
 
   async deleteImage({ commit }, _id) {

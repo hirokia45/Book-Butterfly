@@ -12,9 +12,17 @@ export default {
     Object.assign(state, getDefaultNoteState())
   },
 
-  addNote(state, payload) {
-    state.notes.push(payload);
+  emptyNotes(state) {
+    state.notes = []
   },
+
+  pageInit(state) {
+    state.page = null
+  },
+
+  // addNote(state, payload) {
+  //   state.notes.unshift(payload);
+  // },
 
   setNotes(state, notes) {
     state.notes = [...state.notes, ...notes]

@@ -113,9 +113,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes']),
+    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo']),
     async loadNotes() {
       this.getNotesInit()
+      this.getCalendarInfo()
     },
     onLoad(index, done) {
       let totalPages = Math.floor(this.totalItems / 10) + 1

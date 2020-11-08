@@ -5,64 +5,21 @@
     <form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
 
-        <div class="row q-mb-sm">
-          <q-input
-            outlined
-            clearable
-            class="col"
-            v-model="noteToSubmit.title"
-            :rules="[val => !!val || 'Field is required!']"
-            autofocus
-            ref="title"
-            label="Book Title" />
-        </div>
+        <modal-title
+          :title.sync="noteToSubmit.title"
+          ref="modalTitle"
+        />
 
-        <div class="row q-mb-sm">
-          <q-input
-            outlined
-            clearable
-            class="col"
-            v-model="noteToSubmit.author"
-            label="Author" />
-        </div>
+        <modal-author :author.sync="noteToSubmit.author"/>
 
-        <div class="row q-mb-sm">
-          <q-input
-            type="number"
-            class="col-5"
-            outlined
-            clearable
-            v-model="noteToSubmit.pageFrom"
-            label="From" />
-          <q-space />
-          <span></span>
-          <q-input
-            type="number"
-            class="col-5"
-            outlined
-            clearable
-            v-model="noteToSubmit.pageTo"
-            label="To" />
-        </div>
+        <modal-pages
+          :pageFrom.sync="noteToSubmit.pageFrom"
+          :pageTo.sync="noteToSubmit.pageTo"
+        />
 
-        <div class="row q-mb-sm">
-          <q-input
-            outlined
-            clearable
-            class="col"
-            v-model="noteToSubmit.category"
-            label="Category" />
-        </div>
+        <modal-category :category.sync="noteToSubmit.category" />
 
-        <div class="row q-mb-sm">
-          <q-input
-            v-model="noteToSubmit.comment"
-            outlined
-            clearable
-            class="col"
-            label="Comment"
-            type="textarea"/>
-        </div>
+        <modal-comment :comment.sync="noteToSubmit.comment" />
 
         <modal-button></modal-button>
       </q-card-section>
@@ -72,14 +29,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ModalHeader from './ModalComponents/ModalHeader'
-import ModalButton from './ModalComponents/ModalButton'
+
+import mixinsAddEditNote from 'src/mixins/mixin-add-edit-note'
 
 export default {
-  components: {
-    ModalHeader,
-    ModalButton
-  },
+  mixins: [mixinsAddEditNote],
   data() {
     return {
       noteToSubmit: {
@@ -94,23 +48,16 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['addNote']),
-    submitForm() {
-      this.$refs.title.validate()
-      if (!this.$refs.title.hasError) {
-        this.submitNote()
-      }
-    },
     async submitNote() {
       try {
         await this.addNote(this.noteToSubmit)
         await this.$emit('close')
       } catch (err) {
-          this.$q.dialog({
+        this.$q.dialog({
           title: 'Error',
           message: 'Could not add new note'
         })
       }
-
     }
   }
 }
