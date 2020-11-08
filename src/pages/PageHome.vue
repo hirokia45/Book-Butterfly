@@ -99,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('notes', ['loadingNotes']),
+    ...mapState('notes', ['loadingNotes', 'notes']),
     ...mapGetters('auth', ['isLoggedIn']),
     ...mapGetters('notes', ['notes', 'page', 'totalItems']),
     singleNoteLink() {
@@ -107,12 +107,8 @@ export default {
     },
   },
   created() {
-
-    // let totalPages = Math.floor(this.totalItems / 10) + 1
     let currentPage = this.page
-    //     console.log('total', totalPages);
-    console.log('current', currentPage);
-    if(this.isLoggedIn && currentPage === null) {
+    if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
      this.loadNotes()
     }
   },
@@ -152,37 +148,3 @@ export default {
   @media (max-width: 900px) and (min-width: 600px)
     width: 200px
 </style>
-
-// fetchNextContactChunk (done) {
-  //   // Entries are not yet initially loaded, can not fetch next chunk
-  //   if (!this.entriesLoaded) {
-  //     done()
-  //     return
-  //   // Entries are initially loaded, but there are no entries available, done
-  //   } else if (!this.entriesMeta) {
-  //     done(true)
-  //   }
-
-  //   let currentPage = this.entriesMeta.pagination.current_page
-  //   let totalPages = this.entriesMeta.pagination.total_pages
-
-  //   // Check if there is still a chunk to fetch available.
-  //   if (currentPage < totalPages) {
-  //     new EntriesClient()
-  //       .page(currentPage + 1)
-  //       .list()
-  //       .then(response => {
-  //         let newEntries = this.entries.concat(response.data.data)
-
-  //         this.entries = newEntries
-  //         this.entriesMeta = response.data.meta
-
-  //         // Indicate that data has been loaded successfully.
-  //         done()
-  //       })
-  //   } else {
-  //     // No more data available to fetch.
-  //     // Passing true to the callback function tells the infinite scroll component to stop loading.
-  //     done(true)
-  //   }
-  // }

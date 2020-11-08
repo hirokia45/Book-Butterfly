@@ -136,13 +136,13 @@ export default {
   },
   created() {
     if(this.isLoggedIn) {
-     this.loadNotes()
+     this.loadCalendar()
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotes']),
-    async loadNotes() {
-      this.getNotes()
+    ...mapActions('notes', ['getCalendarInfo']),
+    async loadCalendar() {
+      this.getCalendarInfo()
     },
   }
 

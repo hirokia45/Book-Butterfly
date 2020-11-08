@@ -37,13 +37,12 @@ export default {
     PopoverRow
   },
   computed: {
-    ...mapGetters('notes', ['notes']),
+    ...mapGetters('notes', ['calendarInfo']),
     attributes() {
       return [
-
-        ...this.notes.map(note => ({
-          key: note._id,
-          dates: note.createdAt,
+        ...this.calendarInfo.map(info => ({
+          key: info._id,
+          dates: info.createdAt,
           highlight: {
             color: 'orange',
             class: 'primary-gradient-background',
@@ -52,11 +51,7 @@ export default {
           popover: {
             visibility: 'hover'
           },
-          // popover: {
-          //   label: note.title,
-          //   hideIndicator: true
-          // }
-          customData: note
+          customData: info
         }))
 
       ]
@@ -79,6 +74,4 @@ export default {
   content: ''
   width: 100%
 
-// .calendar-pages
-//   text-size: 6px
 </style>

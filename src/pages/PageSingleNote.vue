@@ -76,7 +76,7 @@
 
               <side-note-item
                 @update-page="changeRoutes"
-                v-for="sideNote in noteListLimited"
+                v-for="sideNote in fiveNewestNotes"
                 :key="sideNote._id"
                 :_id="sideNote._id"
                 :title="sideNote.title"
@@ -126,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('notes', ['notes', 'singleNote']),
+    ...mapGetters('notes', ['fiveNewestNotes', 'singleNote']),
     ...mapGetters('auth', ['loggedInUser']),
     owner() {
       return this.singleNote.owner
@@ -156,9 +156,9 @@ export default {
       return this.singleNote.photo
     },
 
-    noteListLimited() {
-      return this.notes.slice(0, 5)
-    }
+    // noteListLimited() {
+    //   return this.notes.slice(0, 5)
+    // }
   },
   created() {
     this.loadNotes(),
@@ -170,11 +170,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotes', 'getSingleNote']),
+    ...mapActions('notes', ['getFiveNewestNotes', 'getSingleNote']),
     async loadNotes() {
       try {
-        await this.getNotes()
+
+        await this.getFiveNewestNotes()
+                console.log('loadnotes');
       } catch (err) {
+        console.error(err)
         this.err = err.message || 'Something went wrong....'
       }
     },

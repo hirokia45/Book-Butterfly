@@ -20,6 +20,14 @@ export default {
     state.notes = [...state.notes, ...notes]
   },
 
+  setFiveNewestNotes(state, notes) {
+    state.fiveNewestNotes = notes
+  },
+
+  setCalendarInfo(state, info) {
+    state.calendarInfo = info
+  },
+
   setPageNumber(state) {
     let totalPages = Math.floor(state.totalItems / 10) + 1
     if (state.page < totalPages) {

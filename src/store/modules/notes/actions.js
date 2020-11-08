@@ -56,6 +56,7 @@ export default {
         `${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`,
         { headers: authHeader() }
       );
+
       response.data.notes.forEach(note => {
         let timeInData = note.createdAt;
         note.createdAt = new Date(timeInData);
@@ -71,6 +72,44 @@ export default {
           title: "Error",
           message: "Could not download your notes..."
       })
+    }
+  },
+
+  async getFiveNewestNotes({ commit }) {
+    try {
+      const response = await axios.get(
+        `${process.env.API}/notes?sortBy=createdAt:desc&per_page=5`,
+        { headers: authHeader() }
+      )
+      const notes = response.data.notes;
+
+      commit("setFiveNewestNotes", notes);
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not download your notes..."
+      });
+    }
+  },
+
+  async getCalendarInfo({ commit }) {
+    try {
+      const response = await axios.get(
+        `${process.env.API}/calendar?sortBy=createdAt:desc&per_page=100`,
+        { headers: authHeader() }
+      )
+      response.data.info.forEach(info => {
+        let timeInData = info.createdAt
+        info.createdAt = new Date(timeInData)
+      })
+
+      const info = response.data.info
+      commit("setCalendarInfo", info)
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not download your calendar info..."
+      });
     }
   },
 

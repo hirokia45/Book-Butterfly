@@ -3,8 +3,16 @@ export default {
     return state.notes
   },
 
+  fiveNewestNotes(state) {
+    return state.fiveNewestNotes
+  },
+
   totalItems(state) {
     return state.totalItems
+  },
+
+  calendarInfo(state) {
+    return state.calendarInfo
   },
 
   page(state) {
