@@ -1,36 +1,34 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
-      <q-card class="full-height">
-        <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="mails" label="Mails" />
-          <q-tab name="alarms" label="Alarms" />
+      <div class="constrain full-height">
+      	  <q-tabs
+      	    v-model="tab"
+      	    dense
+      	    inline-label
+      	    class="text-grey justify-center"
+      	    active-color="primary"
 
-        </q-tabs>
+      	    indicator-color="transparent"
+      	  >
+      	    <q-tab name="search" icon="eva-search-outline" label="Search" />
+      	    <q-tab name="bookshelf" icon="eva-book-outline" label="Bookshelf" />
 
-        <q-separator />
+      	  </q-tabs>
 
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="mails">
-            <book-search />
-          </q-tab-panel>
+      	  <q-tab-panels v-model="tab" class="panel-height" animated>
+      	    <q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="search">
+      	      <book-search />
+      	    </q-tab-panel>
 
-          <q-tab-panel name="alarms">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </q-tab-panel>
-        </q-tab-panels>
-      </q-card>
+      	    <q-tab-panel name="bookshelf">
+      	      <div class="text-h6">Alarms</div>
+      	      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      	    </q-tab-panel>
+      	  </q-tab-panels>
 
-    </div>
+          </div>
+      </div>
   </q-page>
 </template>
 
@@ -43,9 +41,14 @@ export default {
   },
   data () {
     return {
-      tab: 'mails'
+      tab: 'search'
     }
   }
 
 }
 </script>
+
+<style lang="sass" scoped>
+.panel-height
+  height: 78vh
+</style>

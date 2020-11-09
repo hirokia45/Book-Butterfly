@@ -1,9 +1,9 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height">
-      <div class="constrain">
-        <div class="row q-col-gutter-lg">
-          <div class="col-12 col-sm-8">
+      <div class="constrain full-height">
+        <div class="row q-col-gutter-lg full-height">
+          <div class="col-12 col-sm-8 full-height">
             <the-scroll-area
               @show-add-note-modal="showAddNote = true">
               <template v-if="!loadingNotes && notes.length">

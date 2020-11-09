@@ -5,7 +5,7 @@
         <div class="constrain-some">
           <div class="row q-col-gutter-lg">
 
-            <div class="col-12 col-sm-6 fixed-height">
+            <div class="col-12 col-md-6 fixed-height">
               <q-card class="full-height">
                 <q-card-section class="row q-pt-lg q-pb-sm">
                   <img :src="loggedInUser.avatar" class="avatar">
@@ -58,7 +58,7 @@
               </q-card>
             </div>
 
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-md-6">
               <div>
                 <q-card>
                   <note-calendar class="shadow-2 calendar-position"></note-calendar>

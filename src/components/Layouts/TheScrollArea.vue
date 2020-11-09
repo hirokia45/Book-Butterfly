@@ -1,8 +1,8 @@
 <template>
-  <q-layout container class="scroll-area-notes">
+  <q-layout container :class="scrollAreaSize">
         <q-scroll-area
           :thumb-style="thumbStyle"
-          class="scroll-area-notes"
+          :class="scrollAreaSize"
           ref="scrollArea"
         >
         <q-scroll-observer @scroll="onScroll" />
@@ -10,8 +10,8 @@
 
           <q-page-sticky
             v-show="addModalFabIsVisible"
-            class="add-button small-screen-only"
-            :class="{ 'add-height': scrollFabIsVisible }"
+            class="small-screen-only"
+            :class="smallScreenAddButton"
             style="z-index: 3"
           >
             <q-btn
@@ -30,7 +30,7 @@
             <q-page-sticky
               v-show="scrollFabIsVisible"
               style="z-index: 3"
-              position="bottom-right" :offset="[8, 18]">
+              :class="scrollToTopButton">
               <q-btn
                 @click="scrollToTop"
                 class="cyan-gradient-background text-grey-4 shadow-5"
@@ -62,6 +62,37 @@ export default {
       }
     }
   },
+  computed: {
+    scrollAreaSize() {
+      if (this.$route.path === "/library" && window.innerWidth < 600) {
+        return 'scroll-area-books'
+
+      } else if (this.$route.path === "/library" && window.innerWidth > 600) {
+        return 'scroll-area-books-more'
+      } else {
+        return 'scroll-area-notes'
+      }
+    },
+    smallScreenAddButton() {
+      if (window.innerWidth < 361 && this.scrollFabIsVisible) {
+        return 'smallest-add-height'
+      } else if (this.scrollFabIsVisible) {
+        return 'add-height'
+      } else if (window.innerWidth < 361) {
+        return 'smallest-add-button'
+      } else {
+        return 'add-button'
+      }
+    },
+    scrollToTopButton() {
+      if (window.innerWidth < 361) {
+        console.log('smallest window');
+        return 'smallest-window-position-scroll'
+      } else {
+        return 'regular-position'
+      }
+    }
+  },
   methods: {
     checkIfItsHome() {
       if (this.$route.path === "/home") {
@@ -84,6 +115,7 @@ export default {
   },
   created() {
     this.checkIfItsHome()
+    // this.checkIfItsLibrary()
   }
 }
 </script>
@@ -92,15 +124,40 @@ export default {
 .scroll-area-notes
   height: 85vh
 
+.scroll-area-books
+  height: 60vh
+
+.scroll-area-books-more
+  height: 70vh
+
 .add-button
   position: fixed
   bottom: 28px
   right: 8px
+
+.smallest-add-button
+  position: fixed
+  bottom: 35px
+  right: 1px
 
 .add-height
   position: fixed
   bottom: 78px
   right: 8px
 
+.smallest-add-height
+  position: fixed
+  bottom: 94px
+  right: 1px
+
+.regular-position
+  position: fixed
+  bottom: 18px
+  right: 8px
+
+.smallest-window-position-scroll
+  position: fixed
+  bottom: 35px
+  right: 1px
 
 </style>

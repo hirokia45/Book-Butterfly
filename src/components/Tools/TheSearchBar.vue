@@ -9,6 +9,8 @@
         label="Search Books"
         outlined
         rounded
+        standout
+        bg-color="white"
       >
         <template v-slot:append>
           <q-icon v-if="searchField !== ''" name="close" @click="searchField = ''" class="cursor-pointer" />

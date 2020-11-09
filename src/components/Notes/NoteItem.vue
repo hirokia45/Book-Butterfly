@@ -1,5 +1,4 @@
 <template>
-
   <q-card
     tabindex="0"
     class="note-card q-mb-md"
