@@ -5,7 +5,8 @@ import getters from './getters'
 const getDefaultBookState = () => {
   return {
     books: [],
-    search: ''
+    search: '',
+    myBooks: [],
   }
 }
 export default {

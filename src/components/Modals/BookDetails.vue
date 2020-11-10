@@ -13,7 +13,7 @@
 
           <div class="text-caption">{{book.volumeInfo.subtitle}}</div>
 
-          <div class="text-subtitle2">
+          <div v-if="book.volumeInfo.authors" class="text-subtitle2">
             by {{ author }}
           </div>
 
@@ -58,25 +58,55 @@
 
     <q-card-section class="modal-bottom-section">
       <q-btn
+        @click="promptToAddBook"
         flat
         type="submit"
         text-color="white"
         class="primary-gradient-background add-to-bookshelf-button"
         label="Add to Bookshelf"
-
       />
     </q-card-section>
+    {{bookInfo}}
   </q-card>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ModalHeader from '../Modals/GeneralModalComponents/ModalHeader'
 export default {
   components: {
     ModalHeader
   },
   props: ['id', 'book'],
+  data() {
+    return {
+      bookInfo: {
+        bookId: this.book.id,
+        industryIdentifiers: [
+          {
+            type: this.book.volumeInfo.industryIdentifiers[0].type,
+            identifier: this.book.volumeInfo.industryIdentifiers[0].identifier
+          }
+        ],
+        title: this.book.volumeInfo.title,
+        subtitle: this.book.volumeInfo.subtitle,
+        authors: this.book.volumeInfo.authors,
+        publisher: this.book.volumeInfo.publisher,
+        publishedDate: this.book.volumeInfo.publishedDate,
+        description: this.book.volumeInfo.description,
+        category: this.book.volumeInfo.mainCategory || this.book.volumeInfo.categories[0],
+        thumbnail: this.book.volumeInfo.imageLinks.thumbnail
+      }
+    }
+  },
   computed: {
+    // checkAuthors() {
+    //   if (this.book.volumeInfo.authors.length > 0) {
+    //     return this.authors = this.book.volumeInfo.authors
+    //   } else if (array === undefined || array.length == 0) {
+    //     return this.authors = []
+    //   }
+    // },
     author() {
       if(this.book.volumeInfo.authors.length > 2) {
         return this.book.volumeInfo.authors[0] + ' and more'
@@ -100,6 +130,21 @@ export default {
       }
     }
   },
+  methods: {
+    ...mapActions('books', ['addBookToBookshelf']),
+    promptToAddBook() {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Are you ready to add this book to your bookshelf?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        console.log(this.bookInfo);
+        this.addBookToBookshelf(this.bookInfo)
+        this.$emit('close')
+      })
+    }
+  }
 }
 </script>
 

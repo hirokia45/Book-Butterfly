@@ -1,9 +1,8 @@
 <template>
   <div>
     <div class="row justify-center">
-      <the-search-bar @submit-search="searchBooks" />
+      <the-search-bar />
       <q-btn
-        @click="deleteSearchResult"
         class="q-ml-sm"
         color="grey-10"
         flat
@@ -14,12 +13,12 @@
 
     <the-scroll-area>
       <div class="q-pa-sm row q-gutter-lg justify-center">
-      <book-card
-        v-for="book in books"
+      <my-book-card
+        v-for="book in myBooks"
         :key="book.id"
         :id="book.id"
         :book="book"
-      ></book-card>
+      ></my-book-card>
       </div>
     </the-scroll-area>
 
@@ -29,26 +28,27 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TheSearchBar from '../Tools/TheSearchBar'
-import BookCard from '../Library/BookCard'
+import MyBookCard from '../Library/MyBookCard'
 import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
     TheSearchBar,
-    BookCard,
+    MyBookCard,
     TheScrollArea
   },
   computed: {
-    ...mapGetters('books', ['search', 'books'])
+    ...mapGetters('books', ['search', 'myBooks'])
   },
   methods: {
-    ...mapActions('books', ['getBooks', 'deleteBooks']),
-    async searchBooks() {
-      await this.getBooks()
-    },
-    deleteSearchResult() {
-      this.deleteBooks()
+    ...mapActions('books', ['getMyBooks']),
+    async loadBooks() {
+      console.log('getmybooks');
+      await this.getMyBooks()
     }
+  },
+  created() {
+    this.loadBooks()
   }
 }
 </script>

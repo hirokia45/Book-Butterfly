@@ -5,5 +5,9 @@ export default {
 
   books(state) {
     return state.books
+  },
+
+  myBooks(state) {
+    return state.myBooks
   }
 }

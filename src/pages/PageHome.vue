@@ -107,6 +107,7 @@ export default {
     },
   },
   created() {
+    console.log('created called');
     let currentPage = this.page
     if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
      this.loadNotes()

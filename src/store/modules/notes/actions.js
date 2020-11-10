@@ -14,7 +14,6 @@ export default {
     commit("setPageNumber");
     commit("emptyNotes");
 
-
     let page = state.page
     try {
       const response = await axios.get(`${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`, { headers: authHeader() })
@@ -22,7 +21,6 @@ export default {
         let timeInData = note.createdAt;
         note.createdAt = new Date(timeInData);
       })
-      console.log(response);
       const notes = response.data.notes;
       const totalItems = response.data.totalItems;
 
@@ -152,7 +150,7 @@ export default {
       const createdNote = response.data.note
       createdNote.createdAt = new Date(createdNote.createdAt)
 
-      //commit("addNote", createdNote)
+      commit("addNote", createdNote)
       await dispatch("getNotesInit")
       await Notify.create({
         message: "Note Added!",

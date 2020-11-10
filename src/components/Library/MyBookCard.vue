@@ -5,12 +5,12 @@
     flat
   >
     <template>
-      <img :src="book.volumeInfo.imageLinks.thumbnail">
+      <img :src="book.thumbnail">
 
       <q-card-section>
-        <div class="text-subtitle2">{{ book.volumeInfo.title }}</div>
-        <div v-if="book.volumeInfo.authors" class="text-subtitle2">{{ book.volumeInfo.authors[0] }}</div>
-        <div class="text-subtitle2">{{ book.volumeInfo.publishedDate }}</div>
+        <div class="text-subtitle2">{{ book.title }}</div>
+        <div v-if="book.authors" class="text-subtitle2">{{ book.authors[0] }}</div>
+        <div class="text-subtitle2">{{ book.publishedDate }}</div>
       </q-card-section>
 
       <q-btn

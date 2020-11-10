@@ -13,6 +13,7 @@
       	  >
       	    <q-tab name="search" icon="eva-search-outline" label="Search" />
       	    <q-tab name="bookshelf" icon="eva-book-outline" label="Bookshelf" />
+      	    <q-tab name="archive" icon="eva-archive-outline" label="Archive" />
 
       	  </q-tabs>
 
@@ -21,7 +22,11 @@
       	      <book-search />
       	    </q-tab-panel>
 
-      	    <q-tab-panel name="bookshelf">
+      	    <q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="bookshelf">
+      	      <book-shelf />
+      	    </q-tab-panel>
+
+      	    <q-tab-panel name="archive">
       	      <div class="text-h6">Alarms</div>
       	      Lorem ipsum dolor sit amet consectetur adipisicing elit.
       	    </q-tab-panel>
@@ -33,18 +38,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import BookSearch from '../components/Library/BookSearch'
+import BookShelf from '../components/Library/BookShelf'
+
 export default {
   name: 'PageLibrary',
   components: {
-    BookSearch
+		BookSearch,
+		BookShelf
   },
   data () {
     return {
-      tab: 'search'
+      tab: 'bookshelf'
     }
+  },
+  methods: {
+    ...mapActions('books', ['resetSearch', 'deleteBooks'])
+  },
+  beforeDestroy() {
+    this.resetSearch()
+    this.deleteBooks()
   }
-
 }
 </script>
 
