@@ -63,7 +63,7 @@ export default {
     Object.assign(state.singleNote, updatedNote);
   },
 
-  deleteTask(state, _id) {
+  deleteNote(state, _id) {
     state.notes = state.notes.filter(note => {
       return note._id !== _id;
     });

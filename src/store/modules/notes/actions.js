@@ -238,13 +238,13 @@ export default {
         { headers: authHeader() }
       );
 
-      commit("deleteTask", _id);
+      commit("deleteNote", _id);
       await dispatch('updateNotesArray')
     } catch (err) {
       Dialog.create({
         title: "Error",
         message: "Could not delete the note..."
-      });
+      })
     }
   },
 

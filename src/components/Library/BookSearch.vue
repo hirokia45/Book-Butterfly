@@ -15,6 +15,7 @@
     <the-scroll-area>
       <div class="q-pa-sm row q-gutter-lg justify-center">
       <book-card
+        :isSearchTab="isSearchTab"
         v-for="book in books"
         :key="book.id"
         :id="book.id"
@@ -37,6 +38,11 @@ export default {
     TheSearchBar,
     BookCard,
     TheScrollArea
+  },
+  data() {
+    return {
+      isSearchTab: true
+    }
   },
   computed: {
     ...mapGetters('books', ['search', 'books'])

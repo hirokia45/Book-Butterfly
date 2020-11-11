@@ -20,6 +20,18 @@ export default {
   },
 
   addedBookToShelf(state, book) {
-    state.myBooks = state.myBooks.unshift(book)
+    state.myBooks.unshift(book)
+    return state.myBooks
+  },
+
+  updateMyBook(state, updatedMyBook) {
+    const updatingBook = state.myBooks.find(myBook => myBook._id === updatedMyBook._id)
+    Object.assign(updatingBook, updatedMyBook)
+  },
+
+  removeMyBook(state, _id) {
+    state.myBooks = state.myBooks.filter(myBook => {
+      return myBook._id !== _id
+    })
   }
 }

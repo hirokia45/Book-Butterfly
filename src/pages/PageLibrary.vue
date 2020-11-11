@@ -19,16 +19,18 @@
 
       	  <q-tab-panels v-model="tab" class="panel-height" animated>
       	    <q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="search">
-      	      <book-search />
+      	      <book-search
+							/>
       	    </q-tab-panel>
 
       	    <q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="bookshelf">
-      	      <book-shelf />
+      	      <book-shelf
+							/>
       	    </q-tab-panel>
 
-      	    <q-tab-panel name="archive">
-      	      <div class="text-h6">Alarms</div>
-      	      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      	    <q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="archive">
+							<the-archive
+							/>
       	    </q-tab-panel>
       	  </q-tab-panels>
 
@@ -41,12 +43,14 @@
 import { mapActions } from 'vuex'
 import BookSearch from '../components/Library/BookSearch'
 import BookShelf from '../components/Library/BookShelf'
+import TheArchive from '../components/Library/TheArchive'
 
 export default {
   name: 'PageLibrary',
   components: {
 		BookSearch,
-		BookShelf
+		BookShelf,
+		TheArchive
   },
   data () {
     return {

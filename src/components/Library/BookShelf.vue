@@ -2,23 +2,17 @@
   <div>
     <div class="row justify-center">
       <the-search-bar />
-      <q-btn
-        class="q-ml-sm"
-        color="grey-10"
-        flat
-        icon="eva-trash-2-outline"
-        round
-      />
     </div>
 
     <the-scroll-area>
       <div class="q-pa-sm row q-gutter-lg justify-center">
-      <my-book-card
+      <book-card
+        :isBookShelfTab="isBookShelfTab"
         v-for="book in myBooks"
         :key="book.id"
         :id="book.id"
         :book="book"
-      ></my-book-card>
+      ></book-card>
       </div>
     </the-scroll-area>
 
@@ -28,14 +22,19 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TheSearchBar from '../Tools/TheSearchBar'
-import MyBookCard from '../Library/MyBookCard'
+import BookCard from '../Library/BookCard'
 import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
     TheSearchBar,
-    MyBookCard,
+    BookCard,
     TheScrollArea
+  },
+  data() {
+    return {
+      isBookShelfTab: true
+    }
   },
   computed: {
     ...mapGetters('books', ['search', 'myBooks'])

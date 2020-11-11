@@ -25,7 +25,7 @@
             Category: {{book.volumeInfo.mainCategory || category }}
           </div>
 
-          <div class="row">
+          <div class="row" v-if="isSearchTab">
             <div>
               <q-rating
                 v-model="ratings"
@@ -47,66 +47,121 @@
 
           <div class="text-subtitle2">Publisher: {{ book.volumeInfo.publisher }}</div>
           <div class="text-subtitle2">Published Date: {{ book.volumeInfo.publishedDate }}</div>
-          <div class="text-subtitle2">Language: {{ language }}</div>
-          <div class="text-subtitle2">Pages: {{ book.volumeInfo.pageCount }}p</div>
+          <div v-if="isSearchTab" class="text-subtitle2">Language: {{ language }}</div>
+          <div v-if="isSearchTab" class="text-subtitle2">Pages: {{ book.volumeInfo.pageCount }}p</div>
 
-          <div v-if="book.saleInfo.listPrice" class="text-subtitle2">Price: {{ book.saleInfo.listPrice.amount }} {{ book.saleInfo.listPrice.currencyCode }}</div>
+          <template v-if="isSearchTab">
+            <div v-if="book.saleInfo.listPrice" class="text-subtitle2">Price: {{ book.saleInfo.listPrice.amount }} {{ book.saleInfo.listPrice.currencyCode }}</div>
+          </template>
+
+          <div v-if="isBookShelfTab" class="q-gutter-y-md q-mt-xs text-center">
+            <q-rating
+              readonly
+              flat
+              v-model="book.myRate"
+              :max="4"
+              size="3em"
+              color="green-5"
+              :icon="icons"
+            />
+          </div>
 
         </div>
       </div>
     </q-card-section>
 
-    <q-card-section class="modal-bottom-section">
+    <q-card-section v-if="isBookShelfTab" class="modal-bottom-section row justify-between">
+      <q-fab
+        v-model="myBookFab"
+        vertical-actions-align="right"
+        icon="eva-arrow-ios-upward-outline"
+        direction="up"
+        class="button-position grey-gradient-background"
+      >
+        <q-fab-action
+          @click="promptToRemove(book._id)"
+          dense
+          rounded
+          text-color="white"
+          class="danger-gradient-background"
+          icon="eva-trash-2-outline"
+          label="Delete"
+        />
+        <q-fab-action
+          @click="promptToMoveToArchive"
+          text-color="white"
+          class="primary-gradient-background"
+          label="Archive"
+          icon="eva-archive-outline"
+        />
+        <q-fab-action
+          v-if="!book.completed"
+          @click="promptToFinishReading(book)"
+          text-color="white"
+          class="primary-gradient-background"
+          label="Finished"
+          icon="eva-award-outline"
+        />
+        <q-fab-action
+          @click="showRateMyBookModal"
+          text-color="white"
+          class="primary-gradient-background"
+          label="Rate"
+          icon="eva-star-outline"
+        />
+
+      </q-fab>
+    </q-card-section>
+
+    <q-card-section
+      v-if="isSearchTab"
+      class="modal-bottom-section"
+    >
       <q-btn
         @click="promptToAddBook"
         flat
         type="submit"
         text-color="white"
-        class="primary-gradient-background add-to-bookshelf-button"
+        class="primary-gradient-background button-position"
         label="Add to Bookshelf"
       />
     </q-card-section>
-    {{bookInfo}}
+
+    <q-dialog v-model="showRateMyBook">
+      <rate-my-book-modal
+        @close="showRateMyBook = false"
+        :_id="book._id"
+        :myRate="book.myRate"
+      />
+    </q-dialog>
   </q-card>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import ModalHeader from '../Modals/GeneralModalComponents/ModalHeader'
+import RateMyBookModal from '../Modals/RateMyBook'
+
 export default {
   components: {
-    ModalHeader
+    ModalHeader,
+    RateMyBookModal
   },
-  props: ['id', 'book'],
+  props: ['id', 'book', 'isBookShelfTab', 'isSearchTab'],
   data() {
     return {
-      bookInfo: {
-        bookId: this.book.id,
-        industryIdentifiers: [
-          {
-            type: this.book.volumeInfo.industryIdentifiers[0].type,
-            identifier: this.book.volumeInfo.industryIdentifiers[0].identifier
-          }
-        ],
-        title: this.book.volumeInfo.title,
-        subtitle: this.book.volumeInfo.subtitle,
-        authors: this.book.volumeInfo.authors,
-        publisher: this.book.volumeInfo.publisher,
-        publishedDate: this.book.volumeInfo.publishedDate,
-        description: this.book.volumeInfo.description,
-        category: this.book.volumeInfo.mainCategory || this.book.volumeInfo.categories[0],
-        thumbnail: this.book.volumeInfo.imageLinks.thumbnail
-      }
+      ratingModel: this.book.rating,
+      showRateMyBook: false,
+      myBookFab: false,
+      icons: [
+        'sentiment_very_dissatisfied',
+        'sentiment_dissatisfied',
+        'sentiment_satisfied',
+        'sentiment_very_satisfied'
+      ]
     }
   },
   computed: {
-    // checkAuthors() {
-    //   if (this.book.volumeInfo.authors.length > 0) {
-    //     return this.authors = this.book.volumeInfo.authors
-    //   } else if (array === undefined || array.length == 0) {
-    //     return this.authors = []
-    //   }
-    // },
     author() {
       if(this.book.volumeInfo.authors.length > 2) {
         return this.book.volumeInfo.authors[0] + ' and more'
@@ -131,7 +186,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions('books', ['addBookToBookshelf']),
+    ...mapActions('books', ['addBookToBookshelf', 'updateMyBook', 'moveToArchive', 'removeMyBook']),
+    showRateMyBookModal() {
+      this.showRateMyBook = true
+    },
     promptToAddBook() {
       this.$q.dialog({
         title: 'Confirm',
@@ -139,12 +197,56 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        console.log(this.bookInfo);
-        this.addBookToBookshelf(this.bookInfo)
+        this.addBookToBookshelf(this.book)
         this.$emit('close')
       })
+    },
+
+    promptToRateBook(_id) {
+      this.$q.dialog({
+        title: 'How do you like this book?'
+      })
+    },
+
+    promptToFinishReading(book) {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Do you mark this book as finished reading?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        const completed = !this.book.completed
+        const updates = {
+          _id: this.book._id,
+          completed: completed
+        }
+        this.updateMyBook(updates)
+      })
+    },
+
+    promptToMoveToArchive() {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Do you want to move this book to archive?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.moveToArchive(_id)
+      })
+    },
+
+    promptToRemove(_id) {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Do you really want to remove this book from your bookshelf?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.removeMyBook(_id)
+      })
     }
-  }
+
+  },
 }
 </script>
 
@@ -152,11 +254,10 @@ export default {
 .modal-bottom-section
   position: relative
 
-.add-to-bookshelf-button
+.button-position
   position: absolute
   bottom: 15px
   right: 20px
-
 
 .regular-thumbnail
   width: 80%
