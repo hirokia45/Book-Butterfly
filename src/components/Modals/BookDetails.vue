@@ -88,7 +88,7 @@
           label="Delete"
         />
         <q-fab-action
-          @click="promptToMoveToArchive"
+          @click="promptToMoveToArchive(book)"
           text-color="white"
           class="primary-gradient-background"
           label="Archive"
@@ -186,7 +186,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('books', ['addBookToBookshelf', 'updateMyBook', 'moveToArchive', 'removeMyBook']),
+    ...mapActions('books', ['addBookToBookshelf', 'updateMyBook', 'moveBook', 'removeMyBook']),
     showRateMyBookModal() {
       this.showRateMyBook = true
     },
@@ -199,12 +199,6 @@ export default {
       }).onOk(() => {
         this.addBookToBookshelf(this.book)
         this.$emit('close')
-      })
-    },
-
-    promptToRateBook(_id) {
-      this.$q.dialog({
-        title: 'How do you like this book?'
       })
     },
 
@@ -224,14 +218,23 @@ export default {
       })
     },
 
-    promptToMoveToArchive() {
+    promptToMoveToArchive(book) {
       this.$q.dialog({
         title: 'Confirm',
         message: 'Do you want to move this book to archive?',
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.moveToArchive(_id)
+          const archive = !this.book.archive
+          const info = {
+          updates: {
+            _id: this.book._id,
+            archive
+          },
+          mode: 'archive'
+        }
+        this.moveBook(info)
+        this.$emit('close')
       })
     },
 
@@ -242,7 +245,11 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        this.removeMyBook(_id)
+        const info = {
+          _id: this.book._id,
+          mode: 'shelf'
+        }
+        this.removeMyBook(info)
       })
     }
 

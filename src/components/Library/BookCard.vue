@@ -5,7 +5,29 @@
     flat
   >
     <template>
-      <img :class="{'my-book-img': !isSearchTab}" :src="book.volumeInfo.imageLinks.thumbnail">
+      <q-avatar
+        v-if="book.completed"
+        class="absolute-top-right q-pa-xs"
+        size="60px"
+      >
+        <img src="../../assets/Completed.png" alt="">
+      </q-avatar>
+
+      <template>
+        <template v-if="book.volumeInfo.imageLinks">
+          <img
+            :class="{'my-book-img': !isSearchTab}"
+            :src="book.volumeInfo.imageLinks.thumbnail"
+            @error="$event.target.src='../../assets/no-cover-image-found.jpg'"
+          >
+        </template>
+        <template v-else>
+          <img
+            :class="{'my-book-img': !isSearchTab}"
+            src="../../assets/no-cover-image-found.jpg"
+          >
+        </template>
+      </template>
 
       <q-card-section class="q-pb-none">
         <div class="text-subtitle2">{{ book.volumeInfo.title }}</div>
@@ -99,4 +121,10 @@ export default {
   position: absolute
   bottom: 0
   right: 0
+
+.award-png
+  max-width: 20%
+  position: absolute
+  right: 20%
+  top: 20%
 </style>

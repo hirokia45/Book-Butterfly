@@ -23,7 +23,6 @@ export default {
     )
 
     const books = response.data.books.items
-    console.log(books);
     commit('setBooks', books)
   },
 
@@ -33,7 +32,12 @@ export default {
         `${process.env.API}/books/bookshelf?sortBy=createdAt:desc`,
         { headers: authHeader() }
       )
-      console.log('response getmubooks', response);
+
+      response.data.myBooks.forEach(book => {
+        let timeInData = book.updatedAt;
+        book.updatedAt = new Date(timeInData);
+      });
+
       const myBooks = response.data.myBooks
       commit("setMyBooks", myBooks)
     } catch (err) {
@@ -41,12 +45,11 @@ export default {
       Dialog.create({
         title: "Error",
         message: err.response.data.message
-      });
+      })
     }
   },
 
   async addBookToBookshelf({ commit }, book) {
-    console.log('triggered');
     if (book.volumeInfo.categories === undefined) {
       book.volumeInfo.categories = []
     }
@@ -74,7 +77,6 @@ export default {
         }
       }
     }
-    console.log('before try', bookInfo);
 
     try {
       const response = await axios.post(`${process.env.API}/books/bookshelf`, bookInfo, {
@@ -97,7 +99,6 @@ export default {
   },
 
   async updateMyBook({ commit }, updates) {
-    console.log('request', updates);
     try {
       const response = await axios.patch(
         `${process.env.API}/books/bookshelf`,
@@ -120,13 +121,50 @@ export default {
     }
   },
 
-  async removeMyBook({ commit }, _id) {
+  async moveBook({ commit }, info) {
+    const updates = info.updates
+    const mode = info.mode
+
+    try {
+      const response = await axios.patch(
+        `${process.env.API}/books/bookshelf`,
+        updates,
+        { headers: authHeader() }
+      )
+      const book = response.data.result
+      await Notify.create({
+        message: `This book is now in your ${mode}.`,
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      })
+
+      if (mode === 'shelf') {
+        commit("moveToShelf", book)
+      } else if (mode === 'archive') {
+        commit("moveToArchive", book)
+      }
+    } catch (err) {
+      console.error(err);
+      Dialog.create({
+        title: "Error",
+        message: "Could not move this book..."
+      })
+    }
+  },
+
+  async removeMyBook({ commit }, info) {
+    const _id = info._id
+    const mode = info.mode
     try {
       await axios.delete(`${process.env.API}/books/bookshelf/${_id}`, {
         headers: authHeader()
       })
 
-      commit ("removeMyBook", _id)
+      if (mode === 'archive') {
+        commit("removeArchive", _id)
+      } else if (mode === 'shelf') {
+        commit("removeMyBook", _id);
+      }
     } catch (err) {
       Dialog.create({
         title: "Error",

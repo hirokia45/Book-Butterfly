@@ -125,7 +125,7 @@ export default {
   height: 85vh
 
 .scroll-area-books
-  height: 60vh
+  height: 70vh
 
 .scroll-area-books-more
   height: 70vh

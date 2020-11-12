@@ -6,7 +6,9 @@ const getDefaultBookState = () => {
   return {
     books: [],
     search: '',
+    sort: 'date',
     myBooks: [],
+    archives: []
   }
 }
 export default {

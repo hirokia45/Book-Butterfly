@@ -9,5 +9,9 @@ export default {
 
   myBooks(state) {
     return state.myBooks
+  },
+
+  archives(state) {
+    return state.archives
   }
 }
