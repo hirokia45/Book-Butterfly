@@ -13,5 +13,5 @@ export default {
 
   archives(state) {
     return state.archives
-  }
+  },
 }

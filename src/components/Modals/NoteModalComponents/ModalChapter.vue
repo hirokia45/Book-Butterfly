@@ -4,14 +4,14 @@
       outlined
       clearable
       class="col"
-      :value="author"
-      @input="$emit('update: author', $event)"
-      label="Author" />
+      :value="chapter"
+      @input="$emit('update:chapter', $event)"
+      label="Chapter or Section" />
   </div>
 </template>
 
 <script>
 export default {
-  props: ['author']
+  props: ['chapter']
 }
 </script>

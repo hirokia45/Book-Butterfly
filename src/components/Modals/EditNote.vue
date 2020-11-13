@@ -1,5 +1,5 @@
 <template>
-  <q-card class="full-width">
+  <q-card class="full-width q-pa-sm">
     <modal-header>Edit Note</modal-header>
 
     <form @submit.prevent="submitForm">
@@ -12,9 +12,26 @@
 
         <modal-author :author.sync="noteToSubmit.author"/>
 
-        <modal-pages
-          :pageFrom.sync="noteToSubmit.pageFrom"
-          :pageTo.sync="noteToSubmit.pageTo"
+        <div class="row justify-center">
+          <modal-pages
+            :pageFrom.sync="noteToSubmit.pageFrom"
+            :pageTo.sync="noteToSubmit.pageTo"
+          />
+          <q-btn
+            v-if="!this.noteToSubmit.chapter"
+            @click="toggleChapterInput"
+            class="q-ml-sm q-mb-md chapter-toggle"
+            :color="!showChapterInput ? 'cyan-6' : 'gray-10'"
+            icon="eva-book-open-outline"
+            size="10px 10px"
+            outline
+            round
+          />
+        </div>
+
+        <modal-chapter
+          v-if="showChapterInput || this.noteToSubmit.chapter"
+          :chapter.sync="noteToSubmit.chapter"
         />
 
         <modal-category :category.sync="noteToSubmit.category" />
@@ -37,6 +54,7 @@ export default {
   data() {
     return {
       noteToSubmit: {},
+      showChapterInput: false
     }
   },
   methods: {
@@ -57,6 +75,9 @@ export default {
           message: 'Could not edit the note'
         })
       }
+    },
+    toggleChapterInput() {
+      this.showChapterInput = !this.showChapterInput
     }
   },
   mounted() {

@@ -32,12 +32,16 @@
 
                   <q-separator />
 
-                  <q-card-section>
+                  <q-card-section class="q-gutter-xs">
                     <div class="text-bold">{{ title }}</div>
                     <div
                       v-if="author"
                       class="text-caption"
                     >Author: {{ author }}</div>
+                    <div
+                      v-if="chapter"
+                      class="text-caption"
+                    >Author: {{ chapter }}</div>
                     <p
                       v-if="pageFrom || pageTo"
                       class="q-mb-none text-caption"
@@ -54,7 +58,7 @@
 
                   <q-separator v-if="comment" />
 
-                  <q-card-section v-if="comment" class="comment-whitespace">
+                  <q-card-section v-if="comment" class="comment-whitespace q-px-lg q-pt-none q-pb-md">
                     {{ comment }}
                   </q-card-section>
 
@@ -140,6 +144,9 @@ export default {
     author() {
       return this.singleNote.author
     },
+    chapter() {
+      return this.singleNote.chapter
+    },
     category() {
       return this.singleNote.category
     },
@@ -155,10 +162,6 @@ export default {
     photo() {
       return this.singleNote.photo
     },
-
-    // noteListLimited() {
-    //   return this.notes.slice(0, 5)
-    // }
   },
   created() {
     this.loadNotes(),

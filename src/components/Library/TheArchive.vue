@@ -1,13 +1,8 @@
 <template>
   <div class="constrain-more">
     <div class="row justify-center">
-      <!-- <the-search-bar /> -->
-      <q-btn
-        class="q-ml-sm"
-        color="grey-10"
-        flat
-        icon="eva-trash-2-outline"
-        round
+      <the-sort
+        :books="archives"
       />
     </div>
 
@@ -28,11 +23,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import ArchiveItem from '../Library/ArchiveItem'
+import TheSort from '../Tools/TheSort'
 import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
     ArchiveItem,
+    TheSort,
     TheScrollArea
   },
   computed: {

@@ -1,4 +1,19 @@
+const getDefaultBookState = () => {
+  return {
+    books: [],
+    search: "",
+    sort: "date",
+    myBooks: [],
+    archives: []
+  };
+};
+
 export default {
+  resetBookState(state) {
+    console.log("resetBookState in mutations")
+    Object.assign(state, getDefaultBookState())
+  },
+
   setSearch(state, value) {
     state.search = value
   },

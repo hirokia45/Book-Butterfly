@@ -15,7 +15,8 @@ export default {
       await AuthService.logout()
       await commit('logoutSuccess')
       console.log("logout success");
-      await dispatch('notes/resetNoteState', null, { root: true })
+      dispatch('notes/resetNoteState', null, { root: true })
+      dispatch('books/resetBookState', null, { root: true })
 
     } catch (err) {
       console.error('logout err', err);
@@ -42,6 +43,7 @@ export default {
     try {
       await commit('logoutSuccess')
       await dispatch('notes/resetNoteState', null, { root: true })
+      await dispatch('notes/resetBookState', null, { root: true })
     } catch (err) {
       console.log(err);
     }

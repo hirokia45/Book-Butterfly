@@ -132,13 +132,8 @@ export default {
 
   async addNote({ commit, dispatch }, note) {
     const newNoteData = {
-      title: note.title,
-      author: note.author,
-      category: note.category,
-      pageFrom: note.pageFrom,
-      pageTo: note.pageTo,
-      comment: note.comment
-    };
+      ...note
+    }
 
     try {
       const response = await axios.post(
