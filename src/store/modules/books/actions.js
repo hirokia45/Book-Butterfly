@@ -204,5 +204,21 @@ export default {
         message: "Could not delete this book..."
       });
     }
+  },
+
+  async getTotalItemCounts({ commit }) {
+    try {
+      const response = await axios.get(`${process.env.API}/users/me/total`, { headers: authHeader() })
+      const totalNotes = response.data.totalNotes
+      const totalBooksCompleted = response.data.totalBooksCompleted
+
+      commit("notes/setTotalNotes", totalNotes, { root: true })
+      commit("setTotalBooksCompleted", totalBooksCompleted)
+    } catch (err) {
+      Dialog.create({
+        title: "Error",
+        message: "Could not delete this book..."
+      })
+    }
   }
-};
+}

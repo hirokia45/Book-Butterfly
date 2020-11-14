@@ -1,4 +1,5 @@
 import AuthService from '../../../services/auth-service'
+import { Loading } from 'quasar'
 
 export default {
   async login({ commit }, user) {
@@ -11,18 +12,22 @@ export default {
   },
 
   async logout({ commit, dispatch }) {
+    Loading.show();
     try {
       await AuthService.logout()
+
       await commit('logoutSuccess')
       console.log("logout success");
       dispatch('notes/resetNoteState', null, { root: true })
       dispatch('books/resetBookState', null, { root: true })
 
+      Loading.hide()
     } catch (err) {
       console.error('logout err', err);
       console.log('logout fail');
       await commit('logoutFailure')
       throw new Error('Logout error')
+      Loading.hide()
     }
   },
 

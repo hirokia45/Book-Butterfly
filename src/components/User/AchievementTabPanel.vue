@@ -75,13 +75,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import TheProgressCircle from './TheProgressCircle'
 
 export default {
   components: {
     TheProgressCircle
   },
-  props: ['tab', 'totalNotes', 'totalBooksCompleted']
+  props: ['tab', 'totalNotes', 'totalBooksCompleted'],
+  methods: {
+    ...mapActions('books', ['getTotalItemCounts'])
+  },
+  created() {
+    this.getTotalItemCounts()
+  }
 }
 </script>
 
