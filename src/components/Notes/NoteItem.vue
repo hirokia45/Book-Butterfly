@@ -9,9 +9,17 @@
 
       <q-item>
         <q-item-section avatar>
-          <q-avatar>
-            <img :src="loggedInUser.avatar">
-          </q-avatar>
+          <template v-if="loggedInUser.avatar">
+            <q-avatar>
+              <img :src="loggedInUser.avatar">
+            </q-avatar>
+          </template>
+          <template v-else>
+            <q-avatar>
+              <img src="../../assets/default-avatar.png">
+            </q-avatar>
+          </template>
+
         </q-item-section>
 
         <q-item-section class="row justify-center">

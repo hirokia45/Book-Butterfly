@@ -10,7 +10,8 @@ const getDefaultBookState = () => {
     sort: 'updatedAt',
     myBooks: [],
     archives: [],
-    tab: ''
+    tab: '',
+    totalBooksCompleted: null
   }
 }
 export default {

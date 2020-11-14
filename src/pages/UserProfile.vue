@@ -5,10 +5,18 @@
         <div class="constrain-some">
           <div class="row q-col-gutter-lg">
 
-            <div class="col-12 col-md-6 fixed-height">
+            <div class="col-12 col-sm-6 fixed-height">
               <q-card class="full-height">
                 <q-card-section class="row q-pt-lg q-pb-sm">
-                  <img :src="loggedInUser.avatar" class="avatar">
+                  <template>
+                    <template v-if="loggedInUser.avatar">
+                      <img :src="loggedInUser.avatar" class="avatar">
+                    </template>
+                    <template v-else>
+                      <img src="../assets/default-avatar.png" class="avatar">
+                    </template>
+                  </template>
+
 
                   <div class="absolute-bottom text-right q-pa-sm">
                     <q-btn
@@ -58,7 +66,7 @@
               </q-card>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-sm-6">
               <div>
                 <q-card>
                   <note-calendar class="shadow-2 calendar-position"></note-calendar>
@@ -67,13 +75,10 @@
               </div>
 
               <div class="side-card q-mt-lg settings-mobile">
-                <q-card class="full-height"></q-card>
+                <user-achievement />
               </div>
-
             </div>
-
           </div>
-
         </div>
       </the-scroll-area>
     </div>
@@ -101,6 +106,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { date } from 'quasar'
 import TheScrollArea from '../components/Layouts/TheScrollArea'
 import NoteCalendar from '../components/Notes/NoteCalendar'
+import UserAchievement from '../components/User/UserAchievement'
 import EditAvatar from '../components/Modals/EditAvatar'
 import EditProfile from '../components/Modals/EditProfile'
 
@@ -108,6 +114,7 @@ export default {
   name: 'UserProfile',
   components: {
     NoteCalendar,
+    UserAchievement,
     TheScrollArea,
     EditAvatar,
     EditProfile
@@ -175,6 +182,4 @@ export default {
 .settings-mobile
   @media (max-width: $breakpoint-xs-max)
     margin-bottom: 35px
-
-
 </style>

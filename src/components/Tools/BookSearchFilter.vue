@@ -27,6 +27,10 @@ export default {
           value: 'keyword'
         },
         {
+          label: 'Title',
+          value: 'title'
+        },
+        {
           label: 'Author',
           value: 'author'
         }

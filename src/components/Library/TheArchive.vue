@@ -1,15 +1,13 @@
 <template>
   <div class="constrain-more">
     <div class="row justify-center">
-      <the-sort
-        :books="archives"
-      />
+      <the-sort />
     </div>
 
-    <the-scroll-area v-if="archives.length > 0">
+    <the-scroll-area v-if="sortedArchives.length > 0">
       <q-list bordered separator>
         <archive-item
-          v-for="archive in archives"
+          v-for="archive in sortedArchives"
           :key="archive._id"
           :_id="archive._id"
           :archive="archive"
@@ -33,7 +31,7 @@ export default {
     TheScrollArea
   },
   computed: {
-    ...mapGetters('books', ['archives'])
+    ...mapGetters('books', ['sortedArchives'])
   },
   methods: {
     ...mapActions('books', ['setTab'])

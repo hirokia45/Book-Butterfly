@@ -7,8 +7,8 @@ export default {
     return state.fiveNewestNotes
   },
 
-  totalItems(state) {
-    return state.totalItems
+  totalNotes(state) {
+    return state.totalNotes
   },
 
   calendarInfo(state) {

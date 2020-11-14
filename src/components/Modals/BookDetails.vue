@@ -5,7 +5,32 @@
     <q-card-section class="q-pt-none">
       <div class="row">
         <div class="col-12 col-sm-5 text-center">
-          <img :src="book.volumeInfo.imageLinks.thumbnail" :class="thumbnailSize">
+          <q-avatar
+            v-if="book.completed"
+            class="absolute-top-right q-pa-xs"
+            size="60px"
+            style="right: 8px"
+          >
+            <img src="../../assets/Completed.png">
+          </q-avatar>
+
+          <template>
+            <template v-if="book.volumeInfo.imageLinks">
+              <img
+                :class="thumbnailSize"
+                :src="book.volumeInfo.imageLinks.thumbnail"
+              >
+            </template>
+            <template v-else>
+              <img
+                :class="thumbnailSize"
+                src="../../assets/no-cover-image-found.jpg"
+              >
+            </template>
+
+          </template>
+
+
         </div>
 
         <div class="col-12 col-sm-7">

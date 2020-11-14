@@ -36,11 +36,13 @@ export default {
   async getBooks({ commit, state }) {
     let uriComponent = ''
     if (state.searchFilter === 'author') {
-      const authorEncoded = encodeURIComponent(state.search)
-      uriComponent = `inauthor:${authorEncoded}`
+      uriComponent = `inauthor:${state.search}`
+    } else if (state.searchFilter === 'title') {
+      uriComponent = `intitle:${state.search}`;
     } else if (state.searchFilter === 'keyword') {
       uriComponent = encodeURIComponent(state.search);
     }
+
     const response = await axios.get(
       `${process.env.API}/books/googlebooks/api?q=${uriComponent}`,
       { headers: authHeader() }
@@ -63,7 +65,10 @@ export default {
       });
 
       const myBooks = response.data.myBooks;
-      commit("setMyBooks", myBooks);
+      const totalBooksCompleted = response.data.totalBooksCompleted
+
+      commit("setMyBooks", myBooks)
+      commit("setTotalBooksCompleted", totalBooksCompleted)
     } catch (err) {
       console.error(err);
       Dialog.create({

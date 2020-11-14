@@ -153,9 +153,7 @@ export default {
       this.isFilled = false
     },
     loadMyBooks() {
-      console.log('before', this.myBooks);
       this.getMyBooks()
-      console.log('after', this.myBooks);
     },
     toggleChapterInput() {
       this.showChapterInput = !this.showChapterInput

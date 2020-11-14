@@ -8,7 +8,7 @@ const getDefaultNoteState = () => {
     singleNote: {},
     fiveNewestNotes: [],
     calendarInfo: [],
-    totalItems: null,
+    totalNotes: null,
     page: null,
     loadingNotes: false
   }

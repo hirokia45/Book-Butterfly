@@ -22,10 +22,10 @@ export default {
         note.createdAt = new Date(timeInData);
       })
       const notes = response.data.notes;
-      const totalItems = response.data.totalItems;
+      const totalNotes = response.data.totalNotes;
 
       commit("setLoadingNotes", false);
-      commit("setTotalItems", totalItems);
+      commit("setTotalNotes", totalNotes);
       commit("setNotes", notes);
     } catch (err) {
       //console.log(err.response.status);
@@ -47,7 +47,7 @@ export default {
   },
 
   async loadMoreNotes({ commit, state }) {
-    let totalPages = Math.floor(state.totalItems / 10) + 1;
+    let totalPages = Math.floor(state.totalNotes / 10) + 1;
     if (state.page < totalPages) {
       commit("setPageNumber");
     }
@@ -63,9 +63,9 @@ export default {
         note.createdAt = new Date(timeInData);
       });
       const notes = response.data.notes;
-      const totalItems = response.data.totalItems;
+      const totalNotes = response.data.totalNotes
 
-      commit("setTotalItems", totalItems);
+      commit("setTotalNotes", totalNotes)
       commit("setNotes", notes);
     } catch (err) {
       console.log(err.response.status);

@@ -2,9 +2,12 @@ const getDefaultBookState = () => {
   return {
     books: [],
     search: "",
+    searchFilter: '',
     sort: "date",
     myBooks: [],
-    archives: []
+    archives: [],
+    tab: '',
+    totalBooksCompleted: null
   };
 };
 
@@ -45,6 +48,10 @@ export default {
   setMyBooks(state, books) {
     state.myBooks = books.filter(book => book.archive === false)
     state.archives = books.filter(book => book.archive === true)
+  },
+
+  setTotalBooksCompleted(state, totalBooksCompleted) {
+    state.totalBooksCompleted = totalBooksCompleted
   },
 
   addedBookToShelf(state, book) {

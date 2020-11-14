@@ -101,13 +101,12 @@ export default {
   computed: {
     ...mapState('notes', ['loadingNotes', 'notes']),
     ...mapGetters('auth', ['isLoggedIn']),
-    ...mapGetters('notes', ['notes', 'page', 'totalItems']),
+    ...mapGetters('notes', ['notes', 'page', 'totalNotes']),
     singleNoteLink() {
       return '/notes/' + this.note._id
     },
   },
   created() {
-    console.log('created called');
     let currentPage = this.page
     if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
      this.loadNotes()
@@ -120,7 +119,7 @@ export default {
       this.getCalendarInfo()
     },
     onLoad(index, done) {
-      let totalPages = Math.floor(this.totalItems / 10) + 1
+      let totalPages = Math.floor(this.totalNotes / 10) + 1
       let currentPage = this.page
 
       setTimeout(() => {
@@ -131,7 +130,8 @@ export default {
           this.$q.notify({
             message: 'No more notes to load!',
             color: 'deep-orange-6',
-            position: 'center'
+            position: 'center',
+            timeout: 1500
           })
           done(true)
         }

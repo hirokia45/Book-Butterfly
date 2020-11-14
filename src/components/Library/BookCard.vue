@@ -10,7 +10,7 @@
         class="absolute-top-right q-pa-xs"
         size="60px"
       >
-        <img src="../../assets/Completed.png" alt="">
+        <img src="../../assets/Completed.png">
       </q-avatar>
 
       <template>

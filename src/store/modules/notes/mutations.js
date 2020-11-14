@@ -4,7 +4,7 @@ const getDefaultNoteState = () => {
     singleNote: {},
     fiveNewestNotes: [],
     calendarInfo: [],
-    totalItems: null,
+    totalNotes: null,
     page: null,
     loadingNotes: false
   };
@@ -24,9 +24,9 @@ export default {
     state.page = null
   },
 
-  // addNote(state, payload) {
-  //   state.notes.unshift(payload);
-  // },
+  addNote(state, payload) {
+    state.notes.unshift(payload);
+  },
 
   setNotes(state, notes) {
     state.notes = [...state.notes, ...notes]
@@ -41,15 +41,15 @@ export default {
   },
 
   setPageNumber(state) {
-    let totalPages = Math.floor(state.totalItems / 10) + 1
+    let totalPages = Math.floor(state.totalNotes / 10) + 1
     if (state.page < totalPages) {
       state.page = state.page + 1
     }
     console.log('page after mutation, ', state.page);
   },
 
-  setTotalItems(state, totalItems) {
-    state.totalItems = totalItems;
+  setTotalNotes(state, totalNotes) {
+    state.totalNotes = totalNotes
   },
 
   setSingleNote(state, note) {

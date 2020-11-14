@@ -7,35 +7,49 @@ export default {
     return state.books
   },
 
-  myBooks(state, getters) {
-        let sortedMybooks = getters.sortItems;
-        return sortedMybooks;
+  myBooks(state) {
+    return state.myBooks
   },
 
-  archives(state, getters) {
+  totalBooksCompleted(state) {
+    return state.totalBooksCompleted
+  },
+
+  archives(state) {
+    return state.archives
+  },
+
+  sortedMyBooks(state, getters) {
+    let sortedMybooks = getters.sortItems;
+    return sortedMybooks;
+  },
+
+  sortedArchives(state, getters) {
     let sortedArchives = getters.sortItems
     return sortedArchives
   },
 
   sortItems(state) {
-    const items = state[state.tab]
-    const sortedItems = [...items].sort((a, b) => {
-      if (state.sort === 'title') {
-        if (a.volumeInfo[state.sort] > b.volumeInfo[state.sort]) {
-          return 1
-        } else if (a.volumeInfo[state.sort] < b.volumeInfo[state.sort]) {
-          return -1;
-        } else return 0;
-      }
+    if (state.myBooks || state.archives) {
+      const items = state[state.tab]
+      const sortedItems = [...items].sort((a, b) => {
+        if (state.sort === 'title') {
+          if (a.volumeInfo[state.sort] > b.volumeInfo[state.sort]) {
+            return 1
+          } else if (a.volumeInfo[state.sort] < b.volumeInfo[state.sort]) {
+            return -1;
+          } else return 0;
+        }
 
-      else {
-        if (a[state.sort] < b[state.sort]) {
-          return 1
-        } else if (a[state.sort] > b[state.sort]) {
-          return -1
-        } else return 0
-      }
-    })
-    return sortedItems
+        else {
+          if (a[state.sort] < b[state.sort]) {
+            return 1
+          } else if (a[state.sort] > b[state.sort]) {
+            return -1
+          } else return 0
+        }
+      })
+      return sortedItems
+    }
   }
 }

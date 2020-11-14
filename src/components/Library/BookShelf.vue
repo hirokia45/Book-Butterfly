@@ -8,7 +8,7 @@
       <div class="q-pa-sm row q-gutter-lg justify-center">
       <book-card
         :isBookShelfTab="isBookShelfTab"
-        v-for="book in myBooks"
+        v-for="book in sortedMyBooks"
         :key="book.id"
         :id="book.id"
         :book="book"
@@ -37,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('books', ['search', 'myBooks'])
+    ...mapGetters('books', ['search', 'sortedMyBooks'])
   },
   methods: {
     ...mapActions('books', ['getMyBooks', 'setTab']),

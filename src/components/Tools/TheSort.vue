@@ -18,12 +18,11 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  props: ['books'],
   data () {
     return {
       options: [
         {
-          label: 'Updated Date',
+          label: 'Updated',
           value: 'updatedAt'
         },
         {
