@@ -7,7 +7,6 @@
       :value="title"
       @input="$emit('update:title', $event)"
       :rules="[val => !!val || 'Field is required!']"
-      autofocus
       ref="title"
       label="Book Title" />
   </div>

@@ -1,10 +1,10 @@
 <template>
-  <div class="row justify-center">
+  <div class="row justify-center q-mr-sm">
     <form @submit.prevent="submitSearch">
       <q-input
         v-model="searchField"
         @keyup.esc="searchField = ''"
-        class="col"
+        class="col search-bar"
         dense
         label="Search Books"
         outlined
@@ -52,3 +52,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.search-bar
+  width: 200px
+</style>

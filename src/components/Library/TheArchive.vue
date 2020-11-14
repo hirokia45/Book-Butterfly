@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters,mapActions } from 'vuex'
 import ArchiveItem from '../Library/ArchiveItem'
 import TheSort from '../Tools/TheSort'
 import TheScrollArea from '../Layouts/TheScrollArea'
@@ -34,6 +34,13 @@ export default {
   },
   computed: {
     ...mapGetters('books', ['archives'])
+  },
+  methods: {
+    ...mapActions('books', ['setTab'])
+  },
+  created() {
+    let tab = 'archives'
+    this.setTab(tab)
   }
 }
 </script>

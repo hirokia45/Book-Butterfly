@@ -1,15 +1,15 @@
 <template>
   <div class="justify-center">
     <q-select
-      v-model="sortBy"
+      v-model="filterBy"
       :options="options"
       emit-value
       map-options
       dense
       rounded
       outlined
-      class="sort-bar q-mb-xs"
-      label="Sort by"
+      class="filter-bar q-mb-xs"
+      label="Search by"
       bg-color="white"/>
   </div>
 </template>
@@ -23,38 +23,34 @@ export default {
     return {
       options: [
         {
-          label: 'Updated Date',
-          value: 'updatedAt'
+          label: 'Keyword',
+          value: 'keyword'
         },
         {
-          label: 'Title',
-          value: 'title'
-        },
-        {
-          label: 'Finished Reading',
-          value: 'completed'
+          label: 'Author',
+          value: 'author'
         }
       ]
     }
   },
   computed: {
-    ...mapState('books', ['sort']),
-    sortBy: {
+    ...mapState('books', ['searchFilter']),
+    filterBy: {
       get() {
-        return this.sort
+        return this.searchFilter
       },
       set(value) {
-        this.setSort(value)
+        this.setSearchFilter(value)
       }
     }
   },
   methods: {
-    ...mapActions('books', ['setSort']),
+    ...mapActions('books', ['setSearchFilter']),
   }
 }
 </script>
 
 <style lang="sass" scoped>
-.sort-bar
-  width: 200px
+.filter-bar
+  width: 125px
 </style>

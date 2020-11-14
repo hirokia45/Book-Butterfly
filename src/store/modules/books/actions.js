@@ -12,6 +12,18 @@ export default {
     commit("setSearch", value);
   },
 
+  setSearchFilter({ commit }, value) {
+    commit("setSearchFilter", value)
+  },
+
+  setSort({ commit }, value) {
+    commit("setSort", value)
+  },
+
+  setTab({ commit }, value) {
+    commit("setTab", value)
+  },
+
   resetSearch({ commit }) {
     commit("resetSearch");
   },
@@ -20,8 +32,15 @@ export default {
     commit("deleteBooks");
   },
 
+  //${process.env.API}/books/googlebooks/api?q=inauthor:${uriComponent}
   async getBooks({ commit, state }) {
-    const uriComponent = encodeURIComponent(state.search);
+    let uriComponent = ''
+    if (state.searchFilter === 'author') {
+      const authorEncoded = encodeURIComponent(state.search)
+      uriComponent = `inauthor:${authorEncoded}`
+    } else if (state.searchFilter === 'keyword') {
+      uriComponent = encodeURIComponent(state.search);
+    }
     const response = await axios.get(
       `${process.env.API}/books/googlebooks/api?q=${uriComponent}`,
       { headers: authHeader() }

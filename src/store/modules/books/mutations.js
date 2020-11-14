@@ -18,12 +18,20 @@ export default {
     state.search = value
   },
 
+  setSearchFilter(state, value) {
+    state.searchFilter = value
+  },
+
   resetSearch(state) {
     state.search = ''
   },
 
   setSort(state, value) {
     state.sort = value
+  },
+
+  setTab(state, value) {
+    state.tab = value
   },
 
   setBooks(state, books) {

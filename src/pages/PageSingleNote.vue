@@ -84,6 +84,7 @@
                 :key="sideNote._id"
                 :_id="sideNote._id"
                 :title="sideNote.title"
+                :chapter="sideNote.chapter"
                 :pageFrom="sideNote.pageFrom"
                 :pageTo="sideNote.pageTo"
                />

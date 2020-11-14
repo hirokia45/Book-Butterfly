@@ -215,6 +215,7 @@ export default {
           completed: completed
         }
         this.updateMyBook(updates)
+        this.$emit('close')
       })
     },
 

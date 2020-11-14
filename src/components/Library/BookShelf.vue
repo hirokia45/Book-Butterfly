@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row justify-center">
-      <the-search-bar />
+      <the-sort />
     </div>
 
     <the-scroll-area>
@@ -21,13 +21,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import TheSearchBar from '../Tools/TheSearchBar'
+import TheSort from '../Tools/TheSort'
 import BookCard from '../Library/BookCard'
 import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
-    TheSearchBar,
+    TheSort,
     BookCard,
     TheScrollArea
   },
@@ -40,7 +40,7 @@ export default {
     ...mapGetters('books', ['search', 'myBooks'])
   },
   methods: {
-    ...mapActions('books', ['getMyBooks']),
+    ...mapActions('books', ['getMyBooks', 'setTab']),
     async loadBooks() {
       console.log('getmybooks');
       await this.getMyBooks()
@@ -48,6 +48,8 @@ export default {
   },
   created() {
     this.loadBooks()
+    let tab = 'myBooks'
+    this.setTab(tab)
   }
 }
 </script>

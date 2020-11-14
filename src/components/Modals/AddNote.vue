@@ -13,6 +13,7 @@
         outlined
         rounded
         dense
+        behavior="menu"
         @click="setBookInfo"
       />
       <q-btn
