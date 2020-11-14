@@ -55,6 +55,11 @@ const routes = [
         meta: { authRequired: true }
       },
       {
+        path: "/settings/help",
+        component: () => import("pages/PageHelp.vue"),
+        meta: { authRequired: true }
+      },
+      {
         path: "/welcome",
         component: () => import("pages/PageWelcome.vue")
       }
