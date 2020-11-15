@@ -112,7 +112,7 @@ body, html
   height: 100%
 
 .bg
-  background-image: url('../assets/temp-login-background-image.jpg')
+  background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/temp-login-background-image.jpg')
   height: 100%
 
   background-position: center;

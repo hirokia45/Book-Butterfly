@@ -92,11 +92,6 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
-    backgroundImage() {
-      return {
-        backgroundImage: `url${require('../assets/temp-register-background-image.jpg')}`
-      }
-    }
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -142,7 +137,7 @@ body, html
   height: 100%
 
 .bg
-  background-image: url('../assets/temp-register-background-image.jpg')
+  background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/temp-register-backgroun-image.jpg')
   height: 100%
 
   background-position: center;
