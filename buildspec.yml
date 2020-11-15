@@ -8,3 +8,4 @@ artifacts:
   files:
     - '**/*'
   base-directory: dist/pwa/book-butterfly
+  name: book-butterfly-staging
