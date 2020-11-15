@@ -140,6 +140,23 @@
       class="bg-white small-screen-only"
       bordered
     >
+      <q-banner inline-actions dense class="bg-primary text-white">
+        <q-avatar
+          color="white"
+          icon="eva-book-open-outline"
+          text-color="grey-10"
+          size="md"
+          class="q-mr-xs"
+          font-size="22px"
+        />
+        <b>Install Book Butterfly?</b>
+        <template v-slot:action>
+          <q-btn flat dense label="Yes" class="q-px-sm" />
+          <q-btn flat dense label="Later" class="q-px-sm" />
+          <q-btn flat dense label="Never" class="q-px-sm" />
+        </template>
+      </q-banner>
+
       <q-tabs
         class="text-grey-8"
         active-color="secondary"

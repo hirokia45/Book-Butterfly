@@ -6,7 +6,7 @@
   "author": "hirokia45 <hiroki.amada.90@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "icons": "icongenie generate -i bookbutterfly-logo.png --skip-trim"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -17,7 +17,8 @@
     "v-calendar": "^2.0.2"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "ie >= 11",

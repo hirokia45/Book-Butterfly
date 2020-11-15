@@ -127,12 +127,14 @@ export default {
           this.loadMoreNotes()
           done()
         } else {
-          this.$q.notify({
-            message: 'No more notes to load!',
-            color: 'deep-orange-6',
-            position: 'center',
-            timeout: 1500
-          })
+          if (this.totalNotes > 10) {
+            this.$q.notify({
+              message: 'No more notes to load!',
+              color: 'deep-orange-6',
+              position: 'center',
+              timeout: 1500
+            })
+          }
           done(true)
         }
       }, 2000)
