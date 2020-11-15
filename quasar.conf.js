@@ -91,14 +91,13 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Dialog", "Notify", "Loading"]
+      plugins: ["Dialog", "Notify", "Loading", "LocalStorage"]
     },
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
     animations: [
       "zoomOut",
-      "rotateOut",
       "fadeIn",
       "fadeOut",
       "slideInUp",
