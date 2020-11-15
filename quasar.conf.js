@@ -6,7 +6,7 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 let API_LOCAL = 'http://localhost:3000'
-    API_TEST_ENV_HEROKU = "https://amada-book-butterfly.herokuapp.com"
+    API_STAGING = "https://amada-book-butterfly.herokuapp.com"
 
 module.exports = function (/* ctx */) {
   return {
@@ -41,7 +41,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        API: API_LOCAL
+        API: API_STAGING
       },
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
@@ -111,14 +111,14 @@ module.exports = function (/* ctx */) {
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
+      workboxPluginMode: "InjectManifest", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: `Book-Butterfly - Output Your Experiences!`,
         short_name: `Book-Butterfly`,
         description: `A tracking app for reading books`,
         display: "standalone",
-        orientation: "portrait primary",
+        orientation: "portrait",
         background_color: "#ffffff",
         theme_color: "#ffa726",
         icons: [
