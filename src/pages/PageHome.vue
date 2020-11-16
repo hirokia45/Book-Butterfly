@@ -68,6 +68,55 @@
       </div>
     </div>
 
+    <transition
+      appear
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
+      <q-page-sticky
+        expand
+        position="bottom"
+        v-if="showAppInstallBanner"
+        class="banner-container bg-primary"
+      >
+        <div class="constrain">
+          <q-banner inline-actions dense class="bg-primary text-white">
+            <q-avatar
+              color="white"
+              icon="eva-book-open-outline"
+              text-color="secondary"
+              size="md"
+              class="q-mr-xs"
+              font-size="22px"
+            />
+            <b>Install Book Butterfly?</b>
+            <template v-slot:action>
+              <q-btn
+                @click="installApp"
+                class="q-px-sm"
+                dense
+                flat
+                label="Yes"
+              />
+              <q-btn
+                @click="showAppInstallBanner = false"
+                class="q-px-sm"
+                dense
+                flat
+                label="Later"
+              />
+              <q-btn
+                @click="neverShowAppInstallBanner"
+                class="q-px-sm"
+                dense
+                flat
+                label="Never"
+              />
+            </template>
+          </q-banner>
+        </div>
+      </q-page-sticky>
+    </transition>
     <q-dialog v-model="showAddNote">
       <add-note @close="showAddNote = false" />
     </q-dialog>
@@ -75,6 +124,7 @@
 </template>
 
 <script>
+let deferredPrompt;
 import { mapState, mapGetters, mapActions } from 'vuex'
 import NoteItem from '../components/Notes/NoteItem'
 import NoNoteYet from '../components/Notes/NoNoteYet'
@@ -96,6 +146,7 @@ export default {
   data() {
     return {
       showAddNote: false,
+      showAppInstallBanner: false
     }
   },
   computed: {
@@ -110,6 +161,19 @@ export default {
     let currentPage = this.page
     if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
      this.loadNotes()
+    }
+  },
+  mounted() {
+    let neverShowAppInstallBanner = this.$q.localStorage.getItem('neverShowAppInstallBanner')
+
+    if (!neverShowAppInstallBanner) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault()
+        deferredPrompt = e
+        setTimeout(() => {
+          this.showAppInstallBanner = true
+        }, 3000)
+      })
     }
   },
   methods: {
@@ -138,12 +202,31 @@ export default {
           done(true)
         }
       }, 2000)
+    },
+
+    installApp() {
+      this.showAppInstallBanner = false
+      deferredPrompt.prompt()
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('accepted')
+          this.neverShowAppInstallBanner()
+        } else {
+          console.log('rejected')
+        }
+      })
+    },
+
+    neverShowAppInstallBanner() {
+      this.showAppInstallBanner = false
+      this.$q.localStorage.set('neverShowAppInstallBanner', true)
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
+
 .add-button
   @media (min-width: $breakpoint-sm-min)
     position: absolute

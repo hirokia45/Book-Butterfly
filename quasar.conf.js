@@ -121,6 +121,8 @@ module.exports = function (/* ctx */) {
         orientation: "portrait",
         background_color: "#ffffff",
         theme_color: "#ffa726",
+        prefer_related_application: true,
+        start_url: "../index.html",
         icons: [
           {
             src: "icons/icon-128x128.png",

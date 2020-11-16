@@ -5,9 +5,11 @@ export default {
   async login({ commit }, user) {
     try {
       const response = await AuthService.login(user)
-      commit('loginSuccess', response)
+      console.log('login');
+      await commit('loginSuccess', response)
     } catch (err) {
-      commit('loginFailure')
+      console.log(err)
+      await commit('loginFailure')
     }
   },
 

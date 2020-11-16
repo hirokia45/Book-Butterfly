@@ -12,13 +12,11 @@ class AuthService {
       if (response.data.token) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
-
       Notify.create({
         type: 'positive',
         message: 'Login Success!',
         position: "top"
       });
-
       return response.data;
     } catch (err) {
       console.log(err.response.data);
@@ -27,6 +25,8 @@ class AuthService {
         message: err.response.data.message,
         position: "top"
       });
+      const error = new Error('login Failure')
+      throw error
     }
 
   }

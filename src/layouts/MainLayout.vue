@@ -140,54 +140,6 @@
       class="bg-white"
       bordered
     >
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
-        <div
-          v-if="showAppInstallBanner"
-          class="banner-container bg-primary"
-        >
-          <div class="constrain">
-            <q-banner inline-actions dense class="bg-primary text-white">
-              <q-avatar
-                color="white"
-                icon="eva-book-open-outline"
-                text-color="secondary"
-                size="md"
-                class="q-mr-xs"
-                font-size="22px"
-              />
-              <b>Install Book Butterfly?</b>
-              <template v-slot:action>
-                <q-btn
-                  @click="installApp"
-                  class="q-px-sm"
-                  dense
-                  flat
-                  label="Yes"
-                />
-                <q-btn
-                  @click="showAppInstallBanner = false"
-                  class="q-px-sm"
-                  dense
-                  flat
-                  label="Later"
-                />
-                <q-btn
-                  @click="neverShowAppInstallBanner"
-                  class="q-px-sm"
-                  dense
-                  flat
-                  label="Never"
-                />
-              </template>
-            </q-banner>
-          </div>
-        </div>
-      </transition>
-
       <q-tabs
         class="text-grey-8  small-screen-only"
         active-color="secondary"
@@ -219,14 +171,12 @@
 </template>
 
 <script>
-let deferredPrompt;
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
       fab: false,
-      showAppInstallBanner: false
     }
   },
   computed: {
@@ -242,19 +192,6 @@ export default {
       }
     }
   },
-  mounted() {
-    let neverShowAppInstallBanner = this.$q.localStorage.getItem('neverShowAppInstallBanner')
-
-    if (!neverShowAppInstallBanner) {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault()
-        deferredPrompt = e
-        setTimeout(() => {
-          this.showAppInstallBanner = true
-        }, 5000)
-      })
-    }
-  },
   methods: {
     ...mapActions('auth', ['logout']),
     async logOut() {
@@ -268,26 +205,8 @@ export default {
       } catch (err) {
         console.error(err)
       }
-    },
-
-    installApp() {
-      this.showAppInstallBanner = false
-      deferredPrompt.prompt()
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('accepted')
-          this.neverShowAppInstallBanner()
-        } else {
-          console.log('rejected')
-        }
-      })
-    },
-
-    neverShowAppInstallBanner() {
-      this.showAppInstallBanner = false
-      this.$q.localStorage.set('neverShowAppInstallBanner', true)
     }
-  },
+  }
 }
 </script>
 

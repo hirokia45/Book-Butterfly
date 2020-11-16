@@ -9,8 +9,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  name: 'PageWelcome'
+  name: 'PageWelcome',
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  },
+  created() {
+    if (this.isLoggedIn) {
+      this.$router.push('/home')
+    }
+  },
 }
 </script>
 
