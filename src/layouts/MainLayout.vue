@@ -3,9 +3,9 @@
     <q-header
       elevated
       class="text-grey-10"
-      v-if="isNotLoginPage"
+      v-if="isNotAuthPage"
     >
-      <q-toolbar class="constrain">
+      <q-toolbar class="constrain" >
 
         <q-avatar
           v-if="isLoggedIn"
@@ -181,9 +181,9 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn', 'loggedInUser']),
-    isNotLoginPage() {
-      return this.$route.path !== '/auth/login'
-    }
+    isNotAuthPage() {
+      return this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup'
+    },
   },
   watch: {
     watchLoggedInStat(curValue, oldValue) {
@@ -196,7 +196,6 @@ export default {
     ...mapActions('auth', ['logout']),
     async logOut() {
       try {
-        console.log('before logout');
         await this.logout()
         if (this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup' && this.$route.path !== '/welcome') {
 

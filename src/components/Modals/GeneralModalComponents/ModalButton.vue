@@ -1,5 +1,5 @@
 <template>
-  <q-card-actions align="right">
+  <q-card-actions align="center">
     <q-btn
       type="submit"
       text-color="white"

@@ -66,7 +66,6 @@ export default {
     scrollAreaSize() {
       if (this.$route.path === "/library" && window.innerWidth < 600) {
         return 'scroll-area-books'
-
       } else if (this.$route.path === "/library" && window.innerWidth > 600) {
         return 'scroll-area-books-more'
       } else {

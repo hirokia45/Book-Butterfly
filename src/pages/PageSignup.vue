@@ -1,8 +1,8 @@
 <template>
-  <q-page class="bg">
-
+  <q-page class="bg column justify-center">
+    <the-scroll-area>
     <div class="q-pa-md absolute full-width full-height">
-      <the-scroll-area>
+
       <div class="constrain">
 
         <div class="row q-col-gutter-lg">
@@ -14,7 +14,16 @@
 
           <div class="col-12 col-sm-4">
 
-              <q-card class="q-pa-md">
+              <div class="row justify-center q-my-md">
+                <q-btn
+                  @click="toLoginPage"
+                  class="purple-gradient-background"
+                  label="Login"
+                  text-color="white"
+                />
+              </div>
+
+              <q-card class="q-px-md q-py-sm">
                 <q-card-section class="q-pa-md">
                   <div class="text-h5 text-weight-bold">Create an account!</div>
                   <div class="text-subtitle1 text-weight-light">Please fill in the information</div>
@@ -60,8 +69,9 @@
           </div>
         </div>
       </div>
-      </the-scroll-area>
+
     </div>
+    </the-scroll-area>
   </q-page>
 </template>
 
@@ -100,6 +110,11 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signup']),
+    toLoginPage() {
+      this.$router.push(
+        { path: '/auth/login'}
+      )
+    },
     async handleSingup() {
       this.$refs.inputName.$refs.name.validate()
       this.$refs.inputEmail.$refs.email.validate()
@@ -116,9 +131,8 @@ export default {
           const redirectUrl = '/' + (this.$route.query.redirect || 'home')
           await this.$router.replace(redirectUrl)
         } catch (err) {
-          console.log(err)
+          console.error(err)
         }
-
         this.loading = false
       } else {
           this.$q.notify({
@@ -137,7 +151,7 @@ body, html
   height: 100%
 
 .bg
-  background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/temp-register-backgroun-image.jpg')
+  background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/book-butterfly-signup.jpg')
   height: 100%
 
   background-position: center;
