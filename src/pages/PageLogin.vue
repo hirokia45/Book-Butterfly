@@ -1,45 +1,49 @@
 <template>
   <q-page class="bg column justify-center">
-    <div
-      :class="!isDeskTop ? 'justify-center' : 'justify-end'"
-      class="full-width full-height row"
-    >
-      <div class="desktop-settings">
-        <q-card class="q-pa-md login-card">
-          <q-card-section class="q-pa-md text-center">
-            <div class="text-h5 text-weight-bold">BOOK BUTTERFLY LOGIN</div>
-          </q-card-section>
+    <div class="full-width full-height">
+      <div class="constrain">
+        <div
+          :class="!isDeskTop ? 'justify-center' : 'justify-end'"
+          class=" row"
+        >
+          <div class="desktop-settings">
+            <q-card class="q-pa-md login-card">
+              <q-card-section class="q-pa-md text-center">
+                <div class="text-h5 text-weight-bold">BOOK BUTTERFLY LOGIN</div>
+              </q-card-section>
 
-          <form
-            @submit.prevent="handleLogin"
-          >
-            <q-card-section>
+              <form
+                @submit.prevent="handleLogin"
+              >
+                <q-card-section>
 
-              <email-input
-                :email.sync="user.email"
-                ref="inputEmail"
-              />
+                  <email-input
+                    :email.sync="user.email"
+                    ref="inputEmail"
+                  />
 
-              <password-input
-                :password.sync="user.password"
-                ref="inputPassword"
-              />
+                  <password-input
+                    :password.sync="user.password"
+                    ref="inputPassword"
+                  />
 
-              <q-card-actions align="center">
-                <q-btn label="Submit" type="submit" color="primary" />
-              </q-card-actions>
+                  <q-card-actions align="center">
+                    <q-btn label="Submit" type="submit" color="primary" />
+                  </q-card-actions>
 
-            </q-card-section>
-          </form>
+                </q-card-section>
+              </form>
 
-          <q-card-section
-            @click="toSignupPage"
-            class="q-pa-md text-center"
-            style="cursor: pointer;"
-          >
-            <div class="text-body2 text-weight-bold">No account? Sign up!</div>
-          </q-card-section>
-        </q-card>
+              <q-card-section
+                @click="toSignupPage"
+                class="q-pa-md text-center"
+                style="cursor: pointer;"
+              >
+                <div class="text-body2 text-weight-bold">No account? Sign up!</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
       </div>
     </div>
   </q-page>

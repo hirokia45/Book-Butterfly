@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import notes from './modules/notes/index'
 import auth from './modules/auth/index'
 import books from './modules/books/index'
+import system from './modules/system/index'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default function (/* { ssrContext } */) {
     modules: {
       notes,
       auth,
-      books
+      books,
+      system
     },
 
     // enable strict mode (adds overhead!)

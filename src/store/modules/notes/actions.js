@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { date, Dialog, Notify } from "quasar"
+import { openDB } from "idb";
+import { Dialog, Notify } from "quasar"
 import authHeader from '../../../services/auth-header'
 
 export default {
@@ -24,11 +25,16 @@ export default {
       const notes = response.data.notes;
       const totalNotes = response.data.totalNotes;
 
+      if (!navigator.onLine) {
+        commit("setLoadingNotes", false);
+        dispatch("getOfflineNotes")
+      }
       commit("setLoadingNotes", false);
       commit("setTotalNotes", totalNotes);
       commit("setNotes", notes);
     } catch (err) {
-      //console.log(err.response.status);
+      console.log('error in post');
+
       if (err.response.status === 401) {
         await dispatch("auth/forcedLogout", null, { root: true });
         this.$router.replace({ path: "/auth/login" })
@@ -130,7 +136,7 @@ export default {
     }
   },
 
-  async addNote({ commit, dispatch }, note) {
+  async addNote({ commit, dispatch, rootState }, note) {
     const newNoteData = {
       ...note
     }
@@ -146,7 +152,6 @@ export default {
       createdNote.createdAt = new Date(createdNote.createdAt)
 
       commit("addNote", createdNote)
-      await dispatch("getNotesInit")
       await Notify.create({
         message: "Note Added!",
         timeout: 2000,
@@ -154,10 +159,18 @@ export default {
       })
     } catch (err) {
       console.error(err);
-      Dialog.create({
-        title: "Error",
-        message: "Could not add a new note..."
-      })
+      console.log('rootState', rootState.system.backgroundSyncSupported);
+      if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
+        dispatch("getNotesInit");
+        Notify.create({
+          message: "Note created offline"
+        })
+      } else {
+        Dialog.create({
+          title: "Error",
+          message: "Could not add a new note..."
+        })
+      }
     }
   },
 
@@ -289,6 +302,15 @@ export default {
         message: "Could not delete the image..."
       });
     }
+  },
 
+  getOfflineNotes({ commit }) {
+    let db = openDB('workbox-background-sync')
+    try {
+      console.log('database is open: ', db);
+    } catch (err) {
+      console.log(err);
+      throw new Error('Get Offline Notes Error')
+    }
   }
 };

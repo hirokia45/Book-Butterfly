@@ -1,83 +1,73 @@
 <template>
-  <q-page class="bg column justify-center">
-    <the-scroll-area>
-    <div class="q-pa-md absolute full-width full-height">
-
+  <q-page class="bg fit column justify-center">
+    <div class="q-pa-lg">
       <div class="constrain">
-
-        <div class="row q-col-gutter-lg">
+        <div class="row">
           <div class="col-12 col-sm-8">
             <div class="text-white">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae aperiam iusto error ipsa eius illo similique, dignissimos deserunt, fuga, quibusdam ut dicta nam repudiandae aut. Accusantium, mollitia consequatur? Saepe, velit?
             </div>
           </div>
 
-          <div class="col-12 col-sm-4">
+          <div class="col-12 col-sm-4"
+            :class="{'q-pl-xl': isDeskTop}"
+            >
+            <div class="row justify-center q-my-md">
+              <q-btn
+                @click="toLoginPage"
+                class="purple-gradient-background"
+                label="Login"
+                text-color="white"
+              />
+            </div>
 
-              <div class="row justify-center q-my-md">
-                <q-btn
-                  @click="toLoginPage"
-                  class="purple-gradient-background"
-                  label="Login"
-                  text-color="white"
-                />
-              </div>
+            <q-card class="q-px-md q-py-sm">
+              <q-card-section class="q-pa-md">
+                <div class="text-h5 text-weight-bold">Create an account!</div>
+                <div class="text-subtitle1 text-weight-light">Please fill in the information</div>
+              </q-card-section>
 
-              <q-card class="q-px-md q-py-sm">
-                <q-card-section class="q-pa-md">
-                  <div class="text-h5 text-weight-bold">Create an account!</div>
-                  <div class="text-subtitle1 text-weight-light">Please fill in the information</div>
+              <form
+                @submit.prevent="handleSingup"
+              >
+                <q-card-section>
+                  <name-input
+                    :name.sync="user.name"
+                    ref="inputName"
+                  />
+
+                  <email-input
+                    :email.sync="user.email"
+                    ref="inputEmail"
+                  />
+
+                  <password-input
+                    :password.sync="user.password"
+                    ref="inputPassword"
+                  />
+
+                  <q-card-actions align="center">
+                    <q-btn
+                      outline
+                      icon="eva-email-outline"
+                      color="primary"
+                      label="Register"
+                      type="submit"
+                      class="q-py-xs q-px-sm"
+                    />
+                  </q-card-actions>
                 </q-card-section>
-
-                <form
-                  @submit.prevent="handleSingup"
-                >
-                  <q-card-section>
-
-                    <name-input
-                      :name.sync="user.name"
-                      ref="inputName"
-                    />
-
-                    <email-input
-                      :email.sync="user.email"
-                      ref="inputEmail"
-                    />
-
-                    <password-input
-                      :password.sync="user.password"
-                      ref="inputPassword"
-                    />
-
-                    <q-card-actions align="center">
-                      <q-btn
-                        outline
-                        icon="eva-email-outline"
-                        color="primary"
-                        label="Register"
-                        type="submit"
-                        class="q-py-xs q-px-sm"
-                      />
-                    </q-card-actions>
-
-                  </q-card-section>
-
-                </form>
-              </q-card>
-
-
+              </form>
+            </q-card>
           </div>
         </div>
       </div>
-
     </div>
-    </the-scroll-area>
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import TheScrollArea from '../components/Layouts/TheScrollArea'
 import NameInput from '../components/Auth/NameInput'
 import EmailInput from '../components/Auth/EmailInput'
 import PasswordInput from '../components/Auth/PasswordInput'
@@ -85,7 +75,6 @@ import PasswordInput from '../components/Auth/PasswordInput'
 export default {
   name: 'PageSignup',
   components: {
-    TheScrollArea,
     NameInput,
     EmailInput,
     PasswordInput
@@ -102,6 +91,9 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
+    isDeskTop() {
+      return (window.innerWidth > 600 ? true : false)
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -154,8 +146,8 @@ body, html
   background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/book-butterfly-signup.jpg')
   height: 100%
 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
 
 </style>

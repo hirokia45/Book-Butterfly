@@ -15,13 +15,27 @@ import { CacheFirst } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { NetworkFirst } from 'workbox-strategies';
-
+import { Queue } from 'workbox-background-sync';
 
 /*
   config
 */
 
 precacheAndRoute(self.__WB_MANIFEST);
+
+
+let backgroundSyncSupported = 'sync' in self.registration ? true : false
+console.log('backgroundSyncSupported: ', backgroundSyncSupported);
+
+/*
+ queue
+*/
+
+let createNoteQueue = null;
+if (backgroundSyncSupported) {
+  createNoteQueue = new Queue("createNoteQueue");
+}
+
 
 /*
   strategies
@@ -54,3 +68,18 @@ registerRoute(
   ({ url }) => url.href.startsWith('http'),
   new StaleWhileRevalidate()
 );
+
+/*
+  events - Fetch
+*/
+
+if (backgroundSyncSupported) {
+  self.addEventListener("fetch", event => {
+    if (event.request.url.endsWith('/notes')) {
+      const promiseChain = fetch(event.request.clone()).catch(err => {
+      return createNoteQueue.pushRequest({ request: event.request });
+    });
+      event.waitUntil(promiseChain);
+    }
+  });
+}
