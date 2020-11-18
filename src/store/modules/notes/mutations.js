@@ -71,6 +71,10 @@ export default {
 
   setLoadingNotes(state, isLoading) {
     state.loadingNotes = isLoading
+  },
+
+  addOfflineNote(state, payload) {
+    state.notes.unshift(payload)
   }
 
 };

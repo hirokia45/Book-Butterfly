@@ -33,7 +33,25 @@ console.log('backgroundSyncSupported: ', backgroundSyncSupported);
 
 let createNoteQueue = null;
 if (backgroundSyncSupported) {
-  createNoteQueue = new Queue("createNoteQueue");
+  createNoteQueue = new Queue("createNoteQueue"), {
+    onSync: async ({ queue }) => {
+      let entry;
+      while (entry = await queue.shiftRequest()) {
+        try {
+          await fetch(entry.request)
+          console.log('Replay successful for request', entry.request)
+          const channel = new BroadcastChannel('sw-message')
+          channel.postMessage({msg: 'offline-note-uploaded'})
+        } catch (err) {
+          console.error('Replay failed for request', entry.request, error)
+
+          await queue.unshiftRequest(entry)
+          throw error
+        }
+      }
+      console.log('Replay complete');
+    }
+  };
 }
 
 

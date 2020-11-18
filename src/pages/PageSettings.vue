@@ -10,6 +10,19 @@
 
           <q-separator />
 
+          <q-item>
+            <q-item-section>Background Sync Supported</q-item-section>
+            <template v-if="backgroundSyncSupported">
+              <q-item-section avatar>
+                <q-avatar color="positive" text-color="white" icon="eva-sync-outline" />
+              </q-item-section>
+            </template>
+            <template v-else>
+              <q-item-section avatar>
+                <q-avatar color="negative" text-color="white" icon="eva-alert-triangle" />
+              </q-item-section>
+            </template>
+          </q-item>
         </q-list>
 
         <q-list
@@ -64,3 +77,13 @@
     </div>
   </q-page>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters('system', ['backgroundSyncSupported'])
+  }
+}
+</script>

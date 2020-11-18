@@ -1,12 +1,16 @@
 const getDefaultSystemState = () => {
   return {
-    backgroundSyncSupported: false
+    backgroundSyncSupported: false,
+    serviceWorkerSupported: false
   }
 }
 
 const mutations = {
-  setBackgroundSyncSupported(state, payload) {
-    state.backgroundSyncSupported = payload
+  setBackgroundSyncSupported(state, value) {
+    state.backgroundSyncSupported = value
+  },
+  setServiceWorkerSupported(state, value) {
+    state.serviceWorkerSupported = value
   }
 }
 
@@ -18,13 +22,28 @@ const actions = {
     } else {
       backgroundSyncSupported = false
     }
-    console.log('backgroundSyncSupported: ', backgroundSyncSupported)
     commit("setBackgroundSyncSupported", backgroundSyncSupported)
+  },
+
+  checkServiceWorkerSupported({ commit }) {
+    let serviceWorkerSupported;
+    if ("serviceWorker" in navigator) {
+      serviceWorkerSupported = true
+    } else {
+      serviceWorkerSupported = false
+    }
+    commit("setServiceWorkerSupported", serviceWorkerSupported)
   }
 }
 
 const getters = {
+  backgroundSyncSupported(state) {
+    return state.backgroundSyncSupported
+  },
 
+  serviceWorkerSupported(state) {
+    return state.serviceWorkerSupported
+  }
 }
 
 export default {

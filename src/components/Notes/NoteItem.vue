@@ -2,10 +2,18 @@
   <q-card
     tabindex="0"
     class="note-card q-mb-md"
+    :class="{ 'bg-indigo-2' : note.offline }"
     bordered
     flat
   >
     <div @click="toSingleNotePage($event)" class="cursor-pointer">
+      <q-badge
+        v-if="note.offline"
+        class="absolute-top-right offline-badge"
+        color="blue-14"
+      >
+        Offline Note
+      </q-badge>
 
       <q-item>
         <q-item-section avatar>
@@ -107,3 +115,9 @@ export default {
 
 }
 </script>
+
+<style lang="stylus" scoped>
+.offline-badge
+  border-top-left-radius: 0
+  border-bottom-right-radius: 0
+</style>

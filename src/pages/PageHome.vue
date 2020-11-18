@@ -7,21 +7,19 @@
             @show-add-note-modal="showAddNote = true"
           >
             <template v-if="!loadingNotes && notes.length">
-              <div>
-                <q-infinite-scroll @load="onLoad" :offset="250">
-                  <note-item
-                    v-for="note in notes"
-                    :key="note._id"
-                    :_id="note._id"
-                    :note="note"
-                  />
-                  <template v-slot:loading>
-                    <div class="row justify-center q-my-md">
-                      <q-spinner-dots color="primary" size="40px" />
-                    </div>
-                  </template>
-                </q-infinite-scroll>
-              </div>
+              <q-infinite-scroll @load="onLoad" :offset="250">
+                <note-item
+                  v-for="note in notes"
+                  :key="note._id"
+                  :_id="note._id"
+                  :note="note"
+                />
+                <template v-slot:loading>
+                  <div class="row justify-center q-my-md">
+                    <q-spinner-dots color="primary" size="40px" />
+                  </div>
+                </template>
+              </q-infinite-scroll>
             </template>
 
             <template v-else-if="!loadingNotes && !notes.length">
@@ -145,6 +143,7 @@ export default {
     ...mapState('notes', ['loadingNotes', 'notes']),
     ...mapGetters('auth', ['isLoggedIn']),
     ...mapGetters('notes', ['notes', 'page', 'totalNotes']),
+    ...mapGetters('system', ['serviceWorkerSupported']),
     singleNoteLink() {
       return '/notes/' + this.note._id
     },
@@ -154,12 +153,15 @@ export default {
       return false
     }
   },
-  created() {
-    this.checkSystemAvailability()
+  activated() {
     let currentPage = this.page
     if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
      this.loadNotes()
     }
+  },
+  created() {
+    this.checkSystemAvailability()
+    listenForOfflineNoteUploaded()
   },
   mounted() {
     let neverShowAppInstallBanner = this.$q.localStorage.getItem('neverShowAppInstallBanner')
@@ -176,7 +178,7 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo']),
-    ...mapActions('system', ['checkBackgroundSyncSupported']),
+    ...mapActions('system', ['checkBackgroundSyncSupported', 'checkServiceWorkerSupported']),
     async loadNotes() {
       this.getNotesInit()
       this.getCalendarInfo()
@@ -186,18 +188,24 @@ export default {
       let currentPage = this.page
 
       setTimeout(() => {
-        if (currentPage < totalPages) {
+        if (!navigator.onLine) {
+          this.$q.notify({
+            message: 'Please reload later when you have internet connection!',
+            color: 'deep-orange-6',
+            position: 'center',
+            timeout: 1500
+          })
+          done(true)
+        } else if (currentPage < totalPages) {
           this.loadMoreNotes()
           done()
-        } else {
-          if (this.totalNotes > 10) {
-            this.$q.notify({
-              message: 'No more notes to load!',
-              color: 'deep-orange-6',
-              position: 'center',
-              timeout: 1500
-            })
-          }
+        } else if (this.totalNotes > 10) {
+          this.$q.notify({
+            message: 'No more notes to load!',
+            color: 'deep-orange-6',
+            position: 'center',
+            timeout: 1500
+          })
           done(true)
         }
       }, 2000)
@@ -223,6 +231,18 @@ export default {
 
     checkSystemAvailability() {
       this.checkBackgroundSyncSupported()
+      this.checkServiceWorkerSupported()
+    },
+
+    listenForOfflineNoteUploaded() {
+      console.log('listenfor');
+      console.log('serviceworker', this.serviceWorkerSupported);
+      if (this.serviceWorkerSupported) {
+        const channel = new BroadcastChannel('sw-messages')
+        channel.addEventListener('message', event => {
+          console.log('Received', event.data);
+        })
+      }
     }
   }
 }

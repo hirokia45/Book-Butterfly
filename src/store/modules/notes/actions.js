@@ -27,7 +27,7 @@ export default {
 
       if (!navigator.onLine) {
         commit("setLoadingNotes", false);
-        dispatch("getOfflineNotes")
+        // dispatch("getOfflineNotes")
       }
       commit("setLoadingNotes", false);
       commit("setTotalNotes", totalNotes);
@@ -159,9 +159,11 @@ export default {
       })
     } catch (err) {
       console.error(err);
-      console.log('rootState', rootState.system.backgroundSyncSupported);
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        dispatch("getNotesInit");
+        newNoteData.owner = rootState.auth.user.user.name
+        newNoteData.createdAt = Date.now()
+        newNoteData.offline = true
+        commit("addOfflineNote", newNoteData)
         Notify.create({
           message: "Note created offline"
         })
@@ -304,13 +306,38 @@ export default {
     }
   },
 
-  getOfflineNotes({ commit }) {
-    let db = openDB('workbox-background-sync')
-    try {
-      console.log('database is open: ', db);
-    } catch (err) {
-      console.log(err);
-      throw new Error('Get Offline Notes Error')
-    }
-  }
-};
+//   async getOfflineNotes({ commit }) {
+// //     console.log('inside get Offline');
+// //     // let db = openDB('workbox-background-sync').then(db => {
+// //     //   db.getAll('requests').then(failedRequests => {
+// //     //     console.log(failedRequests);
+// //     //     failedRequests.forEach(failedRequest => {
+// //     //       if (failedRequest.queueName === 'createNoteQueue') {
+// //     //         let request = new Request(failedRequest.requestData.url, failedRequest.requestData)
+// //     //         let offlineNote = {}
+// //     //         offlineNote.title = failedRequest.requestData
+// //     //         commit("addNote", offlinNote)
+// //     //       }
+// //     //     })
+// //     //   }).catch(err => {
+// //     //     console.log('Error accesccing IndexDB: ', err);
+// //     //   })
+// //     // })
+
+//     try {
+//       const db = await openDB("workbox-background-sync")
+
+//       const failedRequests = db.getAll('requests')
+//       console.log(failedRequests);
+//       failedRequests.forEach(failedRequest => {
+//         if (failedRequest.queueName == 'createNoteQueue') {
+//           let request = new Request(failedRequest.requestData.url, failedRequest.requestData)
+//           console.log('request: ', request);
+//         }
+//       })
+//     } catch (err) {
+//       console.error(err);
+//       throw new Error('Get Offline Notes Error')
+//     }
+//   }
+ }
