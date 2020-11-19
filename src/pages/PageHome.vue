@@ -161,7 +161,7 @@ export default {
   },
   created() {
     this.checkSystemAvailability()
-    listenForOfflineNoteUploaded()
+    this.listenForOfflineNoteUploaded()
   },
   mounted() {
     let neverShowAppInstallBanner = this.$q.localStorage.getItem('neverShowAppInstallBanner')
@@ -177,7 +177,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo']),
+    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo', 'unshiftOfflineNote']),
     ...mapActions('system', ['checkBackgroundSyncSupported', 'checkServiceWorkerSupported']),
     async loadNotes() {
       this.getNotesInit()
@@ -235,12 +235,12 @@ export default {
     },
 
     listenForOfflineNoteUploaded() {
-      console.log('listenfor');
-      console.log('serviceworker', this.serviceWorkerSupported);
       if (this.serviceWorkerSupported) {
         const channel = new BroadcastChannel('sw-messages')
         channel.addEventListener('message', event => {
-          console.log('Received', event.data);
+          if(event.data.msg === 'offline-note-uploaded') {
+            this.unshiftOfflineNote()
+          }
         })
       }
     }

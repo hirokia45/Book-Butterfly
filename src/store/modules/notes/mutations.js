@@ -75,6 +75,13 @@ export default {
 
   addOfflineNote(state, payload) {
     state.notes.unshift(payload)
+  },
+
+  unshiftOfflineNote(state) {
+    let offlineNoteCount = state.notes.filter(
+      note => note.offline === true
+    ).length;
+    state.notes[offlineNoteCount - 1].offline = false;
   }
 
 };

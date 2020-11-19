@@ -33,25 +33,26 @@ console.log('backgroundSyncSupported: ', backgroundSyncSupported);
 
 let createNoteQueue = null;
 if (backgroundSyncSupported) {
-  createNoteQueue = new Queue("createNoteQueue"), {
+  createNoteQueue = new Queue ('createNoteQueue', {
     onSync: async ({ queue }) => {
+      console.log('onSync');
       let entry;
       while (entry = await queue.shiftRequest()) {
         try {
-          await fetch(entry.request)
-          console.log('Replay successful for request', entry.request)
-          const channel = new BroadcastChannel('sw-message')
-          channel.postMessage({msg: 'offline-note-uploaded'})
+          await fetch(entry.request);
+          console.log('Replay successful for request', entry.request);
+          const channel = new BroadcastChannel('sw-messages');
+          channel.postMessage({ msg: 'offline-note-uploaded' });
         } catch (err) {
-          console.error('Replay failed for request', entry.request, error)
+          console.error('Replay failed for request', entry.request, err)
 
           await queue.unshiftRequest(entry)
-          throw error
+          throw err
         }
       }
       console.log('Replay complete');
     }
-  };
+  });
 }
 
 
@@ -94,10 +95,12 @@ registerRoute(
 if (backgroundSyncSupported) {
   self.addEventListener("fetch", event => {
     if (event.request.url.endsWith('/notes')) {
-      const promiseChain = fetch(event.request.clone()).catch(err => {
-      return createNoteQueue.pushRequest({ request: event.request });
-    });
-      event.waitUntil(promiseChain);
+      if (!self.navigator.onLine) {
+        const promiseChain = fetch(event.request.clone()).catch(err => {
+          return createNoteQueue.pushRequest({ request: event.request });
+        });
+        event.waitUntil(promiseChain);
+      }
     }
   });
 }
