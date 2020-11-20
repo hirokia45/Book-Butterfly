@@ -27,10 +27,7 @@
                 src="../../assets/no-cover-image-found.jpg"
               >
             </template>
-
           </template>
-
-
         </div>
 
         <div class="col-12 col-sm-7">
@@ -90,7 +87,6 @@
               :icon="icons"
             />
           </div>
-
         </div>
       </div>
     </q-card-section>
@@ -134,7 +130,6 @@
           label="Rate"
           icon="eva-star-outline"
         />
-
       </q-fab>
     </q-card-section>
 
@@ -164,13 +159,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ModalHeader from '../Modals/GeneralModalComponents/ModalHeader'
-import RateMyBookModal from '../Modals/RateMyBook'
 
 export default {
   components: {
-    ModalHeader,
-    RateMyBookModal
+    ModalHeader: () => import('../Modals/GeneralModalComponents/ModalHeader'),
+    RateMyBookModal: () => import('../Modals/RateMyBook')
   },
   props: ['id', 'book', 'isBookShelfTab', 'isSearchTab'],
   data() {
@@ -278,7 +271,6 @@ export default {
         this.removeMyBook(info)
       })
     }
-
   },
 }
 </script>

@@ -23,7 +23,6 @@ export default {
 }
 </script>
 
-
 <style lang="sass" scoped>
 body, html
   height: 100%
@@ -32,8 +31,7 @@ body, html
   background-image: url('https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/book-butterfly-welcome.jpg')
   height: 100%
 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
 </style>

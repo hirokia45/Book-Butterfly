@@ -1,8 +1,8 @@
 <template>
   <q-page>
-    <div class="q-pa-md absolute full-width full-height">
-      <the-scroll-area>
-        <div class="constrain-more">
+    <div class="absolute fit">
+      <base-scroll-area>
+        <div class="constrain-more q-pa-md fit">
           <div class="camera-frame q-pa-md bg-white">
             <video
               v-show="!imageCaptured"
@@ -17,6 +17,7 @@
               height="240"
             />
           </div>
+
           <div class="text-center q-pa-md">
             <q-btn
               v-if="hasCameraSupport && cameraToggle"
@@ -41,6 +42,7 @@
               </template>
             </q-file>
           </div>
+
           <div class="text-center q-ma-md">
             <q-btn
               @click="submitImage"
@@ -51,28 +53,30 @@
             />
           </div>
 
-          <div class="text-center" v-show="!note.photo">
-            <q-toggle
-              v-model="cameraToggle"
-              checked-icon="eva-camera"
-              color="green"
-              size="xl"
-              unchecked-icon="eva-attach"
-              @input="cameraToggledFalse"
-            />
-          </div>
+          <div class="row justify-center">
+            <div class="text-center" v-show="!note.photo">
+              <q-toggle
+                v-model="cameraToggle"
+                checked-icon="eva-camera"
+                color="green"
+                size="xl"
+                unchecked-icon="eva-attach"
+                @input="cameraToggledFalse"
+              />
+            </div>
 
-          <div v-show="hasCameraSupport && cameraToggle && !note.photo"
-              class="text-center"
-          >
-            <q-toggle
-              v-model="cameraRear"
-              checked-icon="eva-flip-2"
-              color="green"
-              size="xl"
-              unchecked-icon="eva-flip-2"
-              @input="toggleCameraFrontRear"
-            />
+            <div v-show="hasCameraSupport && cameraToggle && !note.photo"
+                class="text-center q-ml-md"
+            >
+              <q-toggle
+                v-model="cameraRear"
+                checked-icon="eva-flip-2"
+                color="green"
+                size="xl"
+                unchecked-icon="eva-flip-2"
+                @input="toggleCameraFrontRear"
+              />
+            </div>
           </div>
 
           <q-page-sticky
@@ -88,7 +92,7 @@
             />
           </q-page-sticky>
         </div>
-      </the-scroll-area>
+      </base-scroll-area>
     </div>
   </q-page>
 </template>
@@ -96,27 +100,17 @@
 <script>
 import { mapActions } from 'vuex'
 require('md-gum-polyfill')
-import TheScrollArea from '../components/Layouts/TheScrollArea'
-
 
 export default {
   name: 'PageCamera',
   components: {
-    TheScrollArea
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
   },
   props: ['_id'],
   data() {
     return {
       note: {
         _id: this._id,
-        // owner: '',
-        // createdAt: '',
-        // title: '',
-        // author: '',
-        // category: '',
-        // pageFrom: null,
-        // pageTo: null,
-        // comment: '',
         photo: null
       },
       imageUpload: [],
@@ -126,9 +120,6 @@ export default {
       cameraRear: true
     }
   },
-  // created() {
-  //   this.loadSingleNote(this._id)
-  // },
   methods: {
     ...mapActions('notes', ['addImage']),
 

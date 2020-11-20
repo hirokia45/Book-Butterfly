@@ -8,13 +8,10 @@
 </template>
 
 <script>
-import ModalHeader from '../Modals/GeneralModalComponents/ModalHeader'
-import BookSearchFilter from '../Tools/BookSearchFilter'
-
 export default {
   components: {
-    ModalHeader,
-    BookSearchFilter
+    ModalHeader: () => import('../Modals/GeneralModalComponents/ModalHeader'),
+    BookSearchFilter: () => import('../Tools/BookSearchFilter')
   },
 }
 </script>

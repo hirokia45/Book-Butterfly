@@ -1,13 +1,18 @@
 <template>
   <q-page>
-    <div class="q-pa-md absolute full-width full-height">
+    <div class="q-pa-md absolute fit">
       <div class="constrain-more">
         <q-list
           bordered
           padding
-          class="q-mb-md rounded-borders bg-white">
-          <q-item-label header>Settings</q-item-label>
-
+          class="q-mb-md rounded-borders bg-white"
+        >
+          <q-item-label class="text-center text-h6" header>
+            <q-icon
+              class="q-mr-xs"
+              name="eva-settings-2-outline"
+              size="sm"
+            />Settings</q-item-label>
           <q-separator />
 
           <q-item>
@@ -23,6 +28,18 @@
               </q-item-section>
             </template>
           </q-item>
+
+          <q-item>
+            <q-item-section>Language</q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>Push Notification</q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>Set Alarm</q-item-section>
+          </q-item>
         </q-list>
 
         <q-list
@@ -30,7 +47,13 @@
           padding
           class="rounded-borders bg-white"
         >
-          <q-item-label header>More</q-item-label>
+          <q-item-label class="text-center text-h6" header>
+            <q-icon
+              class="q-mr-xs"
+              name="eva-question-mark-circle-outline"
+              size="sm"
+            />More
+          </q-item-label>
 
           <q-separator />
           <q-item
@@ -47,7 +70,8 @@
           </q-item>
 
           <q-item
-            @click="visitOurWebsite"
+            @click="visitMyWebsite"
+            disable
             tag="label"
             v-ripple>
             <q-item-section>
@@ -61,6 +85,7 @@
 
           <q-item
             @click="emailMe"
+            disable
             tag="label"
             v-ripple>
             <q-item-section>
@@ -80,10 +105,19 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { openURL } from "quasar"
 
 export default {
   computed: {
     ...mapGetters('system', ['backgroundSyncSupported'])
+  },
+  methods: {
+    visitMyWebsite() {
+      openURL()
+    },
+    emailMe() {
+      window.location.href = 'mailto:...com?subject=Book Butterfly Feedback'
+    }
   }
 }
 </script>

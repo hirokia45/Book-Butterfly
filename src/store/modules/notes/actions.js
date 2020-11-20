@@ -136,7 +136,7 @@ export default {
     }
   },
 
-  async addNote({ commit, rootState }, note) {
+  async addNote({ commit, dispatch, rootState }, note) {
     const newNoteData = {
       ...note
     }
@@ -152,6 +152,7 @@ export default {
       createdNote.createdAt = new Date(createdNote.createdAt)
 
       commit("addNote", createdNote)
+      dispatch("getCalendarInfo")
       await Notify.create({
         message: "Note Added!",
         timeout: 2000,
@@ -249,7 +250,14 @@ export default {
       );
 
       commit("deleteNote", _id);
-      await dispatch('updateNotesArray')
+      dispatch("getCalendarInfo")
+      //await dispatch('updateNotesArray')
+
+      await Notify.create({
+        message: "Note deleted!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      });
     } catch (err) {
       Dialog.create({
         title: "Error",
@@ -258,25 +266,28 @@ export default {
     }
   },
 
-  async updateNotesArray({ commit, state }) {
-    try {
-      let page = state.page
-      const response = await axios.get(
-        `${process.env.API}/notes/?sortBy=createdAt:desc&per_page=10&page=${page}`,
-        { headers: authHeader() }
-      );
-      const notes = response.data.notes.forEach(note => {
-        let timeInData = note.createdAt;
-        note.createdAt = new Date(timeInData);
-      })
-      commit("setNotes", notes)
-    } catch (err) {
-      Dialog.create({
-        title: "Error",
-        message: "Could not reload the notes..."
-      })
-    }
-  },
+  // async updateNotesArray({ commit, state }) {
+  //   try {
+  //     let page = state.page
+  //     const response = await axios.get(
+  //       `${process.env.API}/notes/?sortBy=createdAt:desc&per_page=10&page=${page}`,
+  //       { headers: authHeader() }
+  //     );
+  //     console.log(response.data.notes);
+  //     const notes = response.data.notes.forEach(note => {
+  //       let timeInData = note.createdAt;
+  //       note.createdAt = new Date(timeInData);
+  //     })
+  //     console.log(notes);
+  //     commit("setNotes", notes)
+  //   } catch (err) {
+  //     console.error(err);
+  //     Dialog.create({
+  //       title: "Error",
+  //       message: "Could not reload the notes..."
+  //     })
+  //   }
+  // },
 
   async deleteImage({ commit }, _id) {
     const noteId = _id

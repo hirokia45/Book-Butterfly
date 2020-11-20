@@ -201,7 +201,7 @@ export default {
         await this.logout()
         if (this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup' && this.$route.path !== '/welcome') {
 
-        await this.$router.push('/welcome')
+        this.$router.push('/welcome')
         }
       } catch (err) {
         console.error(err)

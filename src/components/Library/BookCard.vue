@@ -31,8 +31,16 @@
 
       <q-card-section class="q-pb-none">
         <div class="text-subtitle2">{{ book.volumeInfo.title }}</div>
-        <div v-if="book.volumeInfo.authors && isSearchTab" class="text-subtitle2">{{ book.volumeInfo.authors[0] }}</div>
-        <div v-if="isSearchTab" class="text-subtitle2">{{ book.volumeInfo.publishedDate }}</div>
+        <div
+          v-if="book.volumeInfo.authors && isSearchTab"
+          class="text-subtitle2"
+        >{{ book.volumeInfo.authors[0] }}
+        </div>
+        <div
+          v-if="isSearchTab"
+          class="text-subtitle2"
+        >{{ book.volumeInfo.publishedDate }}
+        </div>
       </q-card-section>
 
       <q-card-section class="q-pa-sm">
@@ -75,11 +83,9 @@
 </template>
 
 <script>
-import BookDetails from '../Modals/BookDetails'
-
 export default {
   components: {
-    BookDetails
+    BookDetails: () => import('../Modals/BookDetails')
   },
   props: ['id', 'book', 'isBookShelfTab', 'isSearchTab'],
   data() {
@@ -117,6 +123,7 @@ export default {
 
 .info-container
   position: relative
+
 .info-button
   position: absolute
   bottom: 0

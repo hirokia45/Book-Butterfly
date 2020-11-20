@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="absolute fit">
-      <div class="constrain row fit q-pa-md">
+      <div class="constrain row fit q-pa-md sticky-page-container">
         <div class="col-12 col-sm-8 column full-height">
           <base-scroll-area
             @show-add-note-modal="showAddNote = true"
@@ -22,10 +22,22 @@
               </q-infinite-scroll>
             </template>
 
-            <template v-else-if="!loadingNotes && !notes.length">
+            <template v-else-if="!loadingNotes && totalNotes === 0">
               <no-note-yet
                 @show-add-note-modal="showAddNote = true"
               />
+            </template>
+
+            <template v-else-if="!loadingNotes && totalNotes > 0 && !notes.length">
+              <div class="row justify-center q-mt-lg">
+                <q-btn
+                  @click="getNotesInit"
+                  icon="eva-loader-outline"
+                  class="primary-gradient-background"
+                >
+                  <span class="q-ml-xs">Load More Notes</span>
+                </q-btn>
+              </div>
             </template>
 
             <template v-else>
@@ -39,21 +51,16 @@
             <note-calendar class="side-card" />
           </q-card>
         </div>
-      </div>
 
-      <q-page-sticky
-        :offset="[18, 18]"
-        class="add-button bottom-right large-screen-only"
-        style="z-index: 3"
-      >
-        <q-btn
-          @click="showAddNote = true"
-          class="primary-gradient-background shadow-5"
-          fab
-          padding="12px"
-          icon="eva-plus-outline"
-        />
-      </q-page-sticky>
+        <div class="desktop-sticky-button">
+          <q-btn
+            @click="showAddNote = true"
+            class="primary-gradient-background shadow-5"
+            fab
+            icon="eva-plus-outline"
+          />
+        </div>
+      </div>
     </div>
 
     <q-dialog v-model="showAddNote">
@@ -116,22 +123,16 @@
 <script>
 let deferredPrompt;
 import { mapState, mapGetters, mapActions } from 'vuex'
-import NoteItem from '../components/Notes/NoteItem'
-import NoNoteYet from '../components/Notes/NoNoteYet'
-import AddNote from '../components/Modals/AddNote'
-import PageLoaderNote from '../components/Layouts/PageLoaderNote'
-import NoteCalendar from '../components/Notes/NoteCalendar'
-import BaseScrollArea from '../components/Layouts/BaseScrollArea'
 
 export default {
   name: 'PageHome',
   components: {
-    NoteItem,
-    NoNoteYet,
-    AddNote,
-    PageLoaderNote,
-    NoteCalendar,
-    BaseScrollArea
+    NoteItem: () => import('../components/Notes/NoteItem'),
+    NoNoteYet: () => import('../components/Notes/NoNoteYet'),
+    AddNote: () => import('../components/Modals/AddNote'),
+    PageLoaderNote: () => import('../components/Layouts/PageLoaderNote'),
+    NoteCalendar: () => import('../components/Notes/NoteCalendar'),
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
   },
   data() {
     return {
@@ -249,10 +250,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.add-button
-  @media (min-width: $breakpoint-sm-min)
-    position: absolute
-
 .side-card
   @media (max-width: 900px) and (min-width: 600px)
     width: 200px

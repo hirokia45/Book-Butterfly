@@ -68,16 +68,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NameInput from '../components/Auth/NameInput'
-import EmailInput from '../components/Auth/EmailInput'
-import PasswordInput from '../components/Auth/PasswordInput'
 
 export default {
   name: 'PageSignup',
   components: {
-    NameInput,
-    EmailInput,
-    PasswordInput
+    NameInput: () => import('../components/Auth/NameInput'),
+    EmailInput: () => import('../components/Auth/EmailInput'),
+    PasswordInput: () => import('../components/Auth/PasswordInput')
   },
   data() {
     return {
@@ -149,5 +146,4 @@ body, html
   background-position: center
   background-repeat: no-repeat
   background-size: cover
-
 </style>

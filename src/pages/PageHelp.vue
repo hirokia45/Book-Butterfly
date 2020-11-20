@@ -1,21 +1,28 @@
 <template>
   <q-page>
-    <div class="q-pa-md absolute full-width full-height">
-      <the-scroll-area>
-        <div class="constrain-more">
-          <h5>Help</h5>
-        </div>
-      </the-scroll-area>
+    <div class="absolute fit">
+    	<div class="constrain-more q-pa-lg fit sticky-page-container">
+        <base-scroll-area>
+          <div class="text-h5">Help</div>
+        </base-scroll-area>
+
+    	  <div class="desktop-sticky-button">
+    	    <q-btn
+    	      @click="$router.go(-1)"
+    	      fab
+    	      class="grey-gradient-background shadow-5 text-grey-8"
+    	      icon="eva-arrow-back"
+    	    />
+    	  </div>
+    	</div>
     </div>
   </q-page>
 </template>
 
 <script>
-import TheScrollArea from '../components/Layouts/TheScrollArea'
-
 export default {
   components: {
-    TheScrollArea
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
   }
 }
 </script>

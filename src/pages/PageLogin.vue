@@ -51,14 +51,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import EmailInput from '../components/Auth/EmailInput'
-import PasswordInput from '../components/Auth/PasswordInput'
 
 export default {
   name: 'PageLogin',
   components: {
-    EmailInput,
-    PasswordInput
+    EmailInput: () => import('../components/Auth/EmailInput'),
+    PasswordInput: () => import('../components/Auth/PasswordInput')
   },
   data() {
     return {

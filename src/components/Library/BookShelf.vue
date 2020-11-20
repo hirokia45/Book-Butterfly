@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="row justify-center">
+  <div class="full-height column">
+    <div class="row justify-center col-1  q-mb-xs">
       <the-sort />
     </div>
 
-    <the-scroll-area>
+    <base-scroll-area class="full-height col">
       <div class="q-pa-sm row q-gutter-lg justify-center">
       <book-card
         :isBookShelfTab="isBookShelfTab"
@@ -14,22 +14,19 @@
         :book="book"
       ></book-card>
       </div>
-    </the-scroll-area>
+    </base-scroll-area>
 
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import TheSort from '../Tools/TheSort'
-import BookCard from '../Library/BookCard'
-import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
-    TheSort,
-    BookCard,
-    TheScrollArea
+    TheSort: () => import('../Tools/TheSort'),
+    BookCard: () => import('../Library/BookCard'),
+    BaseScrollArea: () => import('../Layouts/BaseScrollArea')
   },
   data() {
     return {
@@ -53,3 +50,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.flex-shrink
+  flex-shrink: 0
+</style>

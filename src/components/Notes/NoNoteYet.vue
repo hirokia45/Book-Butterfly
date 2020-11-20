@@ -1,7 +1,6 @@
 <template>
   <q-card class="note-card q-mb-md" flat bordered>
     <q-card-section text-color="grey-10">
-      <!-- <div class="text-h4 text-bold text-gochi-hand text-center">{{loggedInUser.name}},</div> -->
       <div class="text-h4 text-bold text-gochi-hand text-center">Welcome to <br> Book Butterfly!!</div>
       <div class="text-h6 text-gochi-hand text-center">Let's add your first note</div>
     </q-card-section>
@@ -22,16 +21,11 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  export default {
+export default {
   methods: {
     showAddNoteModal() {
       this.$emit('show-add-note-modal')
     }
   },
-  computed: {
-    // ...mapGetters('auth', ['loggedInUser']),
-  },
-
 }
 </script>

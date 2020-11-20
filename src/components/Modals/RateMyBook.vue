@@ -24,13 +24,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ModalHeader from '../Modals/GeneralModalComponents/ModalHeader'
-import ModalButton from '../Modals/GeneralModalComponents/ModalButton'
 
 export default {
   components: {
-    ModalHeader,
-    ModalButton
+    ModalHeader: () => import('../Modals/GeneralModalComponents/ModalHeader'),
+    ModalButton: () => import('../Modals/GeneralModalComponents/ModalButton')
   },
   props: ['_id', 'myRate'],
   data () {

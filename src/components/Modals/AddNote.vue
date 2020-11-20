@@ -88,7 +88,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
 import mixinsAddEditNote from 'src/mixins/mixin-add-edit-note'
 
 export default {
@@ -159,20 +158,6 @@ export default {
       this.showChapterInput = !this.showChapterInput
     }
   },
-
-  // beforeDestroy() {
-  //   if (this.noteToSubmit.comment && !this.isSaved)
-  //     this.$q.dialog({
-  //       title: 'Confirm',
-  //       message: 'You note has not been saved. Your data will be lost. Are you okay with that?',
-  //       cancel: true,
-  //       persistent: true
-  //     }).onOk(() => {
-  //       this.$emit('close')
-  //     }).onCancel(() => {
-  //       console.log('stay');
-  //     })
-  // }
 }
 </script>
 

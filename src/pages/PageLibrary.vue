@@ -1,34 +1,33 @@
 <template>
   <q-page>
-    <div class="q-pa-md absolute full-width full-height">
-      <div class="constrain full-height">
+    <div class="absolute fit">
+      <div class="q-pa-md constrain fit column row">
 				<q-tabs
 					v-model="tab"
 					dense
 					inline-label
 					align="justify"
-					class="text-grey"
+					class="text-grey col-1"
 					active-color="primary"
 					indicator-color="transparent"
 				>
 					<q-tab name="search" icon="eva-search-outline" label="Search" />
 					<q-tab name="bookshelf" icon="eva-book-outline" label="Bookshelf" />
 					<q-tab name="archive" icon="eva-archive-outline" label="Archive" />
-
 				</q-tabs>
 
-				<q-tab-panels v-model="tab" class="panel-height" animated>
-					<q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="search">
+				<q-tab-panels v-model="tab" class="full-height col" animated>
+					<q-tab-panel class="bg-brown-1 bg-brown-1 q-px-xs q-pb-xs q-pt-none fit" name="search">
 						<book-search
 						/>
 					</q-tab-panel>
 
-					<q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="bookshelf">
+					<q-tab-panel class="bg-brown-1 bg-brown-1 q-px-xs q-pb-xs q-pt-none fit" name="bookshelf">
 						<book-shelf
 						/>
 					</q-tab-panel>
 
-					<q-tab-panel class="bg-brown-1 q-pa-xs full-height" name="archive">
+					<q-tab-panel class="bg-brown-1 q-px-xs q-pb-xs q-pt-none fit" name="archive">
 						<the-archive
 						/>
 					</q-tab-panel>
@@ -40,16 +39,13 @@
 
 <script>
 import { mapActions } from 'vuex'
-import BookSearch from '../components/Library/BookSearch'
-import BookShelf from '../components/Library/BookShelf'
-import TheArchive from '../components/Library/TheArchive'
 
 export default {
   name: 'PageLibrary',
   components: {
-		BookSearch,
-		BookShelf,
-		TheArchive
+		BookSearch: () => import('../components/Library/BookSearch'),
+		BookShelf: () => import('../components/Library/BookShelf'),
+		TheArchive: () => import('../components/Library/TheArchive')
   },
   data () {
     return {
@@ -65,8 +61,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.panel-height
-  height: 78vh
-</style>

@@ -1,16 +1,14 @@
 <script>
-import ModalHeader from '../components/Modals/GeneralModalComponents/ModalHeader'
-import ModalTitle from '../components/Modals/NoteModalComponents/ModalTitle'
-import ModalAuthor from '../components/Modals/NoteModalComponents/ModalAuthor'
-import ModalPages from '../components/Modals/NoteModalComponents/ModalPages'
-import ModalChapter from '../components/Modals/NoteModalComponents/ModalChapter'
-import ModalCategory from '../components/Modals/NoteModalComponents/ModalCategory'
-import ModalButton from '../components/Modals/GeneralModalComponents/ModalButton'
-import ModalComment from '../components/Modals/NoteModalComponents/ModalComment'
-
 export default {
   components: {
-    ModalHeader, ModalTitle, ModalAuthor, ModalPages, ModalChapter, ModalCategory, ModalComment, ModalButton
+    ModalHeader: () => import('../components/Modals/GeneralModalComponents/ModalHeader'),
+    ModalTitle: () => import('../components/Modals/NoteModalComponents/ModalTitle'),
+    ModalAuthor: () => import('../components/Modals/NoteModalComponents/ModalAuthor'),
+    ModalPages: () => import('../components/Modals/NoteModalComponents/ModalPages'),
+    ModalChapter: () => import('../components/Modals/NoteModalComponents/ModalChapter'),
+    ModalCategory: () => import('../components/Modals/NoteModalComponents/ModalCategory'),
+    ModalComment: () => import('../components/Modals/NoteModalComponents/ModalComment'),
+    ModalButton: () => import('../components/Modals/GeneralModalComponents/ModalButton')
   },
   methods: {
     submitForm() {

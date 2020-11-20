@@ -1,10 +1,13 @@
 <template>
-  <div class="constrain-more">
-    <div class="row justify-center">
+  <div class="fit column constrain-more">
+    <div class="row justify-center col-1 q-mb-xs">
       <the-sort />
     </div>
 
-    <the-scroll-area v-if="sortedArchives.length > 0">
+    <base-scroll-area
+      v-if="sortedArchives.length > 0"
+      class="full-height col"
+    >
       <q-list bordered separator>
         <archive-item
           v-for="archive in sortedArchives"
@@ -13,22 +16,19 @@
           :archive="archive"
         />
       </q-list>
-    </the-scroll-area>
+    </base-scroll-area>
 
   </div>
 </template>
 
 <script>
 import { mapGetters,mapActions } from 'vuex'
-import ArchiveItem from '../Library/ArchiveItem'
-import TheSort from '../Tools/TheSort'
-import TheScrollArea from '../Layouts/TheScrollArea'
 
 export default {
   components: {
-    ArchiveItem,
-    TheSort,
-    TheScrollArea
+    ArchiveItem: () => import('../Library/ArchiveItem'),
+    TheSort: () => import('../Tools/TheSort'),
+    BaseScrollArea: () => import('../Layouts/BaseScrollArea')
   },
   computed: {
     ...mapGetters('books', ['sortedArchives'])

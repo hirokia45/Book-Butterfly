@@ -76,11 +76,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-import TheProgressCircle from './TheProgressCircle'
 
 export default {
   components: {
-    TheProgressCircle
+    TheProgressCircle: () => import('./TheProgressCircle')
   },
   props: ['tab', 'totalNotes', 'totalBooksCompleted'],
   methods: {

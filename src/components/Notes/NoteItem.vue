@@ -38,9 +38,7 @@
           >
             {{ note.createdAt | displayDate }}
           </q-item-label>
-
         </q-item-section>
-
 
         <q-item-section side>
           <note-header-fab
@@ -48,7 +46,6 @@
             :note="note"
           />
         </q-item-section>
-
       </q-item>
 
       <q-separator />
@@ -70,7 +67,8 @@
 
       <q-separator v-if="note.comment" />
 
-      <q-card-section v-if="note.comment"       class="comment-whitespace q-py-none q-px-lg"
+      <q-card-section v-if="note.comment"
+        class="comment-whitespace q-py-none q-px-lg"
       >
         {{ note.comment | truncate(500) }}
       </q-card-section>
@@ -85,14 +83,12 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { date } from 'quasar'
-import NoteHeaderFab from './NotesComponents/NoteHeaderFab'
 
 export default {
   components: {
-    NoteHeaderFab
+    NoteHeaderFab: () => import('./NotesComponents/NoteHeaderFab')
   },
   props: ['note', '_id'],
   computed: {
@@ -112,7 +108,6 @@ export default {
       return string.substring(0, val) + '...'
     }
   },
-
 }
 </script>
 

@@ -1,6 +1,8 @@
 <template>
   <q-card-section class="row">
-    <div class="text-h6 absolute-center"><slot></slot></div>
+    <div class="text-h6 absolute-center">
+      <slot></slot>
+    </div>
     <q-space />
     <q-btn
       v-close-popup

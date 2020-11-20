@@ -38,11 +38,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AchievementTabPanel from './AchievementTabPanel'
 
 export default {
   components: {
-    AchievementTabPanel
+    AchievementTabPanel: () => import('./AchievementTabPanel')
   },
   data() {
     return {

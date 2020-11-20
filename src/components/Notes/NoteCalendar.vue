@@ -24,17 +24,13 @@
 <script>
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import Calendar from 'v-calendar/lib/components/calendar.umd'
-import DatePicker from 'v-calendar/lib/components/date-picker.umd'
-import PopOver from 'v-calendar/lib/components/popover.umd'
-import PopoverRow from 'v-calendar/lib/components/popover-row.umd'
 
 export default {
   components: {
-    Calendar,
-    DatePicker,
-    PopOver,
-    PopoverRow
+    Calendar: () => import('v-calendar/lib/components/calendar.umd'),
+    DatePicker: () => import('v-calendar/lib/components/date-picker.umd'),
+    PopOver: () => import('v-calendar/lib/components/popover.umd'),
+    PopoverRow: () => import('v-calendar/lib/components/popover-row.umd')
   },
   computed: {
     ...mapGetters('notes', ['calendarInfo']),
@@ -72,5 +68,4 @@ export default {
 .popover-row-item::after
   content: ''
   width: 100%
-
 </style>

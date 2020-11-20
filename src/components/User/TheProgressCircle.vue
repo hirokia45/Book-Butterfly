@@ -34,11 +34,6 @@
 <script>
 export default {
   props: ['tab', 'totalNotes', 'totalBooksCompleted'],
-  data() {
-    return {
-
-    }
-  },
   computed: {
     circleValue() {
       return this.totalNotes || this.totalBooksCompleted
