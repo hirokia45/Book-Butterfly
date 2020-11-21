@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const getDefaultNoteState = () => {
   return {
     notes: [],
@@ -73,15 +75,42 @@ export default {
     state.loadingNotes = isLoading
   },
 
-  addOfflineNote(state, payload) {
-    state.notes.unshift(payload)
+  updateNoteOffline(state, payload) {
+    const updatingNote = state.notes.find(note => note._id === payload._id)
+    if (updatingNote.hasOwnProperty('offlineUpdate')) {
+      payload = {
+        ...payload,
+        offlineUpdate: true
+      }
+      Object.assign(updatingNote, payload);
+    } else {
+      Vue.set(updatingNote, 'offlineUpdate', true)
+      Object.assign(updatingNote, payload);
+    }
   },
+
+  // addOfflineNote(state, payload) {
+  //   state.notes.unshift(payload)
+  // },
 
   unshiftOfflineNote(state) {
     let offlineNoteCount = state.notes.filter(
       note => note.offline === true
     ).length;
-    state.notes[offlineNoteCount - 1].offline = false;
-  }
+    if (offlineNoteCount) {
+      state.notes[offlineNoteCount - 1].offline = false;
+    }
+  },
 
+  resetOfflineUpdateStatus(state, url) {
+    const _id = url.split("/").pop()
+    let offlineUpdatesCount = state.notes.filter(
+      note => note.offlineUpdate === true
+    ).length
+    if (offlineUpdatesCount) {
+      const change = {offlineUpdate: false}
+      const updatingNote = state.notes.find(note => note._id === _id)
+      Object.assign(updatingNote, change)
+    }
+  }
 };

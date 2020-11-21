@@ -194,8 +194,12 @@ export default {
       }
     }
   },
+  created() {
+    this.checkSystemAvailability()
+  },
   methods: {
     ...mapActions('auth', ['logout']),
+    ...mapActions('system', ['checkBackgroundSyncSupported', 'checkServiceWorkerSupported']),
     async logOut() {
       try {
         await this.logout()
@@ -206,7 +210,13 @@ export default {
       } catch (err) {
         console.error(err)
       }
-    }
+    },
+
+    checkSystemAvailability() {
+      console.log('triggered');
+      this.checkBackgroundSyncSupported()
+      this.checkServiceWorkerSupported()
+    },
   }
 }
 </script>

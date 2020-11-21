@@ -2,7 +2,7 @@
   <q-card
     tabindex="0"
     class="note-card q-mb-md"
-    :class="{ 'bg-indigo-2' : note.offline }"
+    :class="{ 'bg-indigo-2' : note.offline || note.offlineUpdate }"
     bordered
     flat
   >
@@ -13,6 +13,14 @@
         color="blue-14"
       >
         Offline Note
+      </q-badge>
+
+      <q-badge
+        v-if="!!note.offlineUpdate"
+        class="absolute-top-right offline-badge"
+        color="blue-14"
+      >
+        Offline Updated
       </q-badge>
 
       <q-item>

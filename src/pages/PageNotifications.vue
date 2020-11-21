@@ -67,7 +67,7 @@
 export default {
   name: 'PageNotifications',
   components: {
-    BaseScrollArea: () => import('../components/Layouts/TheScrollArea')
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
   }
 }
 </script>

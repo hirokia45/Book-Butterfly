@@ -52,7 +52,7 @@
           </q-card>
         </div>
 
-        <div class="desktop-sticky-button">
+        <div class="desktop-sticky-button large-scren-only">
           <q-btn
             @click="showAddNote = true"
             class="primary-gradient-background shadow-5"
@@ -155,13 +155,11 @@ export default {
     }
   },
   activated() {
-    let currentPage = this.page
-    if(this.isLoggedIn && currentPage === null && this.notes.length === 0) {
-     this.loadNotes()
+    if(this.isLoggedIn) {
+      this.loadNotes()
     }
   },
   created() {
-    this.checkSystemAvailability()
     this.listenForOfflineNoteUploaded()
   },
   mounted() {
@@ -179,7 +177,6 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo', 'unshiftOfflineNote']),
-    ...mapActions('system', ['checkBackgroundSyncSupported', 'checkServiceWorkerSupported']),
     async loadNotes() {
       this.getNotesInit()
       this.getCalendarInfo()
@@ -230,17 +227,13 @@ export default {
       this.$q.localStorage.set('neverShowAppInstallBanner', true)
     },
 
-    checkSystemAvailability() {
-      this.checkBackgroundSyncSupported()
-      this.checkServiceWorkerSupported()
-    },
-
     listenForOfflineNoteUploaded() {
       if (this.serviceWorkerSupported) {
         const channel = new BroadcastChannel('sw-messages')
         channel.addEventListener('message', event => {
+          const url = event.data.url
           if(event.data.msg === 'offline-note-uploaded') {
-            this.unshiftOfflineNote()
+            this.unshiftOfflineNote(url)
           }
         })
       }

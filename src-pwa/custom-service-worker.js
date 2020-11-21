@@ -10,11 +10,9 @@
 
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
-import { CacheFirst } from 'workbox-strategies';
+import { StaleWhileRevalidate, CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-import { NetworkFirst } from 'workbox-strategies';
 import { Queue } from 'workbox-background-sync';
 
 /*
@@ -42,7 +40,8 @@ if (backgroundSyncSupported) {
           await fetch(entry.request);
           console.log('Replay successful for request', entry.request);
           const channel = new BroadcastChannel('sw-messages');
-          channel.postMessage({ msg: 'offline-note-uploaded' });
+          console.log('url in service', entry.request.url);
+          channel.postMessage({ msg: 'offline-note-uploaded', url: entry.request.url });
         } catch (err) {
           console.error('Replay failed for request', entry.request, err)
 
@@ -94,7 +93,7 @@ registerRoute(
 
 if (backgroundSyncSupported) {
   self.addEventListener("fetch", event => {
-    if (event.request.url.endsWith('/notes')) {
+    if (event.request.url.indexOf("/notes") > -1) {
       if (!self.navigator.onLine) {
         const promiseChain = fetch(event.request.clone()).catch(err => {
           return createNoteQueue.pushRequest({ request: event.request });

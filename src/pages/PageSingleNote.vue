@@ -5,7 +5,7 @@
         <div class="col-12 col-sm-8 column full-height">
           <base-scroll-area>
             <single-note-item
-              :note="singleNote"
+              :note="singleNote || offlineNote"
               :loggedInUser="loggedInUser"
             />
           </base-scroll-area>
@@ -53,10 +53,15 @@ export default {
     BaseScrollArea: () => import('../components/Layouts/BaseScrollArea'),
     SingleNoteItem: () => import('../components/Notes/SingleNoteItem')
   },
-  props: ['_id'],
+  props: ['_id', 'note'],
   computed: {
     ...mapGetters('notes', ['fiveNewestNotes', 'singleNote']),
     ...mapGetters('auth', ['loggedInUser']),
+    offlineNote() {
+      if (!navigator.onLine) {
+        return this.note
+      }
+    }
   },
   created() {
     this.loadNotes(),

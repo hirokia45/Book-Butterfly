@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Vue from 'vue'
 import { openDB } from "idb";
 import { Dialog, Notify } from "quasar"
 import authHeader from '../../../services/auth-header'
@@ -164,7 +165,7 @@ export default {
         newNoteData.owner = rootState.auth.user.user.name
         newNoteData.createdAt = Date.now()
         newNoteData.offline = true
-        commit("addOfflineNote", newNoteData)
+        commit("addNote", newNoteData)
         Notify.create({
           message: "Note created offline"
         })
@@ -177,7 +178,7 @@ export default {
     }
   },
 
-  async updateNote({ commit }, updates) {
+  async updateNote({ commit, rootState }, updates) {
     const noteId = updates._id
     const updatingNote = updates.updates
 
@@ -199,12 +200,18 @@ export default {
 
       commit("updateNote", updatedNote);
     } catch (err) {
-      Dialog.create({
-        title: "Error",
-        message: "Could not update the note..."
-      });
+      if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
+        commit("updateNoteOffline", updatingNote)
+        Notify.create({
+          message: "Note updated offline"
+        })
+      } else {
+        Dialog.create({
+          title: "Error",
+          message: "Could not update the note..."
+        });
+      }
     }
-
   },
 
   async addImage({ commit }, note) {
@@ -317,7 +324,8 @@ export default {
     }
   },
 
-  unshiftOfflineNote({ commit }) {
+  unshiftOfflineNote({ commit }, url) {
     commit("unshiftOfflineNote")
+    commit("resetOfflineUpdateStatus", url);
   }
  }
