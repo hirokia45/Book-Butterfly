@@ -1,6 +1,6 @@
 <template>
   <q-card class="note-card q-mb-md" flat bordered>
-    <q-item>
+    <q-item :class="{ 'bg-indigo-2' : note.offline || note.offlineUpdate }">
       <q-item-section avatar>
         <template v-if="loggedInUser.avatar">
           <q-avatar>
@@ -27,6 +27,22 @@
           :_id="note._id"
         />
       </q-item-section>
+
+      <q-badge
+        v-if="note.offline"
+        class="absolute-top-right offline-badge"
+        color="blue-14"
+      >
+        Offline Note
+      </q-badge>
+
+      <q-badge
+        v-if="note.offlineUpdate"
+        class="absolute-top-right offline-badge"
+        color="blue-14"
+      >
+        Offline Updated
+      </q-badge>
     </q-item>
 
     <q-separator />
@@ -74,7 +90,7 @@ export default {
   components: {
     NoteHeaderFab: () => import('./NotesComponents/NoteHeaderFab')
   },
-  props: ['note', 'loggedInUser'],
+  props: ['_id', 'note', 'loggedInUser'],
   filters: {
     displayDate(value) {
       const { formatDate } = date

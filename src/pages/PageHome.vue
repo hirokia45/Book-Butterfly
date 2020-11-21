@@ -155,12 +155,14 @@ export default {
     }
   },
   activated() {
-    if(this.isLoggedIn) {
+    if(this.isLoggedIn && navigator.onLine) {
       this.loadNotes()
     }
   },
   created() {
-    this.listenForOfflineNoteUploaded()
+    if (navigator.onLine) {
+      this.listenForOfflineNoteUploaded()
+    }
   },
   mounted() {
     let neverShowAppInstallBanner = this.$q.localStorage.getItem('neverShowAppInstallBanner')
@@ -176,7 +178,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo', 'unshiftOfflineNote']),
+    ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo', 'changeOfflineStatus']),
     async loadNotes() {
       this.getNotesInit()
       this.getCalendarInfo()
@@ -233,7 +235,7 @@ export default {
         channel.addEventListener('message', event => {
           const url = event.data.url
           if(event.data.msg === 'offline-note-uploaded') {
-            this.unshiftOfflineNote(url)
+            this.changeOfflineStatus(url)
           }
         })
       }

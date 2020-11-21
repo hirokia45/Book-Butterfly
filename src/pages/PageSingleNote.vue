@@ -5,7 +5,7 @@
         <div class="col-12 col-sm-8 column full-height">
           <base-scroll-area>
             <single-note-item
-              :note="singleNote || offlineNote"
+              :note="singleNote"
               :loggedInUser="loggedInUser"
             />
           </base-scroll-area>
@@ -53,19 +53,19 @@ export default {
     BaseScrollArea: () => import('../components/Layouts/BaseScrollArea'),
     SingleNoteItem: () => import('../components/Notes/SingleNoteItem')
   },
-  props: ['_id', 'note'],
+  props: ['_id'],
   computed: {
-    ...mapGetters('notes', ['fiveNewestNotes', 'singleNote']),
+    ...mapGetters('notes', ['fiveNewestNotes', 'singleNote', 'notes']),
     ...mapGetters('auth', ['loggedInUser']),
-    offlineNote() {
-      if (!navigator.onLine) {
-        return this.note
-      }
-    }
   },
   created() {
-    this.loadNotes(),
-    this.loadSingleNote()
+    if (navigator.onLine) {
+      this.loadNotes(),
+      this.loadSingleNote()
+    }
+    else if (!navigator.onLine) {
+      this.loadOfflineSingleNote()
+    }
   },
   watch: {
     $route(to, from) {
@@ -73,7 +73,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('notes', ['getFiveNewestNotes', 'getSingleNote']),
+    ...mapActions('notes', ['getFiveNewestNotes', 'getSingleNote', 'getOfflineSingleNote']),
     async loadNotes() {
       try {
         await this.getFiveNewestNotes()
@@ -89,6 +89,9 @@ export default {
       this.$router.push(`/notes/${_id}`).catch(err => {})
       this.loadSingleNote(_id)
     },
+    loadOfflineSingleNote() {
+      this.getOfflineSingleNote(this._id)
+    }
   }
 }
 </script>

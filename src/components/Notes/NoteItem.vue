@@ -16,11 +16,19 @@
       </q-badge>
 
       <q-badge
-        v-if="!!note.offlineUpdate"
+        v-if="note.offlineUpdate"
         class="absolute-top-right offline-badge"
         color="blue-14"
       >
         Offline Updated
+      </q-badge>
+
+      <q-badge
+        v-if="note.deleteLater"
+        class="absolute-top-right offline-badge"
+        color="red-10"
+      >
+        Will Be Deleted
       </q-badge>
 
       <q-item>
@@ -85,9 +93,7 @@
         <img :src="note.photo" class="full-width" />
       </q-card-section>
     </div>
-
   </q-card>
-
 </template>
 
 <script>
@@ -113,7 +119,11 @@ export default {
       return date.formatDate (value, 'YYYY M/D h:mmA')
     },
     truncate(string, val) {
-      return string.substring(0, val) + '...'
+      if (string > 500) {
+        return string.substring(0, val) + '...'
+      } else {
+        return string
+      }
     }
   },
 }

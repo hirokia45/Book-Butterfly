@@ -231,7 +231,6 @@ export default {
 
       const updatedNote = response.data.note
 
-
       await Notify.create({
         message: "Image added!",
         timeout: 2000,
@@ -247,7 +246,7 @@ export default {
     }
   },
 
-  async deleteNote({ commit, dispatch }, _id) {
+  async deleteNote({ commit, dispatch, rootState }, _id) {
     const noteId = _id;
 
     try {
@@ -266,10 +265,18 @@ export default {
         actions: [{ label: "Close", color: "white" }]
       });
     } catch (err) {
-      Dialog.create({
-        title: "Error",
-        message: "Could not delete the note..."
-      })
+      if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
+        commit("deleteNoteOffline", _id);
+        Notify.create({
+          message: "Note deleted offline"
+        });
+      } else {
+        Dialog.create({
+          title: "Error",
+          message: "Could not delete the note..."
+        })
+      }
+
     }
   },
 
@@ -324,8 +331,12 @@ export default {
     }
   },
 
-  unshiftOfflineNote({ commit }, url) {
-    commit("unshiftOfflineNote")
-    commit("resetOfflineUpdateStatus", url);
+  getOfflineSingleNote({ commit }, _id) {
+    commit("setOfflineSingleNote", _id)
+  },
+
+  changeOfflineStatus({ commit }, url) {
+    commit("resetOfflineNote")
+    commit("resetOfflineUpdateStatus", url)
   }
- }
+}

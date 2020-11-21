@@ -66,7 +66,7 @@ export default {
           updates: this.noteToSubmit
         }, this.noteToSubmit)
         this.$emit('close')
-        if (this.$route.path !== '/home') {
+        if (this.$route.path !== '/home' && navigator.onLine) {
           this.getSingleNote(this._id)
         }
       } catch (err) {
