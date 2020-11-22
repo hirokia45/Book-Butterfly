@@ -216,7 +216,6 @@ export default {
       deferredPrompt.prompt()
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('accepted')
           this.neverShowAppInstallBanner()
         } else {
           console.log('rejected')

@@ -75,9 +75,9 @@ export default {
     state.loadingNotes = isLoading;
   },
 
-  // addOfflineNote(state, payload) {
-  //   state.notes.unshift(payload)
-  // },
+/*
+  Background Sync - offline related mutations
+*/
 
   setOfflineSingleNote(state, _id) {
     state.singleNote = state.notes.find(note => note._id === _id);
@@ -85,21 +85,26 @@ export default {
 
   updateNoteOffline(state, payload) {
     const updatingNote = state.notes.find(note => note._id === payload._id);
-    if (updatingNote.hasOwnProperty("offlineUpdate")) {
+    if (!updatingNote.hasOwnProperty("offlineUpdate")) {
+      Vue.set(updatingNote, "offlineUpdate", true);
+      Object.assign(updatingNote, payload);
+    } else {
       payload = {
         ...payload,
         offlineUpdate: true
       };
       Object.assign(updatingNote, payload);
-    } else {
-      Vue.set(updatingNote, "offlineUpdate", true);
-      Object.assign(updatingNote, payload);
     }
   },
 
+  deleteImageOffline(state, _id) {
+    const update = { photo: null };
+    const updatingNote = state.notes.find(note => note._id === _id)
+    Vue.set(updatingNote, "offlineUpdate", true);
+    Object.assign(updatingNote, update);
+  },
+
   deleteNoteOffline(state, _id) {
-    // const deletingNote = state.notes.find(note => note._id === _id);
-    // Vue.set(deletingNote, "deleteLater", true);
     state.notes = state.notes.filter(note => {
       return note._id !== _id;
     });
@@ -124,14 +129,4 @@ export default {
       Object.assign(updatingNote, change);
     }
   }
-
-  // removeOfflineDeletedNote(state, url) {
-  //   const _id = url.split("/").pop()
-  //   let offlineDeleteCount = state.notes.filter(note => note.deleteLater === true).length
-  //   if (offlineDeleteCount) {
-  //     state.notes = state.notes.filter(note => {
-  //       return note._id !== _id;
-  //     });
-  //   }
-  // }
-};
+}

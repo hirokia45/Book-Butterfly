@@ -23,7 +23,6 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 
 let backgroundSyncSupported = 'sync' in self.registration ? true : false
-console.log('backgroundSyncSupported: ', backgroundSyncSupported);
 
 /*
  queue
@@ -97,7 +96,7 @@ if (backgroundSyncSupported) {
       if (!self.navigator.onLine) {
         const promiseChain = fetch(event.request.clone()).catch(err => {
           return createNoteQueue.pushRequest({ request: event.request });
-        });
+        })
         event.waitUntil(promiseChain);
       }
     }

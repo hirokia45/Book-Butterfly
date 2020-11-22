@@ -6,7 +6,6 @@
       v-if="isNotAuthPage"
     >
       <q-toolbar class="constrain" >
-
         <q-avatar
           v-if="isLoggedIn"
           class="small-screen-only"
@@ -213,7 +212,6 @@ export default {
     },
 
     checkSystemAvailability() {
-      console.log('triggered');
       this.checkBackgroundSyncSupported()
       this.checkServiceWorkerSupported()
     },

@@ -1,47 +1,50 @@
 import axios from 'axios'
-import Vue from 'vue'
 import { openDB } from "idb";
 import { Dialog, Notify } from "quasar"
 import authHeader from '../../../services/auth-header'
 
 export default {
   resetNoteState({ commit }) {
-    console.log('resetNoteState triggered in actions');
-    commit('resetNoteState')
+    console.log("resetNoteState triggered in actions");
+    commit("resetNoteState");
   },
 
+/*
+  Notes: Read Actions
+*/
+
   async getNotesInit({ commit, state, dispatch }) {
-    commit("setLoadingNotes", true)
+    commit("setLoadingNotes", true);
     commit("pageInit");
     commit("setPageNumber");
     commit("emptyNotes");
 
-    let page = state.page
+    let page = state.page;
     try {
-      const response = await axios.get(`${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`, { headers: authHeader() })
+      const response = await axios.get(
+        `${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`,
+        { headers: authHeader() }
+      );
       response.data.notes.forEach(note => {
         let timeInData = note.createdAt;
         note.createdAt = new Date(timeInData);
-      })
+      });
       const notes = response.data.notes;
       const totalNotes = response.data.totalNotes;
 
-      if (!navigator.onLine) {
-        commit("setLoadingNotes", false);
-        // dispatch("getOfflineNotes")
-      }
       commit("setLoadingNotes", false);
       commit("setTotalNotes", totalNotes);
       commit("setNotes", notes);
     } catch (err) {
-      console.log('error in post');
+      console.error("error in post");
 
       if (err.response.status === 401) {
         await dispatch("auth/forcedLogout", null, { root: true });
-        this.$router.replace({ path: "/auth/login" })
+        this.$router.replace({ path: "/auth/login" });
         Dialog.create({
           title: "Error",
-          message: "You are either unauthenticated or no longer authenticated for some reasons. Please login again."
+          message:
+            "You are either unauthenticated or no longer authenticated for some reasons. Please login again."
         });
       } else {
         commit("setLoadingNotes", false);
@@ -70,16 +73,16 @@ export default {
         note.createdAt = new Date(timeInData);
       });
       const notes = response.data.notes;
-      const totalNotes = response.data.totalNotes
+      const totalNotes = response.data.totalNotes;
 
-      commit("setTotalNotes", totalNotes)
+      commit("setTotalNotes", totalNotes);
       commit("setNotes", notes);
     } catch (err) {
-      console.log(err.response.status);
+      console.error(err.response.status);
       Dialog.create({
-          title: "Error",
-          message: "Could not download your notes..."
-      })
+        title: "Error",
+        message: "Could not download your notes..."
+      });
     }
   },
 
@@ -88,7 +91,7 @@ export default {
       const response = await axios.get(
         `${process.env.API}/notes?sortBy=createdAt:desc&per_page=5`,
         { headers: authHeader() }
-      )
+      );
       const notes = response.data.notes;
 
       commit("setFiveNewestNotes", notes);
@@ -105,14 +108,14 @@ export default {
       const response = await axios.get(
         `${process.env.API}/calendar?sortBy=createdAt:desc&per_page=100`,
         { headers: authHeader() }
-      )
+      );
       response.data.info.forEach(info => {
-        let timeInData = info.createdAt
-        info.createdAt = new Date(timeInData)
-      })
+        let timeInData = info.createdAt;
+        info.createdAt = new Date(timeInData);
+      });
 
-      const info = response.data.info
-      commit("setCalendarInfo", info)
+      const info = response.data.info;
+      commit("setCalendarInfo", info);
     } catch (err) {
       Dialog.create({
         title: "Error",
@@ -127,60 +130,63 @@ export default {
         headers: authHeader()
       });
 
-      const note = response.data.note
-      commit("setSingleNote", note)
+      const note = response.data.note;
+      commit("setSingleNote", note);
     } catch (err) {
       Dialog.create({
         title: "Error",
         message: "Could not download your note..."
-      })
+      });
     }
   },
+
+  /*
+  Notes: Creatd, Update, Delete actions
+*/
 
   async addNote({ commit, dispatch, rootState }, note) {
     const newNoteData = {
       ...note
-    }
+    };
     try {
-      console.log('axios request add');
       const response = await axios.post(
         `${process.env.API}/notes`,
         newNoteData,
         { headers: authHeader() }
       );
 
-      const createdNote = response.data.note
-      createdNote.createdAt = new Date(createdNote.createdAt)
+      const createdNote = response.data.note;
+      createdNote.createdAt = new Date(createdNote.createdAt);
 
-      commit("addNote", createdNote)
-      dispatch("getCalendarInfo")
+      commit("addNote", createdNote);
+      dispatch("getCalendarInfo");
       await Notify.create({
         message: "Note Added!",
         timeout: 2000,
         actions: [{ label: "Close", color: "white" }]
-      })
+      });
     } catch (err) {
       console.error(err);
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        newNoteData.owner = rootState.auth.user.user.name
-        newNoteData.createdAt = Date.now()
-        newNoteData.offline = true
-        commit("addNote", newNoteData)
+        newNoteData.owner = rootState.auth.user.user.name;
+        newNoteData.createdAt = Date.now();
+        newNoteData.offline = true;
+        commit("addNote", newNoteData);
         Notify.create({
           message: "Note created offline"
-        })
+        });
       } else {
         Dialog.create({
           title: "Error",
           message: "Could not add a new note..."
-        })
+        });
       }
     }
   },
 
   async updateNote({ commit, rootState }, updates) {
-    const noteId = updates._id
-    const updatingNote = updates.updates
+    const noteId = updates._id;
+    const updatingNote = updates.updates;
 
     try {
       const response = await axios.patch(
@@ -189,8 +195,8 @@ export default {
         { headers: authHeader() }
       );
 
-      const updatedNote = response.data.note
-      updatedNote.createdAt = new Date(updatedNote.createdAt)
+      const updatedNote = response.data.note;
+      updatedNote.createdAt = new Date(updatedNote.createdAt);
 
       await Notify.create({
         message: "Note Updated!",
@@ -201,10 +207,10 @@ export default {
       commit("updateNote", updatedNote);
     } catch (err) {
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        commit("updateNoteOffline", updatingNote)
+        commit("updateNoteOffline", updatingNote);
         Notify.create({
           message: "Note updated offline"
-        })
+        });
       } else {
         Dialog.create({
           title: "Error",
@@ -214,50 +220,16 @@ export default {
     }
   },
 
-  async addImage({ commit }, note) {
-    const noteId = note._id
-
-    let formData = new FormData()
-    formData.append('_id', note.updates._id)
-    formData.append('file', note.updates.photo, note.updates._id + '.png')
-
-    console.log(...formData.entries());
-    try {
-      const response = await axios.post(
-        `${process.env.API}/notes/${noteId}`,
-        formData,
-        { headers: authHeader() }
-      );
-
-      const updatedNote = response.data.note
-
-      await Notify.create({
-        message: "Image added!",
-        timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
-      });
-
-      commit("updateNote", updatedNote);
-    } catch (err) {
-      Dialog.create({
-        title: "Error",
-        message: "Could not add an image..."
-      });
-    }
-  },
-
   async deleteNote({ commit, dispatch, rootState }, _id) {
     const noteId = _id;
 
     try {
-      await axios.delete(
-        `${process.env.API}/notes/${noteId}`,
-        { headers: authHeader() }
-      );
+      await axios.delete(`${process.env.API}/notes/${noteId}`, {
+        headers: authHeader()
+      });
 
       commit("deleteNote", _id);
-      dispatch("getCalendarInfo")
-      //await dispatch('updateNotesArray')
+      dispatch("getCalendarInfo");
 
       await Notify.create({
         message: "Note deleted!",
@@ -274,37 +246,55 @@ export default {
         Dialog.create({
           title: "Error",
           message: "Could not delete the note..."
-        })
+        });
       }
-
     }
   },
 
-  // async updateNotesArray({ commit, state }) {
-  //   try {
-  //     let page = state.page
-  //     const response = await axios.get(
-  //       `${process.env.API}/notes/?sortBy=createdAt:desc&per_page=10&page=${page}`,
-  //       { headers: authHeader() }
-  //     );
-  //     console.log(response.data.notes);
-  //     const notes = response.data.notes.forEach(note => {
-  //       let timeInData = note.createdAt;
-  //       note.createdAt = new Date(timeInData);
-  //     })
-  //     console.log(notes);
-  //     commit("setNotes", notes)
-  //   } catch (err) {
-  //     console.error(err);
-  //     Dialog.create({
-  //       title: "Error",
-  //       message: "Could not reload the notes..."
-  //     })
-  //   }
-  // },
+/*
+  Note Images related actions
+*/
 
-  async deleteImage({ commit }, _id) {
-    const noteId = _id
+  async addImage({ commit, dispatch, rootState }, note) {
+    const noteId = note._id;
+
+    let formData = new FormData();
+    formData.append("_id", note.updates._id);
+    formData.append("file", note.updates.photo, note.updates._id + ".png");
+
+    try {
+      const response = await axios.post(
+        `${process.env.API}/notes/${noteId}`,
+        formData,
+        { headers: authHeader() }
+      );
+
+      const updatedNote = response.data.note;
+
+      await Notify.create({
+        message: "Image added!",
+        timeout: 2000,
+        actions: [{ label: "Close", color: "white" }]
+      });
+
+      commit("updateNote", updatedNote);
+    } catch (err) {
+      if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
+        dispatch("getOfflineImage");
+        Notify.create({
+          message: "Image added offline"
+        });
+      } else {
+        Dialog.create({
+          title: "Error",
+          message: "Could not add an image..."
+        });
+      }
+    }
+  },
+
+  async deleteImage({ commit, rootState }, _id) {
+    const noteId = _id;
 
     try {
       const response = await axios.delete(
@@ -324,19 +314,59 @@ export default {
 
       commit("updateNote", updatedNote);
     } catch (err) {
-      Dialog.create({
-        title: "Error",
-        message: "Could not delete the image..."
-      });
+      if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
+        commit("deleteImageOffline", _id);
+        Notify.create({
+          message: "Image deleted offline"
+        });
+      } else {
+        Dialog.create({
+          title: "Error",
+          message: "Could not delete the image..."
+        })
+      }
     }
   },
 
+  /*
+  Background Sync: Offline related actions
+*/
   getOfflineSingleNote({ commit }, _id) {
-    commit("setOfflineSingleNote", _id)
+    commit("setOfflineSingleNote", _id);
+  },
+
+  getOfflineImage({ commit }, _id) {
+    let db = openDB("workbox-background-sync").then(db => {
+      db.getAll("requests")
+        .then(failedRequests => {
+          failedRequests.forEach(failedRequest => {
+            if (failedRequest.queueName === "createNoteQueue") {
+              let request = new Request(
+                failedRequest.requestData.url,
+                failedRequest.requestData
+              );
+              request.formData().then(formData => {
+                let offlineNote = {};
+                offlineNote._id = formData.get("_id");
+
+                let reader = new FileReader();
+                reader.readAsDataURL(formData.get("file"));
+                reader.onloadend = () => {
+                  offlineNote.photo = reader.result;
+                  commit("updateNoteOffline", offlineNote);
+                };
+              });
+            }
+          });
+        })
+        .catch(err => {
+          console.error("Error accessing IndexedDB: ", err);
+        });
+    });
   },
 
   changeOfflineStatus({ commit }, url) {
-    commit("resetOfflineNote")
-    commit("resetOfflineUpdateStatus", url)
+    commit("resetOfflineNote");
+    commit("resetOfflineUpdateStatus", url);
   }
-}
+};

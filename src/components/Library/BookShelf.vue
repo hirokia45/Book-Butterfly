@@ -39,7 +39,6 @@ export default {
   methods: {
     ...mapActions('books', ['getMyBooks', 'setTab']),
     async loadBooks() {
-      console.log('getmybooks');
       await this.getMyBooks()
     }
   },
