@@ -169,6 +169,7 @@ export default {
         newNoteData.owner = rootState.auth.user.user.name;
         newNoteData.createdAt = Date.now();
         newNoteData.offline = true;
+
         commit("addNote", newNoteData);
         Notify.create({
           message: "Note created offline"

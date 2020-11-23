@@ -14,12 +14,17 @@
             </q-item-label>
             <q-separator />
 
-            <notification-item
-              v-for="notification in notifications"
-              :key="notification._id"
-              :_id="notification._id"
-              :notification="notification"
-            />
+            <transition-group
+              appear
+              leave-active-class="animated zoomOut"
+            >
+              <notification-item
+                v-for="notification in notifications"
+                :key="notification._id"
+                :_id="notification._id"
+                :notification="notification"
+              />
+            </transition-group>
 
           </q-list>
         </div>
