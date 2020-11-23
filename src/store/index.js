@@ -5,6 +5,7 @@ import notes from './modules/notes/index'
 import auth from './modules/auth/index'
 import books from './modules/books/index'
 import system from './modules/system/index'
+import notifications from './modules/notifications/index'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default function (/* { ssrContext } */) {
       notes,
       auth,
       books,
-      system
+      system,
+      notifications
     },
 
     // enable strict mode (adds overhead!)

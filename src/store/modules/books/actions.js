@@ -4,7 +4,6 @@ import authHeader from "../../../services/auth-header";
 
 export default {
   resetBookState({ commit }) {
-    console.log("resetBookState triggered in actions");
     commit("resetBookState");
   },
 

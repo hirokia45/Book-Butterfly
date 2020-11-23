@@ -102,3 +102,12 @@ if (backgroundSyncSupported) {
     }
   });
 }
+
+/*
+  events - notifications
+*/
+
+self.addEventListener('notificationclose', event => {
+  let notification = event.notification
+  let action = event.action
+})

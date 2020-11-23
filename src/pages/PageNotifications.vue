@@ -14,49 +14,14 @@
             </q-item-label>
             <q-separator />
 
-            <q-item class="q-mt-sm row">
-              <q-item-section avatar top>
-                <q-avatar color="pink-4" text-color="white" icon="eva-gift-outline" />
-              </q-item-section>
+            <notification-item
+              v-for="notification in notifications"
+              :key="notification._id"
+              :_id="notification._id"
+              :notification="notification"
+            />
 
-              <q-item-section top>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Notification Sample</span>
-                </q-item-label>
-              </q-item-section>
-
-              <q-item-section class="column justify-center" top side>
-                <div class="text-grey-8 q-gutter-xs">
-                  <q-btn class="gt-xs" size="12px" flat dense round icon="eva-checkmark-circle-outline" />
-                  <q-btn class="gt-xs" size="12px" flat dense round icon="eva-trash-2-outline" />
-                </div>
-              </q-item-section>
-            </q-item>
-
-            <q-separator spaced />
-
-            <q-item class="q-mt-sm row">
-              <q-item-section avatar top>
-                <q-avatar color="pink-4" text-color="white" icon="eva-gift-outline" />
-              </q-item-section>
-
-              <q-item-section top>
-                <q-item-label lines="1">
-                  <span class="text-weight-medium">Notification Sample</span>
-                </q-item-label>
-              </q-item-section>
-
-              <q-item-section class="column justify-center" top side>
-                <div class="text-grey-8 q-gutter-xs">
-                  <q-btn class="gt-xs" size="12px" flat dense round icon="eva-checkmark-circle-outline" />
-                  <q-btn class="gt-xs" size="12px" flat dense round icon="eva-trash-2-outline" />
-                </div>
-              </q-item-section>
-            </q-item>
-
-            <q-separator spaced />
           </q-list>
-
         </div>
       </base-scroll-area>
     </div>
@@ -64,10 +29,25 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'PageNotifications',
   components: {
-    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea'),
+    NotificationItem: () => import('../components/Notifications/NotificationItem')
+  },
+  computed: {
+    ...mapGetters('notifications', ['notifications'])
+  },
+  created() {
+    this.loadNotifications()
+  },
+  methods: {
+    ...mapActions('notifications', ['getNotifications']),
+    loadNotifications() {
+      this.getNotifications()
+    }
   }
 }
 </script>

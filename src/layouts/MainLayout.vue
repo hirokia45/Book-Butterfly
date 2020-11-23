@@ -9,6 +9,7 @@
         <q-avatar
           v-if="isLoggedIn"
           class="small-screen-only"
+          color="white"
         >
           <img :src="loggedInUser.avatar">
         </q-avatar>
@@ -41,8 +42,16 @@
               size="18px"
               flat
               round
-            />
-
+            >
+              <q-badge
+                v-if="totalNotificationsUnconfirmed > 0"
+                color="red"
+                floating
+                style="right: 5px; top: 7px;"
+              >
+                {{totalNotificationsUnconfirmed}}
+              </q-badge>
+            </q-btn>
 
             <q-fab
               v-model="fab"
@@ -80,7 +89,7 @@
               />
             </q-fab>
 
-            <q-avatar class="large-screen-only q-ml-sm">
+            <q-avatar class="large-screen-only q-ml-sm" color="white">
               <img :src="loggedInUser.avatar">
             </q-avatar>
           </template>
@@ -159,7 +168,15 @@
         <q-route-tab
           to="/notifications"
           icon="eva-email-outline"
-        />
+        >
+          <q-badge
+            v-if="totalNotificationsUnconfirmed > 0"
+            color="red"
+            floating
+          >
+            {{totalNotificationsUnconfirmed}}
+          </q-badge>
+        </q-route-tab>
       </q-tabs>
     </q-footer>
 
@@ -182,6 +199,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn', 'loggedInUser']),
+    ...mapGetters('notifications', ['totalNotificationsUnconfirmed']),
     isNotAuthPage() {
       return this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup'
     },
@@ -191,14 +209,14 @@ export default {
       if (!this.isLoggedIn) {
         this.$router.replace('/auth/login')
       }
-    }
+    },
   },
   created() {
-    this.checkSystemAvailability()
+    this.checkSystemAvailabilities()
   },
   methods: {
     ...mapActions('auth', ['logout']),
-    ...mapActions('system', ['checkBackgroundSyncSupported', 'checkServiceWorkerSupported']),
+    ...mapActions('system', ['checkSystemAvailabilities']),
     async logOut() {
       try {
         await this.logout()
@@ -209,11 +227,6 @@ export default {
       } catch (err) {
         console.error(err)
       }
-    },
-
-    checkSystemAvailability() {
-      this.checkBackgroundSyncSupported()
-      this.checkServiceWorkerSupported()
     },
   }
 }

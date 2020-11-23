@@ -7,30 +7,9 @@
     flat
   >
     <div @click="toSingleNotePage($event)" class="cursor-pointer">
-      <q-badge
-        v-if="note.offline"
-        class="absolute-top-right offline-badge"
-        color="blue-14"
-      >
-        Offline Note
-      </q-badge>
-
-      <q-badge
-        v-if="note.offlineUpdate"
-        class="absolute-top-right offline-badge"
-        color="blue-14"
-      >
-        Offline Updated
-      </q-badge>
-
-      <q-badge
-        v-if="note.deleteLater"
-        class="absolute-top-right offline-badge"
-        color="red-10"
-      >
-        Will Be Deleted
-      </q-badge>
-
+      <badge-offline
+        :note="note"
+      />
       <q-item>
         <q-item-section avatar>
           <template v-if="loggedInUser.avatar">
@@ -56,7 +35,7 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section side>
+        <q-item-section v-if="!note.offline && !note.offlineUpdate" side>
           <note-header-fab
             :_id="_id"
             :note="note"
@@ -102,7 +81,8 @@ import { date } from 'quasar'
 
 export default {
   components: {
-    NoteHeaderFab: () => import('./NotesComponents/NoteHeaderFab')
+    NoteHeaderFab: () => import('./NotesComponents/NoteHeaderFab'),
+    BadgeOffline: () => import('../Layouts/BadgeOffline')
   },
   props: ['note', '_id'],
   computed: {

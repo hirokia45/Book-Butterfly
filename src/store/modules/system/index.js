@@ -1,7 +1,8 @@
 const getDefaultSystemState = () => {
   return {
     backgroundSyncSupported: false,
-    serviceWorkerSupported: false
+    serviceWorkerSupported: false,
+    pushNotificationsSupported: false
   }
 }
 
@@ -11,10 +12,19 @@ const mutations = {
   },
   setServiceWorkerSupported(state, value) {
     state.serviceWorkerSupported = value
+  },
+  setPushNotificationsSupported(state, value) {
+    state.pushNotificationsSupported = value
   }
 }
 
 const actions = {
+  checkSystemAvailabilities({ dispatch }) {
+    dispatch("checkBackgroundSyncSupported")
+    dispatch("checkServiceWorkerSupported")
+    dispatch("checkPushNotificationsSupported")
+  },
+
   checkBackgroundSyncSupported({ commit }) {
     let backgroundSyncSupported;
     if ("serviceWorker" in navigator && "SyncManager" in window) {
@@ -33,6 +43,16 @@ const actions = {
       serviceWorkerSupported = false
     }
     commit("setServiceWorkerSupported", serviceWorkerSupported)
+  },
+
+  checkPushNotificationsSupported({ commit }) {
+    let pushNotificationsSupported;
+    if ("PushManager" in window) {
+      pushNotificationsSupported = true
+    } else {
+      pushNotificationsSupported = false
+    }
+    commit("setPushNotificationsSupported", pushNotificationsSupported)
   }
 }
 
@@ -43,6 +63,10 @@ const getters = {
 
   serviceWorkerSupported(state) {
     return state.serviceWorkerSupported
+  },
+
+  pushNotificationsSupported(state) {
+    return state.pushNotificationsSupported
   }
 }
 

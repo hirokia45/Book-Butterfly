@@ -2,7 +2,9 @@ export default {
   loginSuccess(state, user) {
     state.status.loggedIn = true
     console.log('mutation: ', state.status);
+    console.log('user', user);
     state.user = user
+    console.log('state', state.user);
   },
   loginFailure(state) {
     state.status.loggedIn = false

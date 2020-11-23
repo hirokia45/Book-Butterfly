@@ -6,6 +6,11 @@
           <base-scroll-area
             @show-add-note-modal="showAddNote = true"
           >
+            <card-push-notification
+              v-if="showNotificationsBanner && pushNotificationsSupported"
+              @hideNotificationsBanner="showNotificationsBanner = false"
+            />
+
             <template v-if="!loadingNotes && notes.length">
               <q-infinite-scroll @load="onLoad" :offset="250">
                 <note-item
@@ -132,19 +137,21 @@ export default {
     AddNote: () => import('../components/Modals/AddNote'),
     PageLoaderNote: () => import('../components/Layouts/PageLoaderNote'),
     NoteCalendar: () => import('../components/Notes/NoteCalendar'),
-    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea')
+    BaseScrollArea: () => import('../components/Layouts/BaseScrollArea'),
+    CardPushNotification: () => import('../components/Layouts/CardPushNotification')
   },
   data() {
     return {
       showAddNote: false,
-      showAppInstallBanner: false
+      showAppInstallBanner: false,
+      showNotificationsBanner: false
     }
   },
   computed: {
     ...mapState('notes', ['loadingNotes', 'notes']),
     ...mapGetters('auth', ['isLoggedIn']),
     ...mapGetters('notes', ['notes', 'page', 'totalNotes']),
-    ...mapGetters('system', ['serviceWorkerSupported']),
+    ...mapGetters('system', ['serviceWorkerSupported', 'pushNotificationsSupported']),
     singleNoteLink() {
       return '/notes/' + this.note._id
     },
@@ -155,11 +162,13 @@ export default {
     }
   },
   activated() {
+    this.getTotalNotificationsUnconfirmed()
     if(this.isLoggedIn && navigator.onLine) {
       this.loadNotes()
     }
   },
   created() {
+    this.initNotificationsBanner()
     if (navigator.onLine) {
       this.listenForOfflineNoteUploaded()
     }
@@ -179,6 +188,7 @@ export default {
   },
   methods: {
     ...mapActions('notes', ['getNotesInit', 'loadMoreNotes', 'getCalendarInfo', 'changeOfflineStatus']),
+    ...mapActions('notifications', ['getTotalNotificationsUnconfirmed']),
     async loadNotes() {
       this.getNotesInit()
       this.getCalendarInfo()
@@ -197,16 +207,18 @@ export default {
           })
           done(true)
         } else if (currentPage < totalPages) {
+          console.log('more to load');
           this.loadMoreNotes()
           done()
-        } else if (this.totalNotes > 10) {
+        } else if (this.totalNotes < 10) {
+          done(true)
+        } else {
           this.$q.notify({
             message: 'No more notes to load!',
             color: 'deep-orange-6',
             position: 'center',
             timeout: 1500
           })
-          done(true)
         }
       }, 2000)
     },
@@ -226,6 +238,14 @@ export default {
     neverShowAppInstallBanner() {
       this.showAppInstallBanner = false
       this.$q.localStorage.set('neverShowAppInstallBanner', true)
+    },
+
+    initNotificationsBanner() {
+      let neverShowNotificationsBanner = this.$q.localStorage.getItem('neverShowNotificationsBanner')
+
+      if (!neverShowNotificationsBanner) {
+        this.showNotificationsBanner = true
+      }
     },
 
     listenForOfflineNoteUploaded() {

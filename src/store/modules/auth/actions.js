@@ -20,6 +20,7 @@ export default {
 
       dispatch('notes/resetNoteState', null, { root: true })
       dispatch('books/resetBookState', null, { root: true })
+      dispatch('notifications/resetNotificationState', null, { root: true })
 
       Loading.hide()
     } catch (err) {
@@ -34,8 +35,7 @@ export default {
     try {
       const response = await AuthService.signup(user)
       commit('signupSuccess')
-      const responseUser = response.user
-      commit('loginSuccess', responseUser)
+      commit('loginSuccess', response)
     } catch (err) {
       console.log(err);
       commit('signupFailure')

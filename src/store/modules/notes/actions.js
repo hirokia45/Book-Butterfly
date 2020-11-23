@@ -5,7 +5,6 @@ import authHeader from '../../../services/auth-header'
 
 export default {
   resetNoteState({ commit }) {
-    console.log("resetNoteState triggered in actions");
     commit("resetNoteState");
   },
 
@@ -37,7 +36,6 @@ export default {
       commit("setNotes", notes);
     } catch (err) {
       console.error("error in post");
-
       if (err.response.status === 401) {
         await dispatch("auth/forcedLogout", null, { root: true });
         this.$router.replace({ path: "/auth/login" });
@@ -222,7 +220,6 @@ export default {
 
   async deleteNote({ commit, dispatch, rootState }, _id) {
     const noteId = _id;
-
     try {
       await axios.delete(`${process.env.API}/notes/${noteId}`, {
         headers: authHeader()
