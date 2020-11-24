@@ -64,15 +64,6 @@ export default {
       }
     }
   },
-  computed: {
-    addButtonPosition() {
-      if (!!this.scrollFabIsVisible) {
-        return 'extra-height'
-      } else {
-        return 'add-button'
-      }
-    }
-  },
   methods: {
     checkIfItsHome() {
       if (this.$route.path === "/home") {
@@ -109,15 +100,24 @@ export default {
   bottom: 10px
   right: 6px
 
+  @media (max-width: 340px)
+    right: 10px
+
 .add-button
   position: fixed
   z-index: 3
   bottom: 10px
   right: 6px
 
+  @media (max-width: 340px)
+    right: 10px
+
 .extra-height
   position: fixed
   z-index: 3
   bottom: 76px
   right: 6px
+
+  @media (max-width: 340px)
+    right: 10px
 </style>

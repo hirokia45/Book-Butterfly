@@ -161,10 +161,10 @@
           to="/home"
           icon="eva-home-outline"
         />
-        <q-route-tab
+        <!-- <q-route-tab
           to="/library"
           icon="eva-clock-outline"
-        />
+        /> -->
         <q-route-tab
           to="/notifications"
           icon="eva-email-outline"
