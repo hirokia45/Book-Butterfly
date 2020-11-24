@@ -10,13 +10,13 @@
       </q-item-section>
 
       <q-item-section top>
-        <q-item-label caption lines="1">
+        <q-item-label caption>
           {{ notification.createdAt | displayDate }}
         </q-item-label>
-        <q-item-label lines="1">
+        <q-item-label>
           <span class="text-weight-medium">{{ notification.title }}</span>
         </q-item-label>
-        <q-item-label caption lines="1">
+        <q-item-label caption>
           {{ notification.message }}
         </q-item-label>
       </q-item-section>
@@ -25,7 +25,7 @@
         <div class="text-grey-8 q-gutter-xs">
           <q-btn
             @click="promptToToggleStatus"
-            class="gt-xs"
+            class="gt"
             :color="!notification.confirmed ? 'grey-10' : 'green-14' "
             dense
             flat
@@ -35,7 +35,7 @@
           />
           <q-btn
             @click="promptToDeleteNotifications(_id)"
-            class="gt-xs"
+            class="gt"
             dense
             flat
             icon="eva-trash-2-outline"
