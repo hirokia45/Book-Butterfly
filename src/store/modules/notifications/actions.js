@@ -1,12 +1,18 @@
 import axios from 'axios'
 let qs = require('qs')
-import authHeader from "../../../services/auth-header";
+import authHeader from "../../../services/auth-header"
 
 export default {
+  /*
+    called on logout
+  */
   resetNotificationState({ commit }) {
     commit("resetNotificationState")
   },
 
+  /*
+    General Notifications related actions
+  */
   async getNotifications({ commit }) {
     try {
       const response = await axios.get(`${process.env.API}/notifications`, { headers: authHeader() })
@@ -19,7 +25,7 @@ export default {
       const notifications = response.data.notifications
       commit("setNotifications", notifications)
     } catch (err) {
-
+      console.error("error: ", err)
     }
   },
 
@@ -31,7 +37,7 @@ export default {
       const totalNotificationsUnconfirmed = response.data.totalNotificationsUnconfirmed
       commit("setTotalNotificationsUnconfirmed", totalNotificationsUnconfirmed)
     } catch (err) {
-
+      console.error("error: ", err)
     }
   },
 
@@ -42,9 +48,9 @@ export default {
         { headers: authHeader() })
       const confirmationStatus = response.data.result
       commit("toggleConfirmationStatus", confirmationStatus)
-      commit("recalculateCount");
+      commit("recalculateCount")
     } catch (err) {
-
+      console.error("error: ", err)
     }
   },
 
@@ -55,10 +61,13 @@ export default {
 
       commit("removeNotification", _id)
     } catch (err) {
-
+      console.error("error: ", err)
     }
   },
 
+  /*
+    Push Notifications related actions
+  */
   async createSubscription({ commit }, newSubData) {
     const newSubDataQS = qs.stringify(newSubData);
     try {
@@ -68,9 +77,9 @@ export default {
         { headers: authHeader() }
       );
 
-      console.log("response: ", response);
+      console.log("response: ", response)
     } catch (err) {
-      console.error("error: ", err);
+      console.error("error: ", err)
     }
   }
 };

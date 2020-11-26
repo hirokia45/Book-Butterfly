@@ -11,9 +11,9 @@
 					active-color="primary"
 					indicator-color="transparent"
 				>
-					<q-tab name="search" icon="eva-search-outline" label="Search" />
-					<q-tab name="bookshelf" icon="eva-book-outline" label="Bookshelf" />
-					<q-tab name="archive" icon="eva-archive-outline" label="Archive" />
+					<q-tab name="search" icon="eva-search-outline" :label="$t('search')" />
+					<q-tab name="bookshelf" icon="eva-book-outline" :label="$t('bookshelf')" />
+					<q-tab name="archive" icon="eva-archive-outline" :label="$t('archive')" />
 				</q-tabs>
 
 				<q-tab-panels v-model="tab" class="full-height col" animated>

@@ -4,11 +4,11 @@ import authHeader from "../../../services/auth-header";
 
 export default {
   resetBookState({ commit }) {
-    commit("resetBookState");
+    commit("resetBookState")
   },
 
   setSearch({ commit }, value) {
-    commit("setSearch", value);
+    commit("setSearch", value)
   },
 
   setSearchFilter({ commit }, value) {

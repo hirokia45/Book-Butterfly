@@ -1,5 +1,9 @@
+import { i18n } from '../../../boot/i18n'
+
+const lang = JSON.parse(localStorage.getItem("lang"))
 const getDefaultSystemState = () => {
   return {
+    lang: lang || i18n.locale,
     backgroundSyncSupported: false,
     serviceWorkerSupported: false,
     pushNotificationsSupported: false
@@ -7,6 +11,9 @@ const getDefaultSystemState = () => {
 }
 
 const mutations = {
+  setLanguage(state, value) {
+    state.lang = value
+  },
   setBackgroundSyncSupported(state, value) {
     state.backgroundSyncSupported = value
   },
@@ -19,6 +26,11 @@ const mutations = {
 }
 
 const actions = {
+  setLanguage({ commit }, value) {
+    localStorage.setItem("lang", JSON.stringify(value))
+    commit("setLanguage", value)
+  },
+
   checkSystemAvailabilities({ dispatch }) {
     dispatch("checkBackgroundSyncSupported")
     dispatch("checkServiceWorkerSupported")
@@ -57,6 +69,10 @@ const actions = {
 }
 
 const getters = {
+  lang(state) {
+    return state.lang
+  },
+
   backgroundSyncSupported(state) {
     return state.backgroundSyncSupported
   },

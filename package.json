@@ -15,7 +15,8 @@
     "idb": "^5.0.7",
     "md-gum-polyfill": "^1.0.0",
     "quasar": "^1.0.0",
-    "v-calendar": "^2.0.2"
+    "v-calendar": "^2.0.2",
+    "vue-i18n": "^8.22.2"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

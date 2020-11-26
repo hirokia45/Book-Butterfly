@@ -10,7 +10,7 @@
                 class="q-mr-sm"
                 name="eva-email-outline"
                 size="sm"
-              />Notifications
+              />{{ $t('notifications') }}
             </q-item-label>
             <q-separator />
 
@@ -43,7 +43,7 @@ export default {
     NotificationItem: () => import('../components/Notifications/NotificationItem')
   },
   computed: {
-    ...mapGetters('notifications', ['notifications'])
+    ...mapGetters('notifications', ['notifications']),
   },
   created() {
     this.loadNotifications()

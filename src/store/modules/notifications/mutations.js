@@ -8,11 +8,18 @@ const getDefaultNotificationState = () => {
 }
 
 export default {
+  /*
+    Called on logout
+  */
   resetNotificationState(state) {
     console.log("resetNotificationState in mutations");
     Object.assign(state, getDefaultNotificationState());
   },
 
+
+  /*
+    General Notifications related mutations
+  */
   setNotifications(state, notifications) {
     state.notifications = notifications
   },
@@ -27,6 +34,7 @@ export default {
     Object.assign(updatingNotification, confirmationStatus)
   },
 
+  // Called after confimation status changed
   recalculateCount(state) {
     state.totalNotificationsUnconfirmed = state.notifications.filter(noti => noti.confirmed === false).length
     console.log(totalNotificationsUnconfirmed);

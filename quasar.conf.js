@@ -19,7 +19,7 @@ module.exports = function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: ["auth", "axios"],
+    boot: ["auth", "axios", 'i18n'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ["app.sass"],
@@ -41,7 +41,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        API: API_STAGING
+        API: API_LOCAL
       },
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
@@ -62,7 +62,16 @@ module.exports = function (/* ctx */) {
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      extendWebpack(cfg) {}
+      extendWebpack(cfg) {
+        cfg.module.rules.push({
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          use: [
+            { loader: '@intlify/vue-i18n-loader' },
+            { loader: 'yaml-loader' }
+          ]
+        })
+      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer

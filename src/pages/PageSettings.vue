@@ -12,11 +12,31 @@
               class="q-mr-xs"
               name="eva-settings-2-outline"
               size="sm"
-            />Settings</q-item-label>
+            />{{ $t('settings') }}</q-item-label>
           <q-separator />
 
           <q-item>
-            <q-item-section>Background Sync Supported</q-item-section>
+            <q-item-section>{{ $t('language1') }}</q-item-section>
+
+            <q-select
+              v-model="displayIn"
+              :options="langOptions"
+              :label="$t('language2')"
+              dense
+              borderless
+              emit-value
+              map-options
+              options-dense
+              style="min-width: 80px"
+            />
+          </q-item>
+
+          <q-item>
+            <q-item-section>{{ $t('pushNotification') }}</q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>{{ $t('backgroundSync' )}}</q-item-section>
             <template v-if="backgroundSyncSupported">
               <q-item-section avatar>
                 <q-avatar color="positive" text-color="white" icon="eva-sync-outline" />
@@ -29,17 +49,9 @@
             </template>
           </q-item>
 
-          <q-item>
-            <q-item-section>Language</q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section>Push Notification</q-item-section>
-          </q-item>
-
-          <q-item>
+          <!-- <q-item>
             <q-item-section>Set Alarm</q-item-section>
-          </q-item>
+          </q-item> -->
         </q-list>
 
         <q-list
@@ -52,7 +64,7 @@
               class="q-mr-xs"
               name="eva-question-mark-circle-outline"
               size="sm"
-            />More
+            />{{ $t('more1') }}
           </q-item-label>
 
           <q-separator />
@@ -61,7 +73,7 @@
             tag="label"
             v-ripple>
             <q-item-section>
-              <q-item-label>Help</q-item-label>
+              <q-item-label>{{ $t('help') }}</q-item-label>
             </q-item-section>
 
             <q-item-section side >
@@ -75,7 +87,7 @@
             tag="label"
             v-ripple>
             <q-item-section>
-              <q-item-label>Visit My Website</q-item-label>
+              <q-item-label>{{ $t('myWebSite') }}</q-item-label>
             </q-item-section>
 
             <q-item-section side >
@@ -89,7 +101,7 @@
             tag="label"
             v-ripple>
             <q-item-section>
-              <q-item-label>Email Me!!</q-item-label>
+              <q-item-label>{{ $t('emailMe') }}</q-item-label>
             </q-item-section>
 
             <q-item-section side >
@@ -104,14 +116,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { openURL } from "quasar"
 
 export default {
+  data() {
+    return {
+      langOptions: [
+        { value: 'en-us', label: 'English' },
+        { value: 'jp', label: '日本語'}
+      ]
+    }
+  },
   computed: {
-    ...mapGetters('system', ['backgroundSyncSupported'])
+    ...mapState('system', ['lang']),
+    ...mapGetters('system', ['backgroundSyncSupported']),
+    displayIn: {
+      get() {
+        return this.lang
+      },
+      set(value) {
+        this.setLanguage(value)
+      }
+    }
   },
   methods: {
+    ...mapActions('system', ['setLanguage']),
     visitMyWebsite() {
       openURL()
     },
