@@ -50,8 +50,8 @@ export default {
 
     promptToRemove(_id) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Do you really want to remove this book from your bookshelf and archive?',
+        title:  this.$t('confirm'),
+        message: this.$t('removeBook1'),
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -65,8 +65,8 @@ export default {
 
     promptToMoveBack(archive) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Do you want to move this book back to shelf?',
+        title:  this.$t('confirm'),
+        message: this.$t('moveBook1'),
         cancel: true,
         persistent: true
       }).onOk(() => {

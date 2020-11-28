@@ -8,7 +8,7 @@
       @input="$emit('update:title', $event)"
       :rules="[val => !!val || 'Field is required!']"
       ref="title"
-      label="Book Title" />
+      :label="$t('bookTitle')" />
   </div>
 </template>
 

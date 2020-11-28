@@ -1,6 +1,6 @@
 <template>
   <q-card class="full-width q-pa-sm">
-    <modal-header>Edit Note</modal-header>
+    <modal-header>{{$t('editNoteHeader')}}</modal-header>
 
     <form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
@@ -72,7 +72,7 @@ export default {
       } catch (err) {
         this.$q.dialog({
           title: 'Error',
-          message: 'Could not edit the note'
+          message: this.$t('errorEditNote')
         })
       }
     },

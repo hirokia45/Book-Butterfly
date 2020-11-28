@@ -34,7 +34,7 @@
               @input="captureImageFromFileUpload"
               class="bg-white file-picker-field"
               accept="image/*"
-              label="Choose an image"
+              :label="$t('chooseImage')"
               outlined
             >
               <template v-slot:prepend>
@@ -48,7 +48,7 @@
               @click="submitImage"
               :disable="!note.photo"
               class="primary-gradient-background"
-              label="Submit Image"
+              :label="$t('submitImage')"
               rounded
             />
           </div>

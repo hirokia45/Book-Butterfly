@@ -67,7 +67,7 @@
                 color="secondary"
                 icon="eva-person"
                 label-position="left"
-                label="Profile"
+                :label="$t('profile')"
                 square
                 to="/profile"
               />
@@ -75,7 +75,7 @@
                 color="primary"
                 icon="eva-settings-outline"
                 label-position="left"
-                label="Settings"
+                :label="$t('settings')"
                 square
                 to="/settings"
               />
@@ -84,7 +84,7 @@
                 color="deep-orange-3"
                 icon="eva-log-out"
                 label-position="left"
-                label="LogOut"
+                :label="$t('logout')"
                 square
               />
             </q-fab>
@@ -99,14 +99,14 @@
               to="/auth/login"
               class="large-screen-only"
               style="color: primary"
-              label="Login"
+              :label="$t('login')"
               size="18px"
               flat
             />
             <q-btn
               to="/auth/signup"
               class="large-screen-only"
-              label="Signup"
+              :label="$t('signup')"
               size="18px"
               flat
             />
@@ -125,7 +125,7 @@
                   color="secondary"
                   icon="eva-person"
                   label-position="left"
-                  label="Login"
+                  :label="$t('login')"
                   square
                   to="/auth/login"
                 />
@@ -133,7 +133,7 @@
                   color="primary"
                   icon="eva-person-add"
                   label-position="left"
-                  label="Signup"
+                  :label="$t('signup')"
                   square
                   to="/auth/signup"
                 />

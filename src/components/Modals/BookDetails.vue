@@ -1,6 +1,6 @@
 <template>
   <q-card class="full-width modal-frame">
-    <modal-header>Book Details</modal-header>
+    <modal-header>{{ $t('bookDetailsHeader')}}</modal-header>
 
     <q-card-section class="q-pt-none">
       <div class="row">
@@ -44,7 +44,7 @@
             :key="`first-${index}`"
             class="text-caption"
           >
-            Category: {{book.volumeInfo.mainCategory || category }}
+            {{$t('category')}}: {{book.volumeInfo.mainCategory || category }}
           </div>
 
           <div class="row" v-if="isSearchTab">
@@ -67,13 +67,13 @@
 
           <q-separator class="q-my-sm" />
 
-          <div class="text-subtitle2">Publisher: {{ book.volumeInfo.publisher }}</div>
-          <div class="text-subtitle2">Published Date: {{ book.volumeInfo.publishedDate }}</div>
-          <div v-if="isSearchTab" class="text-subtitle2">Language: {{ language }}</div>
-          <div v-if="isSearchTab" class="text-subtitle2">Pages: {{ book.volumeInfo.pageCount }}p</div>
+          <div class="text-subtitle2">{{$t('publisher')}}: {{ book.volumeInfo.publisher }}</div>
+          <div class="text-subtitle2">{{$t('publishedDate')}}: {{ book.volumeInfo.publishedDate }}</div>
+          <div v-if="isSearchTab" class="text-subtitle2">{{$t('language')}}: {{ language }}</div>
+          <div v-if="isSearchTab" class="text-subtitle2">{{$t('pages')}}: {{ book.volumeInfo.pageCount }}p</div>
 
           <template v-if="isSearchTab">
-            <div v-if="book.saleInfo.listPrice" class="text-subtitle2">Price: {{ book.saleInfo.listPrice.amount }} {{ book.saleInfo.listPrice.currencyCode }}</div>
+            <div v-if="book.saleInfo.listPrice" class="text-subtitle2">{{$t('price')}}: {{ book.saleInfo.listPrice.amount }} {{ book.saleInfo.listPrice.currencyCode }}</div>
           </template>
 
           <div v-if="isBookShelfTab" class="q-gutter-y-md q-mt-xs text-center">
@@ -106,13 +106,13 @@
           text-color="white"
           class="danger-gradient-background"
           icon="eva-trash-2-outline"
-          label="Delete"
+          :label="$t('deleteButton')"
         />
         <q-fab-action
           @click="promptToMoveToArchive(book)"
           text-color="white"
           class="primary-gradient-background"
-          label="Archive"
+          :label="$t('archiveButton')"
           icon="eva-archive-outline"
         />
         <q-fab-action
@@ -120,14 +120,14 @@
           @click="promptToFinishReading(book)"
           text-color="white"
           class="primary-gradient-background"
-          label="Finished"
+          :label="$t('finishedButton')"
           icon="eva-award-outline"
         />
         <q-fab-action
           @click="showRateMyBookModal"
           text-color="white"
           class="primary-gradient-background"
-          label="Rate"
+          :label="$t('rateButton')"
           icon="eva-star-outline"
         />
       </q-fab>
@@ -143,7 +143,7 @@
         type="submit"
         text-color="white"
         class="primary-gradient-background button-position"
-        label="Add to Bookshelf"
+        :label="$t('addBookButton')"
       />
     </q-card-section>
 
@@ -210,8 +210,8 @@ export default {
     },
     promptToAddBook() {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Are you ready to add this book to your bookshelf?',
+        title:  this.$t('confirm'),
+        message: this.$t('addBook'),
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -222,8 +222,8 @@ export default {
 
     promptToFinishReading(book) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Do you mark this book as finished reading?',
+        title:  this.$t('confirm'),
+        message: this.$t('finishReading'),
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -239,8 +239,8 @@ export default {
 
     promptToMoveToArchive(book) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Do you want to move this book to archive?',
+        title:  this.$t('confirm'),
+        message: this.$t('moveBook2'),
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -259,8 +259,8 @@ export default {
 
     promptToRemove(_id) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Do you really want to remove this book from your bookshelf?',
+        title:  this.$t('confirm'),
+        message: this.$t('removeBook2'),
         cancel: true,
         persistent: true
       }).onOk(() => {

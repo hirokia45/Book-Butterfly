@@ -4,12 +4,12 @@
       outlined
       :value="email"
       :rules="[
-        val => !!val || 'Field is required',
-        val => isValidEmailAddress(val) || 'Please enter a valid email address'
+        val => !!val || $t('fieldRequired'),
+        val => isValidEmailAddress(val) || $t('emailValidation')
       ]"
       @input="$emit('update:email', $event)"
       ref="email"
-      label="Email"
+      :label="$t('email')"
       lazy-rules
       class="col"
     />

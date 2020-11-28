@@ -6,7 +6,7 @@
       class="col"
       :value="chapter"
       @input="$emit('update:chapter', $event)"
-      label="Chapter or Section" />
+      :label="$t('chapterOrSection')" />
   </div>
 </template>
 

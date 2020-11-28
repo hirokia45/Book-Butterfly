@@ -40,22 +40,22 @@
       <div
         v-if="note.author"
         class="text-caption"
-      >Author: {{ note.author }}</div>
+      >{{$t('author')}}: {{ note.author }}</div>
       <div
         v-if="note.chapter"
         class="text-caption"
-      >Author: {{ note.chapter }}</div>
+      >{{$t('chapter')}}: {{ note.chapter }}</div>
       <p
         v-if="note.pageFrom || note.pageTo"
         class="q-mb-none text-caption"
       >
-        Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
+        {{$t('page')}}: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
       </p>
       <div
         v-if="note.category"
         class="text-caption"
       >
-        Category: {{ note.category }}
+        {{$t('category')}}: {{ note.category }}
       </div>
     </q-card-section>
 

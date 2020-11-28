@@ -7,7 +7,7 @@
       </div>
 
       <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+        {{$t('noPageMessage')}}
       </div>
 
       <q-btn
@@ -15,7 +15,7 @@
         text-color="grey-10"
         unelevated
         to="/"
-        label="Go Home"
+        :label="$t('goHome')"
         no-caps
       />
     </div>

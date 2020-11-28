@@ -1,6 +1,6 @@
 <template>
   <q-card class="full-width">
-    <modal-header>Rate this Book</modal-header>
+    <modal-header>{{ $t('rateModalHeader') }}</modal-header>
 
     <form @submit.prevent="submitForm">
       <q-card-section>
@@ -55,7 +55,7 @@ export default {
       } catch (err) {
         this.$q.dialog({
           title: 'Error',
-          message: 'Could not update the rating'
+          message: this.$t('bookError1')
         })
       }
     }

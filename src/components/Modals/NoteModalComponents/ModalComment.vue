@@ -6,7 +6,7 @@
       outlined
       clearable
       class="col"
-      label="Comment"
+      :label="$t('comment')"
       type="textarea"/>
   </div>
 </template>

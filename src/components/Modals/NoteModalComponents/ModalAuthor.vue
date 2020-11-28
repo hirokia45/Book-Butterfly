@@ -6,7 +6,7 @@
       class="col"
       :value="author"
       @input="$emit('update: author', $event)"
-      label="Author" />
+      :label="$t('author')" />
   </div>
 </template>
 

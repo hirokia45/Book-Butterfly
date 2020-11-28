@@ -71,8 +71,8 @@ export default {
     ...mapActions('notes', ['deleteNote', 'deleteImage']),
     promptToDelete(_id) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Are you sure? You cannot see the note anymore!',
+        title: this.$t('confirm'),
+        message: this.$t('noteDeleteMessage'),
         cancel: true,
         persistent: true
       }).onOk(() => {
@@ -84,8 +84,8 @@ export default {
     },
     promptToDeleteImage(_id) {
       this.$q.dialog({
-        title: 'Confirm',
-        message: 'Are you sure? You cannot see the photo anymore!',
+        title: this.$t('confirm'),
+        message: this.$t('imageDeleteMessage'),
         cancel: true,
         persistent: true
       }).onOk(() => {

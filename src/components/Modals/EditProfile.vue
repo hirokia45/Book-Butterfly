@@ -1,6 +1,6 @@
 <template>
   <q-card class="absolute full-width">
-    <modal-header>Edit Profile</modal-header>
+    <modal-header>{{$t('editProfileHeader')}}</modal-header>
 
     <form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
@@ -10,8 +10,8 @@
             outlined
             class="col"
             v-model="profileToSubmit.name"
-            :rules="[val => !!val || 'Field is required!']"
-            label="Username"
+            :rules="[val => !!val || $t('fieldRequired')]"
+            :label="$t('username')"
             autofocus
           />
         </div>
@@ -21,11 +21,11 @@
             outlined
             v-model="profileToSubmit.email"
             :rules="[
-              val => !!val || 'Field is required!',
-              val => isValidEmailAddress(val) || 'Please enter a valid email address'
+              val => !!val || $t('fieldRequired'),
+              val => isValidEmailAddress(val) || $t('emailValidation')
             ]"
             ref="email"
-            label="Email"
+            :label="$t('email')"
             lazy-rules
             class="col"
           />
@@ -37,11 +37,11 @@
             type="password"
             v-model="profileToSubmit.password"
             :rules="[
-              val => val.length >= 6 || 'Please enter at least 6 characters',
-              val => val !== 'password' || 'Password cannot be password',
+              val => val.length >= 6 || $t('passwordValidationLength'),
+              val => val !== 'password' || $t('passwordValidationPassword'),
             ]"
             ref="password"
-            label="Password"
+            :label="$t('password')"
             lazy-rules
             class="col"
           />
@@ -52,7 +52,7 @@
             outlined
             class="col"
             v-model="profileToSubmit.favoriteBook"
-            label="Favorite Book" />
+            :label="$t('favoriteBook')" />
         </div>
 
         <modal-button></modal-button>

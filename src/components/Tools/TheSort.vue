@@ -9,7 +9,7 @@
       rounded
       outlined
       class="sort-bar q-mb-xs"
-      label="Sort by"
+      :label="$t('sortBy')"
       bg-color="white"/>
   </div>
 </template>
@@ -22,15 +22,15 @@ export default {
     return {
       options: [
         {
-          label: 'Updated',
+          label: this.$t('updated'),
           value: 'updatedAt'
         },
         {
-          label: 'Title',
+          label: this.$t('titleTool'),
           value: 'title'
         },
         {
-          label: 'Finished Reading',
+          label: this.$t('finishedReading'),
           value: 'completed'
         }
       ]

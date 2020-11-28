@@ -28,19 +28,19 @@
         <div class="text-h6 text-center text-weight-bold">{{ loggedInUser.name}}</div>
 
         <div class="row q-mt-sm user-items">
-          <div class="text-h7 text-weight-bold q-pl-md">Email</div>
+          <div class="text-h7 text-weight-bold q-pl-md">{{$t('email')}}</div>
           <q-space></q-space>
           <div class="text-h7 float-right q-pr-md">{{ loggedInUser.email}}</div>
         </div>
 
         <div class="row q-mt-md user-items">
-          <div class="text-h7 text-weight-bold q-pl-md">Member since...</div>
+          <div class="text-h7 text-weight-bold q-pl-md">{{$t('memberSince')}}</div>
           <q-space></q-space>
           <div class="text-h7 float-right q-pr-md">{{ memberSince }}</div>
         </div>
 
         <div class="row q-mt-md user-items">
-          <div class="text-h7 text-weight-bold q-pl-md">Favorite book</div>
+          <div class="text-h7 text-weight-bold q-pl-md">{{$t('favoriteBook')}}</div>
           <q-space></q-space>
           <div class="text-h7 float-right q-pr-md">{{ loggedInUser.favoriteBook }}</div>
         </div>
@@ -51,7 +51,7 @@
         <q-btn
           @click="showEditProfile = true"
           class="primary-gradient-background center q-px-md"
-          label="Edit Profile"
+          :label="$t('editProfileButton')"
           rounded
           flat
         />

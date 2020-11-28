@@ -5,13 +5,13 @@
       type="password"
       :value="password"
       :rules="[
-        val => !!val || 'Field is required',
-        val => val.length >= 6 || 'Please enter at least 6 characters',
-        val => val !== 'password' || 'Password cannot be password',
+        val => !!val || $t('fieldRequired'),
+        val => val.length >= 6 || $t('passwordValidationLength'),
+        val => val !== 'password' || $t('passwordValidationPassword'),
       ]"
       @input="$emit('update:password', $event)"
       ref="password"
-      label="Password"
+      :label="$t('password')"
       lazy-rules
       class="col"
     />

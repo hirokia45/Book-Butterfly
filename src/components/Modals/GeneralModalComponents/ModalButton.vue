@@ -4,7 +4,7 @@
       type="submit"
       text-color="white"
       class="primary-gradient-background"
-      label="SAVE"
+      :label="$t('save')"
       rounded
       padding="6px 20px"
     />

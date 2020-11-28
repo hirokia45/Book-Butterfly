@@ -1,13 +1,13 @@
 <template>
   <q-card class="full-width q-pa-sm">
-    <modal-header>Add Note</modal-header>
+    <modal-header>{{$t('addNoteHeader')}}</modal-header>
 
     <div class="row justify-center">
       <q-select
         v-model="selected"
         :options="options"
         :disable="isFilled"
-        label="Fill Info from Your Bookshelf"
+        :label="$t('fillBookInfo')"
         style="width: 320px;"
         class="q-mb-md"
         outlined
@@ -131,7 +131,7 @@ export default {
       } catch (err) {
         this.$q.dialog({
           title: 'Error',
-          message: 'Could not add new note'
+          message: this.$t('errorAddNote')
         })
       }
     },

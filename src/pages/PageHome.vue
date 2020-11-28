@@ -40,7 +40,7 @@
                   icon="eva-loader-outline"
                   class="primary-gradient-background"
                 >
-                  <span class="q-ml-xs">Load More Notes</span>
+                  <span class="q-ml-xs">{{$t('loadMoreNotes')}}</span>
                 </q-btn>
               </div>
             </template>
@@ -94,28 +94,28 @@
               class="q-mr-xs"
               font-size="22px"
             />
-            <b>Install Book Butterfly?</b>
+            <b>{{$t('installBookButterfly')}}</b>
             <template v-slot:action>
               <q-btn
                 @click="installApp"
                 class="q-px-sm"
                 dense
                 flat
-                label="Yes"
+                :label="$t('yes')"
               />
               <q-btn
                 @click="showAppInstallBanner = false"
                 class="q-px-sm"
                 dense
                 flat
-                label="Later"
+                :label="$t('later')"
               />
               <q-btn
                 @click="neverShowAppInstallBanner"
                 class="q-px-sm"
                 dense
                 flat
-                label="Never"
+                :label="$t('never')"
               />
             </template>
           </q-banner>
@@ -200,7 +200,7 @@ export default {
       setTimeout(() => {
         if (!navigator.onLine) {
           this.$q.notify({
-            message: 'Please reload later when you have internet connection!',
+            message: this.$t('loaderLater'),
             color: 'deep-orange-6',
             position: 'center',
             timeout: 1500
@@ -214,11 +214,12 @@ export default {
           done(true)
         } else {
           this.$q.notify({
-            message: 'No more notes to load!',
+            message: this.$t('loaderNoMore'),
             color: 'deep-orange-6',
             position: 'center',
             timeout: 1500
           })
+          done(true)
         }
       }, 2000)
     },

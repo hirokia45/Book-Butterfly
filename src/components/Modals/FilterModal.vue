@@ -1,6 +1,6 @@
 <template>
   <q-card class="q-pa-sm full-width justify-center">
-    <modal-header>Search Filter</modal-header>
+    <modal-header>{{ $t('searchFilter') }}</modal-header>
     <div class="row justify-center q-mb-md">
       <book-search-filter />
     </div>

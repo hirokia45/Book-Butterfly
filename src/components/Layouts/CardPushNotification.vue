@@ -15,7 +15,7 @@
           >
             <img src="icons/icon-128x128.png">
           </q-avatar>
-          <div class="text-subtitle text-grey-8 column justify-center">Would you like to enable notifications?</div>
+          <div class="text-subtitle text-grey-8 column justify-center">{{$t('pushNotificationMessage1')}}</div>
         </div>
       </q-card-section>
 
@@ -28,14 +28,14 @@
           class="q-px-sm"
           dense
           flat
-          label="Yes"
+          :label="$t('yes')"
         />
         <q-btn
           @click="$emit('hideNotificationsBanner')"
           class="q-px-sm"
           dense
           flat
-          label="Later"
+          :label="$t('later')"
         />
         <q-btn
           @click="neverShowNotificationsBanner"
@@ -43,7 +43,7 @@
           class="q-px-sm"
           dense
           flat
-          label="Never"
+          :label="$t('never')"
         />
       </q-card-actions>
     </q-card>

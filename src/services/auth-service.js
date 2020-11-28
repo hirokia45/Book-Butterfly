@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Notify } from 'quasar';
 import authHeader from './auth-header'
+import { i18n } from "../boot/i18n"
 
 class AuthService {
   async login(user) {
@@ -14,21 +15,27 @@ class AuthService {
       }
       Notify.create({
         type: 'positive',
-        message: 'Login Success!',
+        message: i18n.t('loginSuccess'),
         position: "top"
       });
       return response.data;
     } catch (err) {
-      console.log(err.response.data);
+      console.error(err.response.data)
+
+      let errorMessage = ''
+      if (err.response.data.message === "A user with this email could not be found...") {
+        errorMessage = i18n.t('loginError1')
+      } else if (err.response.data.message === "Wrong password!") {
+        errorMessage = i18n.t('loginError2')
+      }
       Notify.create({
         color: "red",
-        message: err.response.data.message,
+        message: errorMessage,
         position: "top"
       });
       const error = new Error('login Failure')
       throw error
     }
-
   }
 
   async logout(user) {
@@ -37,7 +44,7 @@ class AuthService {
 
     Notify.create({
       type: "positive",
-      message: "Logged out",
+      message: i18n.t('logoutSuccess'),
       position: "top"
     });
 
@@ -62,21 +69,18 @@ class AuthService {
 
       Notify.create({
         type: "positive",
-        message: "New Account Created!",
+        message: i18n.t('signupSuccess'),
         position: "top"
       });
-
       return response.data;
     } catch (err) {
-      console.log(err.response.data);
+      console.error(err.response.data);
       Notify.create({
         color: 'red',
         message: err.response.data.message,
         position: 'top'
       })
-
     }
-
   }
 
   async updateProfile(updates) {
@@ -91,10 +95,9 @@ class AuthService {
 
       Notify.create({
         type: "positive",
-        message: "Profile Updated!",
+        message: i18n.t('profileUpdateSuccess'),
         position: "top"
       })
-
       return response.data
     } catch (err) {
       console.log(err.response.data);
@@ -122,13 +125,12 @@ class AuthService {
 
       Notify.create({
         type: "positive",
-        message: "Avatar Updated!",
+        message: i18n.t('avatarUpdateSuccess'),
         position: "top"
       })
-
       return response.data
     } catch (err) {
-      console.log(err.response.data);
+      console.error(err.response.data);
       Notify.create({
         color: "red",
         message: err.response.data.message,

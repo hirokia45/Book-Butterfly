@@ -6,7 +6,7 @@
         @keyup.esc="searchField = ''"
         class="col search-bar"
         dense
-        label="Search Books"
+        :label="$t('searchBooks')"
         outlined
         rounded
         standout

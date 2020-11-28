@@ -21,7 +21,6 @@
             <q-select
               v-model="displayIn"
               :options="langOptions"
-              :label="$t('language2')"
               dense
               borderless
               emit-value

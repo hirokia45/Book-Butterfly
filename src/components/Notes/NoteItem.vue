@@ -56,7 +56,7 @@
           v-if="note.pageFrom || note.pageTo "
           class="q-mb-none text-caption"
         >
-          Page: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
+          {{$t('page')}}: <span>{{ note.pageFrom }}</span>-<span>{{ note.pageTo }}</span>
         </p>
       </q-card-section>
 

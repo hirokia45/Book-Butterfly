@@ -6,7 +6,7 @@
       class="col"
       :value="category"
       @input="$emit('update:category', $event)"
-      label="Category" />
+      :label="$t('category')" />
   </div>
 </template>
 

@@ -9,7 +9,7 @@
       rounded
       outlined
       class="filter-bar q-mb-xs"
-      label="Search by"
+      :label="$t('searchBy')"
       bg-color="white"/>
   </div>
 </template>
@@ -23,15 +23,15 @@ export default {
     return {
       options: [
         {
-          label: 'Keyword',
+          label: this.$t('keyword'),
           value: 'keyword'
         },
         {
-          label: 'Title',
+          label: this.$t('titleTool'),
           value: 'title'
         },
         {
-          label: 'Author',
+          label: this.$t('authorTool'),
           value: 'author'
         }
       ]

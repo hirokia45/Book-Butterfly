@@ -1,6 +1,6 @@
 <template>
   <q-card class="absolute full-width">
-    <modal-header>Edit Avatar</modal-header>
+    <modal-header>{{$t('editAvatarHeader')}}</modal-header>
 
     <form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
@@ -20,7 +20,7 @@
             @input="captureImageFileUpload"
             class="bg-white file-picker-field"
             accept="image/*"
-            label="Choose an image"
+            :label="$t('chooseImage')"
             outlined
           >
             <template v-slot:prepend>

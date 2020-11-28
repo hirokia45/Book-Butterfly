@@ -16,15 +16,15 @@
               <q-btn
                 @click="toLoginPage"
                 class="purple-gradient-background"
-                label="Login"
+                :label="$t('login')"
                 text-color="white"
               />
             </div>
 
             <q-card class="q-px-md q-py-sm">
               <q-card-section class="q-pa-md">
-                <div class="text-h5 text-weight-bold">Create an account!</div>
-                <div class="text-subtitle1 text-weight-light">Please fill in the information</div>
+                <div class="text-h5 text-weight-bold">{{ $t('signupMessage') }}</div>
+                <div class="text-subtitle1 text-weight-light">{{ $t('signupMessageFill') }}</div>
               </q-card-section>
 
               <form
@@ -51,7 +51,7 @@
                       outline
                       icon="eva-email-outline"
                       color="primary"
-                      label="Register"
+                      :label="$t('register')"
                       type="submit"
                       class="q-py-xs q-px-sm"
                     />

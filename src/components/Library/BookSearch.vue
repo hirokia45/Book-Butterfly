@@ -27,7 +27,7 @@
                 <q-avatar icon="eva-funnel-outline" color="primary" text-color="white" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Search Filter</q-item-label>
+                <q-item-label>{{ $t('searchFilter') }}</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -36,7 +36,7 @@
                 <q-avatar icon="eva-trash-2-outline" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Delete Result</q-item-label>
+                <q-item-label>{{ $t('deleteResult') }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>

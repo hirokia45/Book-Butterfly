@@ -11,12 +11,12 @@
         <template v-if="tab === 'note'">
           <template>
             <template v-if="totalNotes">
-              <div class="text-caption">You have written</div>
-              <div class="text-h6 text-center">{{totalNotes}} notes</div>
+              <div class="text-caption">{{$t('youHaveWritten')}}</div>
+              <div class="text-h6 text-center">{{totalNotes}} {{$t('noteTotal')}}</div>
             </template>
             <template v-else>
-              <div class="text-center">You haven't written</div>
-              <div class="text-center">any notes yet!</div>
+              <div class="text-center">{{$t('youHaveNotWritten1')}}</div>
+              <div class="text-center">{{$t('youHaveNotWritten2')}}</div>
             </template>
           </template>
 
@@ -30,12 +30,12 @@
         <template v-if="tab === 'book'">
           <template>
             <template v-if="totalBooksCompleted">
-              <div class="text-caption">You have read</div>
-              <div class="text-h6 text-center">{{totalBooksCompleted}} books</div>
+              <div class="text-caption">{{$t('youHaveRead')}}</div>
+              <div class="text-h6 text-center">{{totalBooksCompleted}} {{$t('bookTotal')}}</div>
             </template>
             <template v-else>
-              <div class="text-center">You haven't finished</div>
-              <div class="text-center">any books yet!</div>
+              <div class="text-center">{{$t('youHaveNotRead1')}}</div>
+              <div class="text-center">{{$t('youHaveNotRead2')}}</div>
             </template>
           </template>
 

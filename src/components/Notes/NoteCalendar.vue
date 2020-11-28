@@ -14,7 +14,7 @@
         >
           <div @click="toSingleNotePage(attr.customData._id)" class="cursor-pointer">
             <div class="popover-row-item">{{ attr.customData.title }}</div>
-            <div v-if="attr.customData.pageFrom || attr.customData.pageTo" class="text-weight-thin">Page: {{ attr.customData.pageFrom}} - {{ attr.customData.pageTo }}</div>
+            <div v-if="attr.customData.pageFrom || attr.customData.pageTo" class="text-weight-thin">{{$t('page')}}: {{ attr.customData.pageFrom}} - {{ attr.customData.pageTo }}</div>
           </div>
         </popover-row>
     </div>

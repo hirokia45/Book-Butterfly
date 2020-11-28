@@ -5,11 +5,11 @@
       class="col"
       :value="name"
       :rules="[
-        val => !!val || 'Field is required',
+        val => !!val || $t('fieldRequired'),
       ]"
       @input="$emit('update:name', $event)"
       ref="name"
-      label="Username"
+      :label="$t('username')"
       lazy-rules
       autofocus
     />

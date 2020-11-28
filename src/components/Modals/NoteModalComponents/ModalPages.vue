@@ -8,7 +8,7 @@
       :value="pageFrom"
       :class="pageInputSize"
       @input="$emit('update:pageFrom', $event)"
-      label="Page from" />
+      :label="$t('pageFrom')" />
 
     <div class="text-h4 column center"> ~ </div>
     <q-input
@@ -19,7 +19,7 @@
       :value="pageTo"
       :class="pageInputSize"
       @input="$emit('update:pageTo', $event)"
-      label="Page to" />
+      :label="$t('pageTo')" />
   </div>
 </template>
 

@@ -14,7 +14,7 @@
         <div class="col-sm-4 large-screen-only q-pl-lg">
           <q-list bordered separator class="bg-white rounded-borders shadow-2">
             <q-toolbar class="bg-deep-orange-4 text-gochi-hand text-grey-10 list-header">
-              <q-toolbar-title>Your Recent Notes</q-toolbar-title>
+              <q-toolbar-title>{{$t('recentNotes')}}</q-toolbar-title>
             </q-toolbar>
 
             <side-note-item

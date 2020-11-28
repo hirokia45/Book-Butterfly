@@ -9,7 +9,7 @@
           <div class="desktop-settings">
             <q-card class="q-pa-md login-card">
               <q-card-section class="q-pa-md text-center">
-                <div class="text-h5 text-weight-bold">BOOK BUTTERFLY LOGIN</div>
+                <div class="text-h5 text-weight-bold">BOOK BUTTERFLY {{ $t('login') }}</div>
               </q-card-section>
 
               <form
@@ -28,7 +28,7 @@
                   />
 
                   <q-card-actions align="center">
-                    <q-btn label="Submit" type="submit" color="primary" />
+                    <q-btn :label="$t('submitLogin')" type="submit" color="primary" />
                   </q-card-actions>
 
                 </q-card-section>
@@ -39,7 +39,7 @@
                 class="q-pa-md text-center"
                 style="cursor: pointer;"
               >
-                <div class="text-body2 text-weight-bold">No account? Sign up!</div>
+                <div class="text-body2 text-weight-bold">{{ $t('loginMessage') }}</div>
               </q-card-section>
             </q-card>
           </div>
