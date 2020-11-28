@@ -1,7 +1,7 @@
 import enUS from './en-us'
-import jp from './jp'
+import ja from './ja'
 
 export default {
   'en-us': enUS,
-  'jp': jp
+  'ja': ja
 }
