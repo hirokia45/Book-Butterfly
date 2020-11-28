@@ -74,6 +74,13 @@ export default {
   errorAddNote: "ノートを作成できませんでした",
   errorEditNote: "ノートを編集できませんでした",
 
+  // No Note Yet Card
+  firstNoteMessage1: "Book Butterfly",
+  firstNoteMessage2: "にようこそ!!",
+  firstNoteMessage3: "最初のノートを書こう！！",
+  firstNoteMessage4: "下のボタンか右下のプラスボタンをクリックしてください!",
+  firstNoteButton: "最初のノートを書く",
+
   /*
   Profile Page
   */

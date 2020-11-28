@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { openDB } from "idb";
 import { Dialog, Notify } from "quasar"
+import { i18n } from '../../../boot/i18n'
 import authHeader from '../../../services/auth-header'
 
 export default {
@@ -139,30 +140,36 @@ export default {
   },
 
   /*
-  Notes: Creatd, Update, Delete actions
+  Notes: Create, Update, Delete actions
 */
 
   async addNote({ commit, dispatch, rootState }, note) {
+    const lang = i18n.locale
     const newNoteData = {
-      ...note
-    };
+      ...note,
+      lang
+    }
     try {
       const response = await axios.post(
         `${process.env.API}/notes`,
         newNoteData,
         { headers: authHeader() }
       );
-
+      console.log(response.data);
       const createdNote = response.data.note;
       createdNote.createdAt = new Date(createdNote.createdAt);
 
-      commit("addNote", createdNote);
-      dispatch("getCalendarInfo");
+      commit("addNote", createdNote)
+      dispatch("getCalendarInfo")
+
+      if (response.data.congratsLetter) {
+        dispatch("notifications/getTotalNotificationsUnconfirmed", null, { root: true })
+      }
       await Notify.create({
         message: "Note Added!",
         timeout: 2000,
         actions: [{ label: "Close", color: "white" }]
-      });
+      })
     } catch (err) {
       console.error(err);
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {

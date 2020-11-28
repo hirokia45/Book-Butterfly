@@ -52,11 +52,13 @@ class AuthService {
   }
 
   async signup(user) {
+    const lang = i18n.locale;
     try {
       await axios.put(`${process.env.API}/auth/signup`, {
         name: user.name,
         email: user.email,
-        password: user.password
+        password: user.password,
+        lang
       });
 
       const response = await axios.post(`${process.env.API}/auth/login`, {

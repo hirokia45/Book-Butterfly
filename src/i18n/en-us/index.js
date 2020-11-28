@@ -75,6 +75,13 @@ export default {
   errorAddNote: "Could not add new note",
   errorEditNote: "Could not edit the note",
 
+  // No Note Yet Card
+  firstNoteMessage1: "Welcome to",
+  firstNoteMessage2: "Book Butterfly!!",
+  firstNoteMessage3: "Let's add your first note",
+  firstNoteMessage4: "Click the button below or one in the right bottom corner!",
+  firstNoteButton: "Add Your First Note",
+
   /*
   Profile Page
   */

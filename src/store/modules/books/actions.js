@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { Dialog, Notify } from 'quasar';
-import authHeader from "../../../services/auth-header";
+import { Dialog, Notify } from 'quasar'
+import { i18n } from '../../../boot/i18n'
+import authHeader from "../../../services/auth-header"
 
 export default {
   resetBookState({ commit }) {
@@ -81,8 +82,12 @@ export default {
     if (book.volumeInfo.categories === undefined) {
       book.volumeInfo.categories = [];
     }
-    if (book.volumeInfo.authors === undefined) {
+    if (book.volumeInfo.authors === undefined || book.volumeInfo.authors[0] === undefined) {
       book.volumeInfo.authors = [];
+    }
+    if (!book.volumeInfo.industryIdentifiers) {
+      book.volumeInfo.industryIdentifiers = []
+      book.volumeInfo.industryIdentifiers[0] = {}
     }
     const bookInfo = {
       id: book.id,
@@ -130,7 +135,12 @@ export default {
     }
   },
 
-  async updateMyBook({ commit }, updates) {
+  async updateMyBook({ commit, dispatch }, updates) {
+    const lang = i18n.locale
+    updates = {
+      ...updates,
+      lang
+    }
     try {
       const response = await axios.patch(
         `${process.env.API}/books/bookshelf`,
@@ -139,6 +149,10 @@ export default {
       );
 
       const updatedMyBook = response.data.result;
+
+      if (response.data.congratsLetter) {
+        dispatch("notifications/getTotalNotificationsUnconfirmed", null, { root: true })
+      }
       await Notify.create({
         message: "YAY!! You finished reading!",
         timeout: 2000,
