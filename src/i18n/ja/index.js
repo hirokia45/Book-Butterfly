@@ -165,6 +165,12 @@ export default {
   emailMe: "作者にメール！",
 
   /*
+  Background Sync Related
+  */
+  offlineNote: "オフラインノート",
+  offlineUpdated: "オフライン編集",
+
+  /*
   Push Notification Related
   */
   pushNotificationMessage1: "プッシュ通知をオンにしますか？",

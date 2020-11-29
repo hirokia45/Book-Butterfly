@@ -166,6 +166,12 @@ export default {
   emailMe: "Email Me!!",
 
   /*
+  Background Sync Related
+  */
+  offlineNote: "Offline Note",
+  offlineUpdated: "Offline Updated",
+
+  /*
   Push Notification Related
   */
   pushNotificationMessage1: "Would you like to enable notifications?",
