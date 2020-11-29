@@ -41,7 +41,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        API: API_STAGING
+        API: API_LOCAL
       },
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
@@ -141,7 +141,8 @@ module.exports = function (/* ctx */) {
           {
             src: "icons/icon-192x192.png",
             sizes: "192x192",
-            type: "image/png"
+            type: "image/png",
+            purpose: "any maskable"
           },
           {
             src: "icons/icon-256x256.png",

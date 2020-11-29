@@ -10,6 +10,7 @@ export default {
   yes: "はい",
   later: "後で",
   never: "今後表示しない",
+  installBookButterfly: "Book Butterflyをインストールしますか？",
 
   // Validation Common
   fieldRequired: "必須項目です",
