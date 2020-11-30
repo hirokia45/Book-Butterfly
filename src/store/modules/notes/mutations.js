@@ -14,119 +14,127 @@ const getDefaultNoteState = () => {
 
 export default {
   resetNoteState(state) {
-    console.log("resetNoteState in mutations");
-    Object.assign(state, getDefaultNoteState());
+    console.log("resetNoteState in mutations")
+    Object.assign(state, getDefaultNoteState())
   },
 
   emptyNotes(state) {
-    state.notes = [];
+    state.notes = []
   },
+
+  /*
+    Setting Notes
+  */
 
   pageInit(state) {
-    state.page = null;
-  },
-
-  addNote(state, payload) {
-    state.notes.unshift(payload);
+    state.page = null
   },
 
   setNotes(state, notes) {
-    state.notes = [...state.notes, ...notes];
+    state.notes = [...state.notes, ...notes]
   },
 
   setFiveNewestNotes(state, notes) {
-    state.fiveNewestNotes = notes;
+    state.fiveNewestNotes = notes
   },
 
   setCalendarInfo(state, info) {
-    state.calendarInfo = info;
+    state.calendarInfo = info
   },
 
   setPageNumber(state) {
-    let totalPages = Math.floor(state.totalNotes / 10) + 1;
+    let totalPages = Math.floor(state.totalNotes / 10) + 1
     if (state.page < totalPages) {
-      state.page = state.page + 1;
+      state.page = state.page + 1
     }
-    console.log("page after mutation, ", state.page);
+    console.log("page after mutation, ", state.page)
   },
 
   setTotalNotes(state, totalNotes) {
-    state.totalNotes = totalNotes;
+    state.totalNotes = totalNotes
   },
 
   setSingleNote(state, note) {
-    state.singleNote = note;
+    state.singleNote = note
+  },
+
+  /*
+    Modifiers
+  */
+
+  addNote(state, payload) {
+    state.notes.unshift(payload)
   },
 
   updateNote(state, updatedNote) {
-    const updatingNote = state.notes.find(note => note._id === updatedNote._id);
-    Object.assign(updatingNote, updatedNote);
+    const updatingNote = state.notes.find(note => note._id === updatedNote._id)
+    Object.assign(updatingNote, updatedNote)
 
-    Object.assign(state.singleNote, updatedNote);
+    Object.assign(state.singleNote, updatedNote)
   },
 
   deleteNote(state, _id) {
     state.notes = state.notes.filter(note => {
-      return note._id !== _id;
-    });
+      return note._id !== _id
+    })
   },
 
   setLoadingNotes(state, isLoading) {
-    state.loadingNotes = isLoading;
+    state.loadingNotes = isLoading
   },
 
-/*
-  Background Sync - offline related mutations
-*/
+  /*
+    Background Sync - offline related mutations
+  */
 
   setOfflineSingleNote(state, _id) {
-    state.singleNote = state.notes.find(note => note._id === _id);
+    state.singleNote = state.notes.find(note => note._id === _id)
   },
 
   updateNoteOffline(state, payload) {
-    const updatingNote = state.notes.find(note => note._id === payload._id);
+    const updatingNote = state.notes.find(note => note._id === payload._id)
     if (!updatingNote.hasOwnProperty("offlineUpdate")) {
-      Vue.set(updatingNote, "offlineUpdate", true);
-      Object.assign(updatingNote, payload);
+      Vue.set(updatingNote, "offlineUpdate", true)
+      Object.assign(updatingNote, payload)
     } else {
       payload = {
         ...payload,
         offlineUpdate: true
-      };
-      Object.assign(updatingNote, payload);
+      }
+      Object.assign(updatingNote, payload)
     }
   },
 
   deleteImageOffline(state, _id) {
-    const update = { photo: null };
+    const update = { photo: null }
     const updatingNote = state.notes.find(note => note._id === _id)
-    Vue.set(updatingNote, "offlineUpdate", true);
-    Object.assign(updatingNote, update);
+    Vue.set(updatingNote, "offlineUpdate", true)
+    Object.assign(updatingNote, update)
   },
 
   deleteNoteOffline(state, _id) {
     state.notes = state.notes.filter(note => {
-      return note._id !== _id;
-    });
+      return note._id !== _id
+    })
   },
 
   resetOfflineNote(state) {
     let offlineNoteCount = state.notes.filter(note => note.offline === true)
-      .length;
+      .length
     if (offlineNoteCount) {
-      state.notes[offlineNoteCount - 1].offline = false;
+      state.notes[offlineNoteCount - 1].offline = false
     }
   },
 
   resetOfflineUpdateStatus(state, url) {
-    const _id = url.split("/").pop();
+    const _id = url.split("/").pop()
     let offlineUpdatesCount = state.notes.filter(
       note => note.offlineUpdate === true
-    ).length;
+    ).length
     if (offlineUpdatesCount) {
-      const change = { offlineUpdate: false };
-      const updatingNote = state.notes.find(note => note._id === _id);
-      Object.assign(updatingNote, change);
+      const change = { offlineUpdate: false }
+      const updatingNote = state.notes.find(note => note._id === _id)
+      Object.assign(updatingNote, change)
     }
   }
-}
+};

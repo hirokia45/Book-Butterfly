@@ -7,9 +7,11 @@ export default {
   chooseImage: "画像を選んでください",
   save: "保存する",
   confirm: "確認",
+  error: "エラー",
   yes: "はい",
   later: "後で",
   never: "今後表示しない",
+  close: "閉じる",
   installBookButterfly: "Book Butterflyをインストールしますか？",
 
   // Validation Common
@@ -106,7 +108,7 @@ export default {
   */
 
   // Tabs
-  bookshelf: "本棚",
+  bookshelf: "マイブック",
   archive: "アーカイブ",
   search: "検索",
 
@@ -129,7 +131,7 @@ export default {
   // Modal
   rateModalHeader: "この本の評価は？",
   bookDetailsHeader: "本の詳細",
-  addBookButton: "本棚に追加",
+  addBookButton: "マイブックに追加",
   rateButton: "レート",
   finishedButton: "読み終わった！",
   archiveButton: "アーカイブ",
@@ -184,12 +186,48 @@ export default {
   /*
     q-Notify
   */
+
+  // Auth & Profile
   loginSuccess: "ログインしました！",
   logoutSuccess: "ログアウトしました！",
   signupSuccess: "新規アカウントがつくられました！",
   profileUpdateSuccess: "プロフィールが更新されました！",
   avatarUpdateSuccess: "アバターが更新されました！",
 
+  // Notes
+  noteAdded: "ノートが追加されました！",
+  noteAddedOffline: "ノートがオフラインで作成されました！",
+  noteUpdated: "ノートが変更されました！",
+  noteUpdatedOffline: "ノートがオフラインで変更されました！",
+  noteDeleted: "ノートが削除されました！",
+  noteDeletedOffline: "ノートがオフラインで削除されました！",
+  imageAdded: "画像が追加されました！",
+  imageAddedOffline: "画像がオフラインで追加されました！",
+  imageDeleted: "画像が削除されました！",
+  imageDeletedOffline: "画像がオフラインで削除されました！",
+
+  bookAdded: "マイブックに追加されました！",
+  bookRemoved: "本を削除しました！",
+  completedMessage: "この本を読み終わりました！",
+  ratedMessage: "この本の評価をしました！",
+
+  // Errors
   loginError1: "このメールアドレスは登録されていません",
-  loginError2: "パスワードが間違っています"
+  loginError2: "パスワードが間違っています",
+  authError1:
+    "承認されていない、または何らかの理由でログアウトしています。再度ログインをしてください。",
+  downloadError1: "ノートをダウンロードできませんでした",
+  calendarError1: "カレンダーの情報をダウンロードできませんでした",
+  addNoteError1: "ノートを追加できませんでした",
+  updateNoteError1: "ノートの変更ができませんでした",
+  deleteNoteError1: "ノートの削除ができませんでした",
+  addImageError1: "画像が追加できませんでした",
+  deleteImageError1: "画像が削除できませんでした",
+
+  getMyBooksError1: "マイブックをダウンロードできませんでした",
+  addBookError1: "マイブックに追加できませんでした",
+  updateBookError1: "本の情報の更新ができませんでした",
+  moveBookError1: "この本の移動ができませんでした",
+  removeBookError1: "この本を削除できませんでした",
+  countError1: "カウントを行えませんでした",
 };

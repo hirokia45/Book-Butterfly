@@ -225,6 +225,11 @@ export default {
       this.$router.push(`/notes/${this._id}`)
 
       this.$q.loading.hide()
+      if (this.$q.platform.is.safari) {
+        setTimeout(() => {
+          window.location.href = `/notes/${this._id}`
+        }, 1000)
+      }
     }
   },
   mounted() {

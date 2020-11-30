@@ -17,6 +17,9 @@ export default {
     Object.assign(state, getDefaultBookState())
   },
 
+  /*
+    Tools
+  */
   setSearch(state, value) {
     state.search = value
   },
@@ -26,23 +29,26 @@ export default {
   },
 
   resetSearch(state) {
-    state.search = ''
+    state.search = ""
   },
 
   setSort(state, value) {
     state.sort = value
   },
 
+  deleteBooks(state) {
+    state.books = []
+  },
+
+  /*
+    Set Books
+  */
   setTab(state, value) {
     state.tab = value
   },
 
   setBooks(state, books) {
     state.books = books
-  },
-
-  deleteBooks(state) {
-    state.books = []
   },
 
   setMyBooks(state, books) {
@@ -54,13 +60,19 @@ export default {
     state.totalBooksCompleted = totalBooksCompleted
   },
 
+  /*
+    Modifiers
+  */
+
   addedBookToShelf(state, book) {
     state.myBooks.unshift(book)
     return state.myBooks
   },
 
   updateMyBook(state, updatedMyBook) {
-    const updatingBook = state.myBooks.find(myBook => myBook._id === updatedMyBook._id)
+    const updatingBook = state.myBooks.find(
+      myBook => myBook._id === updatedMyBook._id
+    );
     Object.assign(updatingBook, updatedMyBook)
   },
 

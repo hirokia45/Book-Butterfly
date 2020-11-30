@@ -8,6 +8,9 @@ export default {
     commit("resetBookState")
   },
 
+  /*
+    Tools
+  */
   setSearch({ commit }, value) {
     commit("setSearch", value)
   },
@@ -38,9 +41,9 @@ export default {
     if (state.searchFilter === 'author') {
       uriComponent = `inauthor:${state.search}`
     } else if (state.searchFilter === 'title') {
-      uriComponent = `intitle:${state.search}`;
+      uriComponent = `intitle:${state.search}`
     } else if (state.searchFilter === 'keyword') {
-      uriComponent = encodeURIComponent(state.search);
+      uriComponent = encodeURIComponent(state.search)
     }
 
     const response = await axios.get(
@@ -48,8 +51,8 @@ export default {
       { headers: authHeader() }
     );
 
-    const books = response.data.books.items;
-    commit("setBooks", books);
+    const books = response.data.books.items
+    commit("setBooks", books)
   },
 
   async getMyBooks({ commit }) {
@@ -60,9 +63,9 @@ export default {
       );
 
       response.data.myBooks.forEach(book => {
-        let timeInData = book.updatedAt;
-        book.updatedAt = new Date(timeInData);
-      });
+        let timeInData = book.updatedAt
+        book.updatedAt = new Date(timeInData)
+      })
 
       const myBooks = response.data.myBooks;
       const totalBooksCompleted = response.data.totalBooksCompleted
@@ -70,20 +73,20 @@ export default {
       commit("setMyBooks", myBooks)
       commit("setTotalBooksCompleted", totalBooksCompleted)
     } catch (err) {
-      console.error(err);
+      console.error(err)
       Dialog.create({
-        title: "Error",
-        message: err.response.data.message
-      });
+        title: i18n.t('error'),
+        message: i18n.t('getMyBookError1')
+      })
     }
   },
 
   async addBookToBookshelf({ commit }, book) {
     if (book.volumeInfo.categories === undefined) {
-      book.volumeInfo.categories = [];
+      book.volumeInfo.categories = []
     }
     if (book.volumeInfo.authors === undefined || book.volumeInfo.authors[0] === undefined) {
-      book.volumeInfo.authors = [];
+      book.volumeInfo.authors = []
     }
     if (!book.volumeInfo.industryIdentifiers) {
       book.volumeInfo.industryIdentifiers = []
@@ -109,28 +112,26 @@ export default {
           thumbnail: book.volumeInfo.imageLinks.thumbnail
         }
       }
-    };
+    }
 
     try {
       const response = await axios.post(
         `${process.env.API}/books/bookshelf`,
         bookInfo,
-        {
-          headers: authHeader()
-        }
-      );
-      const book = response.data.book;
-      commit("addedBookToShelf", book);
+        { headers: authHeader() }
+      )
+      const book = response.data.book
+      commit("addedBookToShelf", book)
       await Notify.create({
-        message: "Book Added!",
+        message: i18n.t('bookAdded'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       });
     } catch (err) {
-      console.error(err);
+      console.error(err)
       Dialog.create({
-        title: "Error",
-        message: err.response.data.message
+        title: i18n.t('error'),
+        message: i18n.t('addBookError1')
       });
     }
   },
@@ -144,77 +145,86 @@ export default {
     try {
       const response = await axios.patch(
         `${process.env.API}/books/bookshelf`,
-        updates,
-        { headers: authHeader() }
-      );
-
-      const updatedMyBook = response.data.result;
+        updates, { headers: authHeader() }
+      )
+      const updatedMyBook = response.data.result
 
       if (response.data.congratsLetter) {
         dispatch("notifications/getTotalNotificationsUnconfirmed", null, { root: true })
       }
+      let updateMessage = ''
+      if (updates.completed) updateMessage = i18n.t('completedMessage')
+      if (updates.myRate) updateMessage = i18n.t('ratedMessage')
+
       await Notify.create({
-        message: "YAY!! You finished reading!",
+        message: updateMessage,
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       });
       commit("updateMyBook", updatedMyBook);
     } catch (err) {
+      console.error(err)
       Dialog.create({
-        title: "Error",
-        message: "Could not update the information..."
-      });
+        title: i18n.t('error'),
+        message: i18n.t('updateBookError1')
+      })
     }
   },
 
+
+
   async moveBook({ commit }, info) {
-    const updates = info.updates;
-    const mode = info.mode;
+    const updates = info.updates
+    const mode = info.mode
 
     try {
       const response = await axios.patch(
         `${process.env.API}/books/bookshelf`,
-        updates,
-        { headers: authHeader() }
-      );
-      const book = response.data.result;
+        updates, { headers: authHeader() }
+      )
+      const book = response.data.result
       await Notify.create({
         message: `This book is now in your ${mode}.`,
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
-      });
+        actions: [{ label: i18n.t('close'), color: "white" }]
+      })
 
       if (mode === "shelf") {
-        commit("moveToShelf", book);
+        commit("moveToShelf", book)
       } else if (mode === "archive") {
-        commit("moveToArchive", book);
+        commit("moveToArchive", book)
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
       Dialog.create({
-        title: "Error",
-        message: "Could not move this book..."
+        title: i18n.t('error'),
+        message: i18n.t('moveBookError1')
       });
     }
   },
 
   async removeMyBook({ commit }, info) {
-    const _id = info._id;
-    const mode = info.mode;
+    const _id = info._id
+    const mode = info.mode
     try {
       await axios.delete(`${process.env.API}/books/bookshelf/${_id}`, {
         headers: authHeader()
       });
 
       if (mode === "archive") {
-        commit("removeArchive", _id);
+        commit("removeArchive", _id)
       } else if (mode === "shelf") {
-        commit("removeMyBook", _id);
+        commit("removeMyBook", _id)
       }
+      await Notify.create({
+        message: i18n.t('bookRemoved'),
+        timeout: 2000,
+        actions: [{ label: i18n.t("close"), color: "white" }]
+      })
     } catch (err) {
       Dialog.create({
-        title: "Error",
-        message: "Could not delete this book..."
+        title: i18n.t('error'),
+        message: i18n.t('removeBookError1')
       });
     }
   },
@@ -229,8 +239,8 @@ export default {
       commit("setTotalBooksCompleted", totalBooksCompleted)
     } catch (err) {
       Dialog.create({
-        title: "Error",
-        message: "Could not delete this book..."
+        title: i18n.t('error'),
+        message: i18n.t('countError1')
       })
     }
   }

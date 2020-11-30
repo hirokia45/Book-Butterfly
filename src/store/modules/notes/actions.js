@@ -6,7 +6,7 @@ import authHeader from '../../../services/auth-header'
 
 export default {
   resetNoteState({ commit }) {
-    commit("resetNoteState");
+    commit("resetNoteState")
   },
 
 /*
@@ -14,74 +14,73 @@ export default {
 */
 
   async getNotesInit({ commit, state, dispatch }) {
-    commit("setLoadingNotes", true);
-    commit("pageInit");
-    commit("setPageNumber");
-    commit("emptyNotes");
+    commit("setLoadingNotes", true)
+    commit("pageInit")
+    commit("setPageNumber")
+    commit("emptyNotes")
 
-    let page = state.page;
+    let page = state.page
     try {
       const response = await axios.get(
         `${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`,
         { headers: authHeader() }
-      );
+      )
       response.data.notes.forEach(note => {
-        let timeInData = note.createdAt;
-        note.createdAt = new Date(timeInData);
-      });
-      const notes = response.data.notes;
-      const totalNotes = response.data.totalNotes;
+        let timeInData = note.createdAt
+        note.createdAt = new Date(timeInData)
+      })
+      const notes = response.data.notes
+      const totalNotes = response.data.totalNotes
 
-      commit("setLoadingNotes", false);
-      commit("setTotalNotes", totalNotes);
-      commit("setNotes", notes);
+      commit("setLoadingNotes", false)
+      commit("setTotalNotes", totalNotes)
+      commit("setNotes", notes)
     } catch (err) {
-      console.error("error in post");
+      console.error("error in post")
       if (err.response.status === 401) {
         await dispatch("auth/forcedLogout", null, { root: true });
         this.$router.replace({ path: "/auth/login" });
         Dialog.create({
-          title: "Error",
-          message:
-            "You are either unauthenticated or no longer authenticated for some reasons. Please login again."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('authError1')
+        })
       } else {
-        commit("setLoadingNotes", false);
+        commit("setLoadingNotes", false)
         Dialog.create({
-          title: "Error",
-          message: "Could not download your notes..."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('downloadError1')
+        })
       }
     }
   },
 
   async loadMoreNotes({ commit, state }) {
-    let totalPages = Math.floor(state.totalNotes / 10) + 1;
+    let totalPages = Math.floor(state.totalNotes / 10) + 1
     if (state.page < totalPages) {
-      commit("setPageNumber");
+      commit("setPageNumber")
     }
-    let page = state.page;
+    let page = state.page
     try {
       const response = await axios.get(
         `${process.env.API}/notes?sortBy=createdAt:desc&per_page=10&page=${page}`,
         { headers: authHeader() }
-      );
+      )
 
       response.data.notes.forEach(note => {
-        let timeInData = note.createdAt;
-        note.createdAt = new Date(timeInData);
-      });
-      const notes = response.data.notes;
-      const totalNotes = response.data.totalNotes;
+        let timeInData = note.createdAt
+        note.createdAt = new Date(timeInData)
+      })
+      const notes = response.data.notes
+      const totalNotes = response.data.totalNotes
 
-      commit("setTotalNotes", totalNotes);
-      commit("setNotes", notes);
+      commit("setTotalNotes", totalNotes)
+      commit("setNotes", notes)
     } catch (err) {
-      console.error(err.response.status);
+      console.error(err.response.status)
       Dialog.create({
-        title: "Error",
-        message: "Could not download your notes..."
-      });
+        title: i18n.t('error'),
+        message: i18n.t('downloadError1')
+      })
     }
   },
 
@@ -90,15 +89,15 @@ export default {
       const response = await axios.get(
         `${process.env.API}/notes?sortBy=createdAt:desc&per_page=5`,
         { headers: authHeader() }
-      );
-      const notes = response.data.notes;
+      )
+      const notes = response.data.notes
 
-      commit("setFiveNewestNotes", notes);
+      commit("setFiveNewestNotes", notes)
     } catch (err) {
       Dialog.create({
-        title: "Error",
-        message: "Could not download your notes..."
-      });
+        title: i18n.t('error'),
+        message: i18n.t('downloadError1')
+      })
     }
   },
 
@@ -109,17 +108,17 @@ export default {
         { headers: authHeader() }
       );
       response.data.info.forEach(info => {
-        let timeInData = info.createdAt;
-        info.createdAt = new Date(timeInData);
+        let timeInData = info.createdAt
+        info.createdAt = new Date(timeInData)
       });
 
-      const info = response.data.info;
-      commit("setCalendarInfo", info);
+      const info = response.data.info
+      commit("setCalendarInfo", info)
     } catch (err) {
       Dialog.create({
-        title: "Error",
-        message: "Could not download your calendar info..."
-      });
+        title: i18n.t('error'),
+        message: i18n.t('calendarError1')
+      })
     }
   },
 
@@ -129,13 +128,13 @@ export default {
         headers: authHeader()
       });
 
-      const note = response.data.note;
-      commit("setSingleNote", note);
+      const note = response.data.note
+      commit("setSingleNote", note)
     } catch (err) {
       Dialog.create({
-        title: "Error",
-        message: "Could not download your note..."
-      });
+        title: i18n.t('error'),
+        message: i18n.t('downloadError1')
+      })
     }
   },
 
@@ -155,9 +154,8 @@ export default {
         newNoteData,
         { headers: authHeader() }
       );
-      console.log(response.data);
-      const createdNote = response.data.note;
-      createdNote.createdAt = new Date(createdNote.createdAt);
+      const createdNote = response.data.note
+      createdNote.createdAt = new Date(createdNote.createdAt)
 
       commit("addNote", createdNote)
       dispatch("getCalendarInfo")
@@ -166,33 +164,33 @@ export default {
         dispatch("notifications/getTotalNotificationsUnconfirmed", null, { root: true })
       }
       await Notify.create({
-        message: "Note Added!",
+        message: i18n.t('nodeAdded'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       })
     } catch (err) {
       console.error(err);
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        newNoteData.owner = rootState.auth.user.user.name;
-        newNoteData.createdAt = Date.now();
-        newNoteData.offline = true;
+        newNoteData.owner = rootState.auth.user.user.name
+        newNoteData.createdAt = Date.now()
+        newNoteData.offline = true
 
-        commit("addNote", newNoteData);
+        commit("addNote", newNoteData)
         Notify.create({
-          message: "Note created offline"
-        });
+          message: i18n.t('nodeAddedOffline')
+        })
       } else {
         Dialog.create({
-          title: "Error",
-          message: "Could not add a new note..."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('addNoteError1')
+        })
       }
     }
   },
 
   async updateNote({ commit, rootState }, updates) {
-    const noteId = updates._id;
-    const updatingNote = updates.updates;
+    const noteId = updates._id
+    const updatingNote = updates.updates
 
     try {
       const response = await axios.patch(
@@ -201,57 +199,57 @@ export default {
         { headers: authHeader() }
       );
 
-      const updatedNote = response.data.note;
-      updatedNote.createdAt = new Date(updatedNote.createdAt);
+      const updatedNote = response.data.note
+      updatedNote.createdAt = new Date(updatedNote.createdAt)
 
       await Notify.create({
-        message: "Note Updated!",
+        message: i18n.t('noteUpdated'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
-      });
+        actions: [{ label: i18n.t('close'), color: "white" }]
+      })
 
-      commit("updateNote", updatedNote);
+      commit("updateNote", updatedNote)
     } catch (err) {
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        commit("updateNoteOffline", updatingNote);
+        commit("updateNoteOffline", updatingNote)
         Notify.create({
-          message: "Note updated offline"
-        });
+          message: i18n.t('noteUpdatedOffline')
+        })
       } else {
         Dialog.create({
-          title: "Error",
-          message: "Could not update the note..."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('updateNoteError1')
+        })
       }
     }
   },
 
   async deleteNote({ commit, dispatch, rootState }, _id) {
-    const noteId = _id;
+    const noteId = _id
     try {
       await axios.delete(`${process.env.API}/notes/${noteId}`, {
         headers: authHeader()
       });
 
-      commit("deleteNote", _id);
-      dispatch("getCalendarInfo");
+      commit("deleteNote", _id)
+      dispatch("getCalendarInfo")
 
       await Notify.create({
-        message: "Note deleted!",
+        message: i18n.t('noteDeleted'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       });
     } catch (err) {
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
-        commit("deleteNoteOffline", _id);
+        commit("deleteNoteOffline", _id)
         Notify.create({
-          message: "Note deleted offline"
+          message: i18n.t('noteDeletedOffline')
         });
       } else {
         Dialog.create({
-          title: "Error",
-          message: "Could not delete the note..."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('deleteNoteError1')
+        })
       }
     }
   },
@@ -261,11 +259,11 @@ export default {
 */
 
   async addImage({ commit, dispatch, rootState }, note) {
-    const noteId = note._id;
+    const noteId = note._id
 
-    let formData = new FormData();
-    formData.append("_id", note.updates._id);
-    formData.append("file", note.updates.photo, note.updates._id + ".png");
+    let formData = new FormData()
+    formData.append("_id", note.updates._id)
+    formData.append("file", note.updates.photo, note.updates._id + ".png")
 
     try {
       const response = await axios.post(
@@ -274,12 +272,12 @@ export default {
         { headers: authHeader() }
       );
 
-      const updatedNote = response.data.note;
+      const updatedNote = response.data.note
 
       await Notify.create({
-        message: "Image added!",
+        message: i18n.t('imageAdded'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       });
 
       commit("updateNote", updatedNote);
@@ -287,34 +285,34 @@ export default {
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
         dispatch("getOfflineImage");
         Notify.create({
-          message: "Image added offline"
-        });
+          message: i18n.t('imageAddedOffline')
+        })
       } else {
         Dialog.create({
-          title: "Error",
-          message: "Could not add an image..."
-        });
+          title: i18n.t('error'),
+          message: i18n.t('addImageError1')
+        })
       }
     }
   },
 
   async deleteImage({ commit, rootState }, _id) {
-    const noteId = _id;
+    const noteId = _id
 
     try {
       const response = await axios.delete(
         `${process.env.API}/notes/photo/${noteId}`,
         { headers: authHeader() }
-      );
+      )
 
       const updatedNote = {
         ...response.data.note
-      };
+      }
 
       await Notify.create({
-        message: "Image Deleted!!",
+        message: i18n.t('imageDeleted'),
         timeout: 2000,
-        actions: [{ label: "Close", color: "white" }]
+        actions: [{ label: i18n.t('close'), color: "white" }]
       });
 
       commit("updateNote", updatedNote);
@@ -322,12 +320,12 @@ export default {
       if (!navigator.onLine && rootState.system.backgroundSyncSupported) {
         commit("deleteImageOffline", _id);
         Notify.create({
-          message: "Image deleted offline"
+          message: i18n.t('imageDeletedOffline')
         });
       } else {
         Dialog.create({
-          title: "Error",
-          message: "Could not delete the image..."
+          title: i18n.t('error'),
+          message: i18n.t('deleteImage')
         })
       }
     }

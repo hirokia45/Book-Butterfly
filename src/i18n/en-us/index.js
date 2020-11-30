@@ -7,9 +7,11 @@ export default {
   chooseImage: "Choose an image",
   save: "Save",
   confirm: "Confirm",
+  error: "Error",
   yes: "Yes",
   later: "Later",
   never: "Never",
+  close: "Close",
   installBookButterfly: "Install Book Butterfly?",
 
   // Validation Common
@@ -79,7 +81,8 @@ export default {
   firstNoteMessage1: "Welcome to",
   firstNoteMessage2: "Book Butterfly!!",
   firstNoteMessage3: "Let's add your first note",
-  firstNoteMessage4: "Click the button below or one in the right bottom corner!",
+  firstNoteMessage4:
+    "Click the button below or one in the right bottom corner!",
   firstNoteButton: "Add Your First Note",
 
   /*
@@ -191,6 +194,39 @@ export default {
   profileUpdateSuccess: "Profile Updated!",
   avatarUpdateSuccess: "Avatar Updated!",
 
+  noteAdded: "Note Added!!",
+  noteAddedOffline: "Note created offline",
+  noteUpdated: "Note Updated!!",
+  noteUpdatedOffline: "Note updated offline",
+  noteDeleted: "Note Deleted!!",
+  noteDeletedOffline: "Note deleted offline",
+  imageAdded: "Image Added!!",
+  imageAddedOffline: "Image added offline!",
+  imageDeleted: "Image Deleted!!",
+  imageDeleted: "Image deleted offline",
+
+  bookAdded: "Book Added!",
+  bookRemoved: "Book Removed!",
+  completedMessage: "YAY!! You finished reading!",
+  ratedMessage: "You rated your book!",
+
+  // Errors
   loginError1: "A user with this email could not be found...",
-  loginError2: "Wrong password!"
+  loginError2: "Wrong password!",
+  authError1:
+    "You are either unauthenticated or no longer authenticated for some reasons. Please login again.",
+  downloadError1: "Could not download your notes...",
+  calendarError1: "Could not download your calendar info...",
+  addNoteError1: "Could not add a new note...",
+  updateNoteError1: "Could not update the note...",
+  deleteNoteError1: "Could not delete the note...",
+  addImageError1: "Could not add an image...",
+  deleteImageError1: "Could not delete the image...",
+
+  getMyBooksError1: "Could not download your books...",
+  addBookError1: "Could not add the book to your shelf",
+  updateBookError1: "Could not update the information...",
+  moveBookError1: "Could not move this book...",
+  removeBookError1: "Could not delete this book...",
+  countError1: "Could not get the total counts..."
 };

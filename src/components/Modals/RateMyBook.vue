@@ -54,7 +54,7 @@ export default {
         this.$emit('close')
       } catch (err) {
         this.$q.dialog({
-          title: 'Error',
+          title: this.$t('error'),
           message: this.$t('bookError1')
         })
       }
