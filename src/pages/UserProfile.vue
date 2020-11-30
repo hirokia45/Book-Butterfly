@@ -11,7 +11,7 @@
           </div>
 
           <div class="col-grow" :class="{ 'q-ml-lg' : !isMobileScreen, 'q-mt-lg' : isMobileScreen}">
-            <div class="col-12 col-6-sm">
+            <div class="col-12 col-6-sm" v-if="!$q.platform.is.ie">
               <q-card>
                 <note-calendar class="shadow-2 calendar-position"></note-calendar>
               </q-card>

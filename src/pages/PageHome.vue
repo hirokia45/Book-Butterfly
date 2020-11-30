@@ -51,7 +51,7 @@
           </base-scroll-area>
         </div>
 
-        <div class="col-sm-4 q-pl-lg large-screen-only">
+        <div class="col-sm-4 q-pl-lg large-screen-only" v-if="!$q.platform.is.ie">
           <q-card>
             <note-calendar class="side-card" />
           </q-card>
