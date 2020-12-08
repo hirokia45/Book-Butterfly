@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="absolute fit">
-      <div class="q-pa-md constrain fit column row">
+      <div class="q-px-md q-pb-md constrain fit column row">
 				<q-tabs
 					v-model="tab"
 					dense

@@ -32,6 +32,7 @@
         />
         <q-btn
           @click="$emit('hideNotificationsBanner')"
+          icon="eva-clock-outline"
           class="q-px-sm"
           dense
           flat

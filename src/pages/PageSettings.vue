@@ -123,7 +123,7 @@ export default {
     return {
       langOptions: [
         { value: 'en-us', label: 'English' },
-        { value: 'ja', label: '日本語'}
+        { value: 'ja' || 'ja-jp', label: '日本語'}
       ]
     }
   },

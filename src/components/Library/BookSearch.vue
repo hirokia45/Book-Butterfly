@@ -45,7 +45,7 @@
     </div>
 
     <base-scroll-area class="full-height col">
-      <div class="q-pa-sm row q-gutter-lg justify-center">
+      <div class="q-pa-sm row justify-center">
       <book-card
         :isSearchTab="isSearchTab"
         v-for="book in books"

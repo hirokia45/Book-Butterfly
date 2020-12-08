@@ -210,6 +210,9 @@ export default {
         this.$router.replace('/auth/login')
       }
     },
+    totalNotificationsUnconfirmed(newCount, oldCount) {
+      console.log(`You have ${newCount} unconfirmed notifications`);
+    }
   },
   created() {
     this.checkSystemAvailabilities()

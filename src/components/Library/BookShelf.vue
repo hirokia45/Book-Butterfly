@@ -5,7 +5,7 @@
     </div>
 
     <base-scroll-area class="full-height col">
-      <div class="q-pa-sm row q-gutter-lg justify-center">
+      <div class="q-pa-sm row justify-center">
       <book-card
         :isBookShelfTab="isBookShelfTab"
         v-for="book in sortedMyBooks"
