@@ -45,7 +45,7 @@ export default {
   computed: {
     ...mapGetters('notifications', ['notifications']),
   },
-  created() {
+  activated() {
     this.loadNotifications()
   },
   methods: {

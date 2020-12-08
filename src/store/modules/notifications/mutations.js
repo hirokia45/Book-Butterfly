@@ -37,7 +37,6 @@ export default {
   // Called after confimation status changed
   recalculateCount(state) {
     state.totalNotificationsUnconfirmed = state.notifications.filter(noti => noti.confirmed === false).length
-    console.log(totalNotificationsUnconfirmed);
   },
 
   removeNotification(state, _id) {

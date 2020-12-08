@@ -1,6 +1,6 @@
 <template>
   <q-card
-    class="book-card column justify-between q-ma-sm"
+    class="book-card column justify-between q-mx-sm q-mb-md q-mt-none"
     bordered
     flat
   >

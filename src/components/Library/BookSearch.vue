@@ -1,6 +1,6 @@
 <template>
   <div class="full-height column">
-    <div class="col-1">
+    <div class="col-1 q-mb-md">
       <div class="row justify-center">
         <the-search-bar @submit-search="searchBooks" />
         <book-search-filter v-if="!shrinkTools" />

@@ -1,6 +1,6 @@
 <template>
   <div class="full-height column">
-    <div class="row justify-center col-1  q-mb-xs">
+    <div class="row justify-center col-1 q-mb-md">
       <the-sort />
     </div>
 
