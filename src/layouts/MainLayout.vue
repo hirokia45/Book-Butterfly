@@ -214,6 +214,11 @@ export default {
   created() {
     this.checkSystemAvailabilities()
   },
+  mounted() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault()
+    })
+  },
   methods: {
     ...mapActions('auth', ['logout']),
     ...mapActions('system', ['checkSystemAvailabilities']),
