@@ -7,6 +7,7 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 let API_LOCAL = 'http://localhost:3000'
     API_STAGING = "https://amada-book-butterfly.herokuapp.com"
+    API_PROD = 'https://bookbutterflyapi.hiamada.io'
 
 module.exports = function (/* ctx */) {
   return {
@@ -41,9 +42,9 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        API: API_STAGING
+        API: API_PROD
       },
-      vueRouterMode: "hash", // available values: 'hash', 'history'
+      vueRouterMode: "history", // available values: 'hash', 'history'
 
       // transpile: false,
 
@@ -123,8 +124,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: "InjectManifest", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Book-Butterfly - Output Your Experiences!`,
-        short_name: `Book-Butterfly`,
+        name: `Book Butterfly`,
+        short_name: `Book Butterfly`,
         description: `A tracking app for reading books`,
         display: "standalone",
         orientation: "portrait",

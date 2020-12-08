@@ -164,7 +164,7 @@ export default {
         dispatch("notifications/getTotalNotificationsUnconfirmed", null, { root: true })
       }
       await Notify.create({
-        message: i18n.t('nodeAdded'),
+        message: i18n.t('noteAdded'),
         timeout: 2000,
         actions: [{ label: i18n.t('close'), color: "white" }]
       })
@@ -177,7 +177,7 @@ export default {
 
         commit("addNote", newNoteData)
         Notify.create({
-          message: i18n.t('nodeAddedOffline')
+          message: i18n.t('noteAddedOffline')
         })
       } else {
         Dialog.create({
