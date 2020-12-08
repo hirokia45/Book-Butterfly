@@ -45,13 +45,14 @@ export default {
   computed: {
     ...mapGetters('notifications', ['notifications']),
   },
-  activated() {
+  created() {
     this.loadNotifications()
   },
   methods: {
-    ...mapActions('notifications', ['getNotifications']),
+    ...mapActions('notifications', ['getNotifications', 'getTotalNotificationsUnconfirmed']),
     loadNotifications() {
       this.getNotifications()
+      this.getTotalNotificationsUnconfirmed()
     }
   }
 }

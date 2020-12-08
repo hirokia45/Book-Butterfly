@@ -211,7 +211,6 @@ export default {
       }
     },
     totalNotificationsUnconfirmed(newCount, oldCount) {
-      console.log(`You have ${newCount} unconfirmed notifications`);
     }
   },
   created() {
