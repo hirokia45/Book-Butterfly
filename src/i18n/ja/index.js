@@ -8,6 +8,7 @@ export default {
   save: "保存する",
   confirm: "確認",
   error: "エラー",
+  info: "インフォ",
   yes: "はい",
   later: "後で",
   never: "今後表示しない",
@@ -165,6 +166,10 @@ export default {
   help: "ヘルプ",
   myWebSite: "作者のサイトへ！",
   emailMe: "作者にメール！",
+  notificationsSettingAdvice:
+    "通知をオフににする場合は、サイト設定のページで通知をブロックまたはデフォルトにしてください。",
+  backgroundSyncInfo1: "使用しているブラウザがバックグラウンドシンクをサポートしています。Book Butterflyの機能をオフラインでも使うことができます！",
+  apology: "作者のサイトは現在制作中です！",
 
   /*
   Background Sync Related
@@ -229,5 +234,5 @@ export default {
   updateBookError1: "本の情報の更新ができませんでした",
   moveBookError1: "この本の移動ができませんでした",
   removeBookError1: "この本を削除できませんでした",
-  countError1: "カウントを行えませんでした",
+  countError1: "カウントを行えませんでした"
 };

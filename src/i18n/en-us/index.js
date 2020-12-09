@@ -8,6 +8,7 @@ export default {
   save: "Save",
   confirm: "Confirm",
   error: "Error",
+  info: "Information",
   yes: "Yes",
   later: "Later",
   never: "Never",
@@ -167,6 +168,9 @@ export default {
   help: "Help",
   myWebSite: "Visit My Website",
   emailMe: "Email Me!!",
+  notificationsSettingAdvice: "If you want to disable push notifications, please go to the site setting page and disable notification.",
+  backgroundSyncInfo1: "Your browser supports background sync, so you can use some features of this app on offline!!",
+  apology: "I'm sorry! My website is still under construction!!",
 
   /*
   Background Sync Related
