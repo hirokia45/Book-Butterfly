@@ -149,7 +149,7 @@
                 class="q-mr-xs"
                 name="eva-globe-outline"
                 size="sm"
-              />{{ 'SNS' }}
+              />{{ $t('creatorsSNS') }}
             </q-item-label>
 
             <q-separator />
@@ -174,6 +174,7 @@
                   type="a"
                   href="https://www.wantedly.com/id/hiroki_amada"
                   target="_blank"
+                  color="cyan"
                   size="xl"
                   flat
                   round

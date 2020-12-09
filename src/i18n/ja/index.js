@@ -46,6 +46,9 @@ export default {
   signupMessage: "アカウント作成",
   signupMessageFill: "下の空欄を埋めてください",
 
+  signupCopy1: "Book Butterflyにサインアップして読書をより楽しく充実したものに!!",
+  signupCopy2: "簡単なフォームを記入するだけで登録完了！今すぐ始めましょう！",
+
   /*
   Notes Related
   */
@@ -168,8 +171,10 @@ export default {
   emailMe: "作者にメール！",
   notificationsSettingAdvice:
     "通知をオフににする場合は、サイト設定のページで通知をブロックまたはデフォルトにしてください。",
-  backgroundSyncInfo1: "使用しているブラウザがバックグラウンドシンクをサポートしています。Book Butterflyの機能をオフラインでも使うことができます！",
+  backgroundSyncInfo1:
+    "使用しているブラウザがバックグラウンドシンクをサポートしています。Book Butterflyの機能をオフラインでも使うことができます！",
   apology: "作者のサイトは現在制作中です！",
+  creatorsSNS: "作者のSNS",
 
   /*
   Background Sync Related

@@ -4,8 +4,11 @@
       <div class="constrain">
         <div class="row">
           <div class="col-12 col-sm-8">
-            <div class="text-white">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae aperiam iusto error ipsa eius illo similique, dignissimos deserunt, fuga, quibusdam ut dicta nam repudiandae aut. Accusantium, mollitia consequatur? Saepe, velit?
+            <div class="text-white text-h4 q-pt-xl signup-copy q-mb-sm">
+              {{ $t('signupCopy1') }}
+            </div>
+            <div class="text-white text-h6 text-weight-light">
+              {{ $t('signupCopy2') }}
             </div>
           </div>
 
@@ -14,7 +17,7 @@
             >
             <div class="row justify-center q-my-md">
               <q-btn
-                @click="toLoginPage"
+                to="/auth/login"
                 class="purple-gradient-background"
                 :label="$t('login')"
                 text-color="white"
@@ -99,11 +102,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['signup']),
-    toLoginPage() {
-      this.$router.push(
-        { path: '/auth/login'}
-      )
-    },
+
     async handleSingup() {
       this.$refs.inputName.$refs.name.validate()
       this.$refs.inputEmail.$refs.email.validate()
@@ -146,4 +145,7 @@ body, html
   background-position: center
   background-repeat: no-repeat
   background-size: cover
+
+.signup-copy
+  letter-spacing: 1px
 </style>

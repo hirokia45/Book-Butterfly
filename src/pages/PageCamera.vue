@@ -125,10 +125,10 @@ export default {
 
     initCamera() {
       navigator.mediaDevices.getUserMedia({
-        video: true
-        // video: {
-        //     facingMode: { exact: 'environment'}
-        // }
+        // video: true,
+        video: {
+            facingMode: { exact: 'environment'}
+        }
       }).then(stream => {
         this.$refs.video.srcObject = stream
       }).catch(error => {

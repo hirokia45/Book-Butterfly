@@ -46,6 +46,9 @@ export default {
   signupMessage: "Create an account!",
   signupMessageFill: "Please fill in the information",
 
+  signupCopy1: "Sign up today and be more productive and creative when you read books with Book Butterfly!!",
+  signupCopy2: "Simply fill in the form and finish your registration quickly and you are ready to go.",
+
   /*
   Notes Related
   */
@@ -171,6 +174,7 @@ export default {
   notificationsSettingAdvice: "If you want to disable push notifications, please go to the site setting page and disable notification.",
   backgroundSyncInfo1: "Your browser supports background sync, so you can use some features of this app on offline!!",
   apology: "I'm sorry! My website is still under construction!!",
+  creatorsSNS: "Creator's SNS",
 
   /*
   Background Sync Related
