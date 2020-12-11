@@ -50,6 +50,14 @@ export default {
   signupCopy2: "Simply fill in the form and finish your registration quickly and you are ready to go.",
 
   /*
+  Welcome
+  */
+  homescreen: "Home Screen Installation",
+  offline: "Offline Mode",
+  notificationWelcome: "Push Notifications",
+  responsive: "Responsive",
+
+  /*
   Notes Related
   */
   page: "Page",
