@@ -31,7 +31,7 @@
           </q-list>
         </div>
 
-        <div class="desktop-sticky-button">
+        <div class="fab-sticky-button">
           <q-btn
             @click="$router.go(-1)"
             fab

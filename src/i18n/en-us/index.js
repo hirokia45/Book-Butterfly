@@ -245,6 +245,8 @@ export default {
     "If you want to disable push notifications, please go to the site setting page and disable notification.",
   backgroundSyncInfo1:
     "Your browser supports background sync, so you can use some features of this app on offline!!",
+  backgroundSyncInfo2:
+    "Your browser doesn't support background sync. Edge, Chrome, Opera support this feature!",
   apology: "I'm sorry! My website is still under construction!!",
   creatorsSNS: "Creator's SNS",
 

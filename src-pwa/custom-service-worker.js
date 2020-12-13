@@ -21,7 +21,6 @@ import { Queue } from 'workbox-background-sync';
 
 precacheAndRoute(self.__WB_MANIFEST);
 
-
 let backgroundSyncSupported = 'sync' in self.registration ? true : false
 
 /*

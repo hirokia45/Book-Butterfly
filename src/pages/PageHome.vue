@@ -57,7 +57,7 @@
           </q-card>
         </div>
 
-        <div class="desktop-sticky-button large-screen-only">
+        <div class="fab-sticky-button large-screen-only">
           <q-btn
             @click="showAddNote = true"
             class="primary-gradient-background shadow-5"

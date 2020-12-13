@@ -62,7 +62,17 @@
               </template>
               <template v-else>
                 <q-item-section avatar>
-                  <q-avatar color="negative" text-color="white" icon="eva-alert-triangle" />
+                  <q-avatar color="negative" text-color="white" icon="eva-alert-triangle">
+                    <q-tooltip
+                      content-class="bg-amber text-black shadow-4"
+                      content-style="font-size: 14px"
+                      max-width="250px"
+                      transition-show="rotate"
+                      transition-hide="rotate"
+                    >
+                      {{ $t('backgroundSyncInfo2' )}}
+                    </q-tooltip>
+                  </q-avatar>
                 </q-item-section>
               </template>
             </q-item>

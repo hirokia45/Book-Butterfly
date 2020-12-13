@@ -5,7 +5,7 @@
       :icon="icon"
       size="100px"
       text-color="white"
-      class="shadow-3 q-mb-lg"
+      class="shadow-3 q-mb-lg hover-animation"
       :class="bgColor"
     />
     <div class="row justify-center">
@@ -27,3 +27,13 @@ export default {
   props: ['icon','bgColor', 'title', 'content']
 }
 </script>
+
+<style lang="scss" scoped>
+.hover-animation {
+  background-size: 210%;
+  transition: 0.2s;
+  &:hover {
+    background-position: right;
+  }
+}
+</style>

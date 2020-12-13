@@ -79,18 +79,14 @@
             </div>
           </div>
 
-          <q-page-sticky
-            :offset="[18, 18]"
-            class="add-button bottom-right"
-            style="z-index: 3"
-          >
+          <div class="fab-sticky-button">
             <q-btn
               @click="$router.go(-1)"
-              class="grey-gradient-background shadow-5 text-grey-8"
               fab
+              class="grey-gradient-background shadow-5 text-grey-8"
               icon="eva-arrow-back"
             />
-          </q-page-sticky>
+          </div>
         </div>
       </base-scroll-area>
     </div>
@@ -117,19 +113,26 @@ export default {
       imageCaptured: false,
       hasCameraSupport: true,
       cameraToggle: true,
-      cameraRear: true
+      cameraRear: true,
+      curSTREAM: null
     }
   },
   methods: {
     ...mapActions('notes', ['addImage']),
 
     initCamera() {
+      if (this.curSTREAM !== null) {
+        this.curSTREAM.getVideoTracks().forEach((camera) => {
+          camera.stop()
+        })
+      }
       navigator.mediaDevices.getUserMedia({
-        // video: true,
+        //video: true,
         video: {
             facingMode: { exact: 'environment'}
         }
       }).then(stream => {
+        this.curSTREAM = stream
         this.$refs.video.srcObject = stream
       }).catch(error => {
         this.hasCameraSupport = false
@@ -195,22 +198,33 @@ export default {
       }
     },
 
-    toggleCameraFrontRear(cameraRear) {
-      if (cameraRear) {
+    toggleCameraFrontRear() {
+      if (this.curSTREAM !== null) {
+        this.curSTREAM.getVideoTracks().forEach((camera) => {
+          camera.stop()
+        })
+      }
+      console.log('log', this.cameraRear);
+      if (this.cameraRear) {
         navigator.mediaDevices.getUserMedia({
           video: {
             facingMode: { exact: 'environment'}
           }
         }).then(stream => {
+        this.curSTREAM = stream
         this.$refs.video.srcObject = stream
       })
-      } else {
+      } else if (!this.cameraRear) {
         navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: { exact: 'user'}
-          }
+          video: true
+          // video: {
+          //   facingMode: { exact: 'user'}
+          // }
         }).then(stream => {
+        this.curSTREAM = stream
         this.$refs.video.srcObject = stream
+      }).catch(err => {
+        console.error(err);
       })
       }
     },
