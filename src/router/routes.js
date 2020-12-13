@@ -6,8 +6,8 @@ const routes = [
     children: [
       {
         path: "/",
-        redirect: "/home",
-        meta: { authRequired: true }
+        redirect: "/welcome",
+        //meta: { authRequired: true }
       },
       {
         path: "/auth/signup",

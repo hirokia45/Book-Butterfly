@@ -4,21 +4,21 @@
       <div class="constrain fit" :class="flexSpace">
         <q-scroll-area :thumb-style="thumbStyle" content-style="height: 100%" class="fit bg-color text-grey-8 rounded-borders main-frame" id="scrollArea">
           <div class="column justify-center" :class="{'full-height': isFullHeight}">
-            <div class="text-h3 text-center text-bold q-pa-md">WELCOME TO BOOK BUTTERFLY</div>
+            <div class="text-h3 text-center text-bold q-pa-md">{{ $t('welcomeTitle') }}</div>
             <div class="row justify-center q-mt-md">
-              <div class="text-h6 text-center col-10 col-sm-8">Book Butterfly is a reading log app for all book lovers and those who want to be productive readers. You'll remember what you read more by outputting your thoughts.</div>
+              <div class="text-h6 text-center col-10 col-sm-8">{{ $t('welcomePara') }}</div>
             </div>
             <div class="row justify-center text-grey-10 q-ma-xl">
               <q-btn
                 to="/auth/signup"
                 class="primary-gradient-background q-px-md"
-                label="Get Started Now !!"
+                :label="$t('welcomeButton')"
                 size="lg"
                 rounded
               />
             </div>
             <div class="text-h6 text-bold text-center">
-              Scroll down to know more about Book Butterfly!
+              {{ $t('welcomeScroll') }}
             </div>
             <div class="text-center">
               <q-icon name="eva-arrow-downward" class="text-grey-10 q-ma-sm" style="font-size: 3rem;" />
@@ -26,7 +26,7 @@
           </div>
 
           <div class="bg-color2">
-            <div class="text-white text-h4 text-center text-bold q-px-md q-py-xl">What You Can Do with This App</div>
+            <div class="text-white text-h4 text-center text-bold q-px-md q-py-xl">{{ $t('panelTitle2') }}</div>
 
             <div class="row justify-center q-pb-xl">
               <div class="col-11 col-sm-4">
@@ -39,11 +39,11 @@
                   </template>
 
                   <template v-slot:title>
-                    <div>Reading</div>
+                    <div>{{ $t('featureTitle1') }}</div>
                   </template>
 
                   <template v-slot:content>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam ab omnis ex temporibus rem velit nostrum? A quod dignissimos qui deleniti, minus magnam voluptatibus. Accusamus, veritatis. Maxime molestias dignissimos necessitatibus.</div>
+                    <div>{{ $t('featureContent1') }}</div>
                   </template>
                 </card-welcome-item>
               </div>
@@ -58,11 +58,11 @@
                   </template>
 
                   <template v-slot:title>
-                    <div>Writing</div>
+                    <div>{{ $t('featureTitle2') }}</div>
                   </template>
 
                   <template v-slot:content>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam ab omnis ex temporibus rem velit nostrum? A quod dignissimos qui deleniti, minus magnam voluptatibus. Accusamus, veritatis. Maxime molestias dignissimos necessitatibus.</div>
+                    <div>{{ $t('featureContent2') }}</div>
                   </template>
                 </card-welcome-item>
               </div>
@@ -77,11 +77,11 @@
                   </template>
 
                   <template v-slot:title>
-                    <div>Camera</div>
+                    <div>{{ $t('featureTitle3') }}</div>
                   </template>
 
                   <template v-slot:content>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam ab omnis ex temporibus rem velit nostrum? A quod dignissimos qui deleniti, minus magnam voluptatibus. Accusamus, veritatis. Maxime molestias dignissimos necessitatibus.</div>
+                    <div>{{ $t('featureContent3') }}</div>
                   </template>
                 </card-welcome-item>
               </div>
@@ -90,7 +90,7 @@
           </div>
 
           <div class="bg-color3 q-pb-md">
-            <div class="text-grey-8 text-h4 text-center text-bold q-px-md q-pt-xl q-pb-lg">Amazing PWA Features!!</div>
+            <div class="text-grey-8 text-h4 text-center text-bold q-px-md q-pt-xl q-pb-lg">{{ $t('panelTitle3') }}</div>
             <div class="q-mb-lg">
               <q-img src="https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/bookbutterfly_cross_platform.jpg"></q-img>
             </div>
@@ -102,12 +102,13 @@
                 :icon="pwaItem.icon"
                 :bgColor="pwaItem.bgColor"
                 :title="pwaItem.title"
+                :content="pwaItem.content"
               />
             </div>
           </div>
 
           <div class="bg-color2">
-            <div class="text-white text-h4 text-center text-bold q-px-md q-pt-xl q-pb-md">Why You Should Use This App?</div>
+            <div class="text-white text-h4 text-center text-bold q-px-md q-pt-xl q-pb-md">{{ $t('panelTitle4') }}</div>
 
             <div class="row q-pa-md">
               <div class="row justify-start q-mb-md">
@@ -119,7 +120,14 @@
                       src="https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/person_question.png"
                     />
                     <q-card-section>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi quae tenetur suscipit rerum inventore commodi officiis veritatis tempore repudiandae quos? Aperiam enim earum, eligendi praesentium dolor impedit qui minima dignissimos.
+                      <div class="text-body1 text-bold">{{$t('point1Title1')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point1Body1')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point1Title2')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point1Body2')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point1Title3')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point1Body3')}}</div>
                     </q-card-section>
                   </q-card-section>
                 </q-card>
@@ -129,7 +137,14 @@
                 <q-card class="col-sm-8 bg-color" flat bordered>
                   <q-card-section horizontal>
                     <q-card-section>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi quae tenetur suscipit rerum inventore commodi officiis veritatis tempore repudiandae quos? Aperiam enim earum, eligendi praesentium dolor impedit qui minima dignissimos.
+                      <div class="text-body1 text-bold">{{$t('point2Title1')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point2Body1')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point2Title2')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point2Body2')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point2Title3')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point2Body3')}}</div>
                     </q-card-section>
                     <q-img
                       contain
@@ -149,7 +164,15 @@
                       src="https://book-buttefly-static-images.s3-ap-northeast-1.amazonaws.com/person_target.png"
                     />
                     <q-card-section>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi quae tenetur suscipit rerum inventore commodi officiis veritatis tempore repudiandae quos? Aperiam enim earum, eligendi praesentium dolor impedit qui minima dignissimos.
+                      <div class="text-body1 text-bold">{{$t('point3Title1')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point3Body1')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point3Title2')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point3Body2')}}</div>
+
+                      <div class="text-body1 text-bold q-mt-md">{{$t('point3Title3')}}</div>
+                      <div class="text-body2 q-mt-xs">{{$t('point3Body3')}}</div>
+
                     </q-card-section>
                   </q-card-section>
                 </q-card>
@@ -158,12 +181,12 @@
           </div>
 
           <div class="bg-color3 q-pa-xl">
-            <div class="text-grey-8 text-h4 text-center text-bold">Now let's start your journey!!</div>
+            <div class="text-grey-8 text-h4 text-center text-bold">{{ $t('panelTitle5') }}</div>
             <div class="row justify-center text-grey-10 q-ma-xl">
               <q-btn
                 to="/auth/signup"
                 class="primary-gradient-background q-px-md text-white"
-                label="Get Started Now !!"
+                :label="$t('welcomeButton')"
                 size="lg"
                 rounded
               />
@@ -182,7 +205,7 @@ export default {
   components: {
     CardWelcomeItem: () => import('../components/Layouts/ui/CardWelcomeItem'),
     WelcomeIcon: () => import('../components/Layouts/ui/WelcomeIcon'),
-    FadeIn: () => import('../components/Layouts/ui/FadeIn')
+    //FadeIn: () => import('../components/Layouts/ui/FadeIn')
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
