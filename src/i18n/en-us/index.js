@@ -203,6 +203,9 @@ export default {
   searchFilter: "Search Filter",
   deleteResult: "Delete Search",
 
+  loadMoreResults: "Load More Results",
+  noMoreBookResults: "You have 40 max results!",
+
   // Modal
   rateModalHeader: "Rate this Book",
   bookDetailsHeader: "Book Details",

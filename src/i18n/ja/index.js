@@ -208,6 +208,9 @@ export default {
   searchFilter: "検索フィルター",
   deleteResult: "検索結果削除",
 
+  loadMoreResults: "次の１０冊を表示",
+  noMoreBookResults: "検索上限の４０冊を表示しました。",
+
   // Modal
   rateModalHeader: "この本の評価は？",
   bookDetailsHeader: "本の詳細",

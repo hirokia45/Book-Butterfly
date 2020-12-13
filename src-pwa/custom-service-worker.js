@@ -72,13 +72,13 @@ registerRoute(
   })
 );
 
-registerRoute(
-  ({ url }) => url.pathname.startsWith('/notes') ||
-               url.pathname.startsWith('/calendar') ||
-               url.pathname.startsWith('/books/bookshelf') ||
-               url.pathname.startsWith('/users/me'),
-  new NetworkFirst()
-)
+// registerRoute(
+//   ({ url }) => url.pathname.startsWith('/notes') ||
+//                url.pathname.startsWith('/calendar') ||
+//                url.pathname.startsWith('/books/bookshelf') ||
+//                url.pathname.startsWith('/users/me'),
+//   new NetworkFirst()
+// )
 
 registerRoute(
   ({ url }) => url.href.startsWith('http'),

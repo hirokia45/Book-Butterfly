@@ -76,7 +76,7 @@ export default {
       console.error(err)
       Dialog.create({
         title: i18n.t('error'),
-        message: i18n.t('getMyBookError1')
+        message: i18n.t('getMyBooksError1')
       })
     }
   },

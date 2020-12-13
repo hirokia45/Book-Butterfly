@@ -204,7 +204,6 @@ export default {
           camera.stop()
         })
       }
-      console.log('log', this.cameraRear);
       if (this.cameraRear) {
         navigator.mediaDevices.getUserMedia({
           video: {

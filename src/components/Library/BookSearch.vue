@@ -46,13 +46,28 @@
 
     <base-scroll-area class="full-height col">
       <div class="q-pa-sm row justify-center">
-      <book-card
-        :isSearchTab="isSearchTab"
-        v-for="book in books"
-        :key="book.id"
-        :id="book.id"
-        :book="book"
-      ></book-card>
+        <book-card
+          :isSearchTab="isSearchTab"
+          v-for="book in filterBooks"
+          :key="book.id"
+          :id="book.id"
+          :book="book"
+        ></book-card>
+      </div>
+      <div class="row justify-center q-mb-md">
+        <q-btn
+          v-show="isVisible"
+          @click="loadMoreResults"
+          class="orange-gradient text-white q-px-sm"
+          :label="$t('loadMoreResults')"
+          size="lg"
+          rounded
+        />
+        <div v-if="limit >= 40">
+          <q-chip size="18px" icon="eva-alert-circle-outline">
+            {{ $t('noMoreBookResults') }}
+          </q-chip>
+        </div>
       </div>
     </base-scroll-area>
 
@@ -76,11 +91,18 @@ export default {
   data() {
     return {
       isSearchTab: true,
-      showFilter: false
+      showFilter: false,
+      limit: 10
     }
   },
   computed: {
     ...mapGetters('books', ['search', 'books']),
+    filterBooks() {
+      return this.limit ? this.books.slice(0, this.limit) : this.books
+    },
+    isVisible() {
+      return ((this.limit < 40) && (this.books.length > 0) ? true : false)
+    },
     shrinkTools() {
       return (window.innerWidth < 400 ? true : false)
     }
@@ -88,11 +110,15 @@ export default {
   methods: {
     ...mapActions('books', ['getBooks', 'deleteBooks']),
     async searchBooks() {
+      this.limit = 10
       await this.getBooks()
     },
     deleteSearchResult() {
       this.deleteBooks()
-    }
+    },
+    loadMoreResults() {
+      if (this.limit <= 40) this.limit += 10
+    },
   }
 }
 </script>
