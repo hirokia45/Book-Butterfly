@@ -60,7 +60,7 @@
           @click="loadMoreResults"
           class="orange-gradient text-white q-px-sm"
           :label="$t('loadMoreResults')"
-          size="lg"
+          size="md"
           rounded
         />
         <div v-if="limit >= 40">
@@ -114,6 +114,7 @@ export default {
       await this.getBooks()
     },
     deleteSearchResult() {
+      this.limit = 10
       this.deleteBooks()
     },
     loadMoreResults() {

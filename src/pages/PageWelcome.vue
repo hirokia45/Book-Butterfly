@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg">
-    <div class="absolute fit">
+    <div v-if="!isLoggedIn" class="absolute fit">
       <div class="constrain fit" :class="flexSpace">
         <q-scroll-area :thumb-style="thumbStyle" content-style="height: 100%" class="fit bg-color text-grey-8 rounded-borders main-frame" id="scrollArea">
           <div class="column justify-center" :class="{'full-height': isFullHeight}">
@@ -195,6 +195,12 @@
         </q-scroll-area>
       </div>
     </div>
+    <div v-else class="loadingScreen">
+      <div class="absolute-center">
+        <q-img src="icons/icon-192x192.png" class="q-pb-none" style="height: 150px; width: 150px;"></q-img>
+        <div class="text-gochi-hand text-h5 text-center">Loading...</div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -257,7 +263,9 @@ export default {
   },
   created() {
     if (this.isLoggedIn) {
-      this.$router.push('/home')
+      setTimeout(() => {
+        this.$router.push('/home')
+      }, 1500);
     }
   },
   mounted() {
@@ -293,4 +301,10 @@ body, html
 
 .card-image
   width: 100px
+
+.loadingScreen
+  height: 100vh
+  width: 100vw
+  background-color: #FFFFFF
+  z-index: 4
 </style>

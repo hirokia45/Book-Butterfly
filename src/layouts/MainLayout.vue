@@ -3,7 +3,7 @@
     <q-header
       elevated
       class="text-grey-10"
-      v-if="isNotAuthPage"
+      v-if="isNotAuthPage && !isLoading"
     >
       <q-toolbar class="constrain" >
         <q-avatar
@@ -144,7 +144,7 @@
     </q-header>
 
     <q-footer
-    v-if="isLoggedIn"
+    v-if="isLoggedIn && !isLoading"
       class="bg-white"
       bordered
     >
@@ -203,6 +203,9 @@ export default {
     isNotAuthPage() {
       return this.$route.path !== '/auth/login' && this.$route.path !== '/auth/signup'
     },
+    isLoading() {
+      return this.$route.path === '/welcome' && this.isLoggedIn
+    }
   },
   watch: {
     watchLoggedInStat(curValue, oldValue) {
