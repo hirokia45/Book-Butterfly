@@ -108,7 +108,7 @@
             </div>
           </div>
 
-          <div class="bg-color2">
+          <!-- <div class="bg-color2">
             <div class="text-white text-h4 text-center text-bold q-px-md q-pt-xl q-pb-md">{{ $t('panelTitle4') }}</div>
 
             <div class="row q-pa-md">
@@ -179,14 +179,14 @@
                 </q-card>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="bg-color3 q-pa-xl">
-            <div class="text-grey-8 text-h4 text-center text-bold">{{ $t('panelTitle5') }}</div>
+          <div class="bg-color2 q-pa-xl">
+            <div class="text-white text-h4 text-center text-bold">{{ $t('panelTitle5') }}</div>
             <div class="row justify-center text-grey-10 q-ma-xl">
               <q-btn
                 to="/auth/signup"
-                class="primary-gradient-background q-px-md text-white"
+                class="cyan-gradient-background q-px-md text-white"
                 :label="$t('welcomeButton')"
                 size="lg"
                 rounded
