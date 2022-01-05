@@ -5,7 +5,7 @@
         <q-scroll-area :thumb-style="thumbStyle" content-style="height: 100%" class="fit bg-color text-grey-8 rounded-borders main-frame" id="scrollArea">
           <div class="column justify-center" :class="{'full-height': isFullHeight}">
             <div class="text-h3 text-center text-bold q-pa-md">{{ $t('welcomeTitle') }}</div>
-            <div class="text-h6 text-center text-bold">採用担当者様はお手数ですがログイン画面のテストアカウントよりログインお願い致します。</div>
+<!--            <div class="text-h6 text-center text-bold">採用担当者様はお手数ですがログイン画面のテストアカウントよりログインお願い致します。</div>-->
             <div class="row justify-center q-mt-md">
               <div class="text-h6 text-center col-10 col-sm-8">{{ $t('welcomePara') }}</div>
             </div>

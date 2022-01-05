@@ -288,7 +288,7 @@ export default {
   imageAdded: "Image Added!!",
   imageAddedOffline: "Image added offline!",
   imageDeleted: "Image Deleted!!",
-  imageDeleted: "Image deleted offline",
+  imageDeletedOffline: "Image deleted offline",
 
   bookAdded: "Book Added!",
   bookRemoved: "Book Removed!",

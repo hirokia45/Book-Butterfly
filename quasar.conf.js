@@ -4,9 +4,9 @@
  */
 
 // Configuration for your app
-// https://quasar.dev/quasar-cli/quasar-conf-js
+// https://quasar.dev/quasar-cli/quasar-conf-jsh
 let API_LOCAL = 'http://localhost:3000'
-    API_STAGING = "https://amada-book-butterfly.herokuapp.com"
+    API_STAGING = "https://amada-book-butterfly2.herokuapp.com"
     API_PROD = 'https://bookbutterflyapi.hiamada.io'
 
 module.exports = function (/* ctx */) {
@@ -42,7 +42,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       env: {
-        API: API_PROD
+        API: API_STAGING
       },
       vueRouterMode: "history", // available values: 'hash', 'history'
 

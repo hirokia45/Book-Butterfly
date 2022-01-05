@@ -10,12 +10,12 @@
             <q-card class="q-pa-md login-card">
               <q-card-section class="q-pa-md text-center">
                 <div class="text-h5 text-weight-bold">BOOK BUTTERFLY {{ $t('login') }}</div>
-                <div class="q-mt-sm q-mb-none q-pa-xs border-around">
-                  <div>採用担当者様用</div>
-                  <div>テストアカウント</div>
-                  <div>email: testing@test.com</div>
-                  <div>password: thisistest</div>
-                </div>
+<!--                <div class="q-mt-sm q-mb-none q-pa-xs border-around">-->
+<!--                  <div>採用担当者様用</div>-->
+<!--                  <div>テストアカウント</div>-->
+<!--                  <div>email: testing@test.com</div>-->
+<!--                  <div>password: thisistest</div>-->
+<!--                </div>-->
               </q-card-section>
 
               <form

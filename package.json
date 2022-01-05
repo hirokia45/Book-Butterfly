@@ -2,11 +2,14 @@
   "name": "book-butterfly",
   "version": "1.0.1",
   "description": "App for Book Lovers!!",
+  "homepage": "http://https://hirokia45.github.io/Book-Butterfly",
   "productName": "Book-Butterfly",
   "author": "hirokia45 <hiroki.amada.90@gmail.com>",
   "private": true,
   "scripts": {
-    "icons": "icongenie generate -i bookbutterfly-logo.png --skip-trim"
+    "icons": "icongenie generate -i bookbutterfly-logo.png --skip-trim",
+    "predeploy": "quasar build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -20,6 +23,7 @@
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
+    "gh-pages": "^3.2.3",
     "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [

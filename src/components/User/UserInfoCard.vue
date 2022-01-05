@@ -106,7 +106,7 @@ export default {
 .avatar
   margin: 0 auto
   border-radius: 10px
-  display: block;
+  display: block
   object-fit: cover
   height: 200px
   width: 250px
