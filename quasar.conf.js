@@ -41,6 +41,7 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      publicPath: "/Book-Butterfly",
       env: {
         API: API_STAGING
       },
@@ -70,7 +71,7 @@ module.exports = function (/* ctx */) {
           use: [
             { loader: '@intlify/vue-i18n-loader' },
             { loader: 'yaml-loader' }
-          ]
+          ],
         })
       }
     },

@@ -8,8 +8,9 @@
   "private": true,
   "scripts": {
     "icons": "icongenie generate -i bookbutterfly-logo.png --skip-trim",
-    "predeploy": "quasar build",
-    "deploy": "gh-pages -d dist"
+    "build": "quasar build",
+    "postbuild": "cp dist/spa/index.html dist/spa/404.html",
+    "deploy": "gh-pages -d dist/spa"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
